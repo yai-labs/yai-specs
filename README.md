@@ -39,6 +39,7 @@ If there is a conflict, normative artifacts take precedence.
 - `COMPATIBILITY.md` - consumer compatibility matrix
 - `CHANGELOG.md` - contract change log
 - `SECURITY.md` - security and disclosure policy
+- API Reference (Doxygen): https://francescomaiomascio.github.io/yai-specs/
 
 ## Consumption Model
 

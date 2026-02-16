@@ -25,12 +25,12 @@ tree:
 # ===============================
 
 DOXYGEN ?= doxygen
-DOXY_OUT ?= dist/docs/doxygen
+DOXY_OUT ?= dist/docs
 
 docs:
 	@mkdir -p $(DOXY_OUT)
 	@$(DOXYGEN) Doxyfile
-	@echo "[specs] docs: $(DOXY_OUT)/html/index.html"
+	@echo "[specs] docs: $(DOXY_OUT)/doxygen/html/index.html"
 
 docs-clean:
 	@rm -rf $(DOXY_OUT)

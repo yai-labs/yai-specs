@@ -1,8 +1,9 @@
 # Doxygen configuration for yai-specs
 
 PROJECT_NAME           = "yai-specs"
-OUTPUT_DIRECTORY       = dist/docs/doxygen
+OUTPUT_DIRECTORY       = dist/docs
 GENERATE_HTML          = YES
+HTML_OUTPUT            = doxygen
 GENERATE_LATEX         = NO
 EXTRACT_ALL            = YES
 WARN_IF_UNDOCUMENTED   = YES
