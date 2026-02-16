@@ -5,7 +5,7 @@ It is **normative**: implementations MUST conform.
 Where this document conflicts with ad-hoc code or UI behavior, the code/UI must change.
 
 Canonical schema source:
-- `law/specs/control/control_plane.v1.json`
+- `control/control_plane.v1.json`
 
 ---
 

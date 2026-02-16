@@ -39,7 +39,7 @@ Defines canonical graph contracts for MindGraph v1 (layered, deterministic).
 - **Episodic**: `~/.yai/run/<ws>/events.log` (append‑only NDJSON)
 - **Vector**: `~/.yai/run/<ws>/vector.usearch` (rebuildable)
 - **Activation**: no persistence
-- **Authority**: `<workspace>/yai-core/law/specs/control/authority.json`
+- **Authority**: `<workspace>/deps/yai-specs/control/authority.json`
 
 ## Indexing
 - Embeddings are stored in vector layer only.
