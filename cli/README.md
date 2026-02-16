@@ -1,7 +1,16 @@
-# README (stub)
+# CLI
 
-- Purpose:
-- Scope:
-- Consumers:
-- Verification:
-- Notes:
+## Purpose
+
+Defines CLI command contracts and schema used by CLI/runtime integrations.
+
+## Normative artifacts
+
+- `commands.v1.json`
+- `commands.schema.json`
+
+## References
+
+- `../REGISTRY.md`
+- `../VERSIONING.md`
+- `../COMPATIBILITY.md`
