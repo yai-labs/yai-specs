@@ -3,7 +3,7 @@
 # yai-specs — Quality Gates
 # ===============================
 
-.PHONY: all check ci formal-coverage formal-bindings-check tree docs docs-clean clean
+.PHONY: all check ci lint-docs formal-coverage formal-bindings-check tree docs docs-clean clean
 
 all: docs check
 
@@ -18,6 +18,9 @@ check:
 
 	@echo "[specs] validating JSON (if python3 available)..."
 	@command -v python3 >/dev/null 2>&1 && python3 -c "code='''import json, glob, sys\nbad = []\nfor p in glob.glob(\"**/*.json\", recursive=True):\n    try:\n        json.load(open(p, \"r\", encoding=\"utf-8\"))\n    except Exception as e:\n        bad.append((p, str(e)))\nif bad:\n    print(\"JSON errors:\")\n    for p, e in bad:\n        print(\" -\", p, \":\", e)\n    sys.exit(1)\nprint(\"OK\")\n'''; exec(code)"
+
+lint-docs:
+	@bash tools/validate/check_links.sh
 
 formal-bindings-check:
 	@echo "[formal] checking required bindings..."

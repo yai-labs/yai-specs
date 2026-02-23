@@ -10,7 +10,7 @@ This file records notable changes to normative contracts and their documentation
 
 ## Unreleased
 
-- No unreleased changes.
+- PATCH: Wave1 foundation updates for canonical docs/navigation and local docs link-health gate (`make lint-docs`) to support phase `0.1.0-0.1.2` execution.
 
 ## [0.1.0] - 2026-02-17
 
