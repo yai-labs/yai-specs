@@ -1,7 +1,26 @@
-# Pull Request Checklist
+## Context
 
-- [ ] Scope is clear and limited.
-- [ ] No changes to normative artifacts (`*.json`, `*.h`) unless explicitly intended.
-- [ ] `REGISTRY.md` updated if normative artifacts were added/removed.
-- [ ] `VERSIONING.md` and compatibility impact were considered.
-- [ ] Documentation updates are coherent and cross-linked.
+## What Changed
+
+## Why
+
+## Verification
+- [ ] `make all`
+- [ ] Relevant verify/gate scripts executed (specify below)
+- [ ] Documentation updated (if needed)
+
+### Commands Run
+```bash
+# paste commands here
+```
+
+## Contract Alignment
+- [ ] No contract changes in `deps/yai-specs`
+- [ ] Contract changes included and linked
+
+## Risk / Rollback
+
+## Checklist
+- [ ] No secrets/PII committed
+- [ ] Third-party notices updated (if vendoring/importing code)
+- [ ] CHANGELOG/compatibility impact considered
