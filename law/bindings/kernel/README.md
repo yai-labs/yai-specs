@@ -1,81 +1,55 @@
-# Kernel ↔ Law Binding (Normative)
+# Binding — Kernel ↔ Law (Normative)
 
-This document defines the **binding contract** between YAI Law and the kernel runtime.
-It is normative: kernel behavior MUST conform to these mappings.
+This binding defines the normative mapping between YAI Law constraints and the kernel runtime model.
+Kernel behavior MUST conform to these mappings.
 
----
+## Canonical sources
+Law:
+- `law/normative/axioms/*`
+- `law/normative/invariants/*`
+- `law/normative/boundaries/L0-vault.md`
+- `law/normative/boundaries/L1-kernel.md`
 
-## Canonical Law Sources
+Formal:
+- `formal/tla/YAI_KERNEL.tla`
+- `formal/configs/YAI_KERNEL.quick.cfg`
 
-- `axioms/*`
-- `invariants/*`
-- `boundaries/L0-vault.md`
-- `boundaries/L1-kernel.md`
-- `formal/YAI_KERNEL.tla`
+ABI registries:
+- `law/abi/registry/primitives.v1.json`
+- `law/abi/registry/artifacts.v1.json`
 
----
+## Variable binding map (conceptual)
+This section describes expected correspondences. Runtime symbols may evolve; the mapping MUST be kept aligned.
 
-## Variable Binding Map
+- Traceability (I-001): kernel MUST preserve a trace identifier and/or logical clock sufficient to join decisions/effects to a run timeline.
+- Authority (A-002, I-003): kernel MUST gate effectful transitions on explicit authority state (no implicit escalation).
+- External effect boundary (I-006): kernel MUST participate in non-bypassable gating for external effects (classification + enforcement path).
+- Compliance context (I-007): external effects MUST require compliance context validity.
 
-| Law Concept | TLA Variable | Kernel Runtime Symbol | Notes |
-| --- | --- | --- | --- |
-| Execution State (A-001) | `state` | `yai_vault_t.status` | Canonical kernel state enum in `yai_vault.h`. |
-| Authority (A-002) | `authority` | `yai_vault_t.authority_lock` | **Partial** mapping: `authority_lock == true` implies **no authority**. |
-| Cognitive Validity (A-004) | `cognitive_map` | `!yai_vault_t.authority_lock` | Cognitive validity is represented implicitly. |
-| Cost Accountability (I-005) | `energy` | `energy_quota`, `energy_consumed` | Guarded in `yai_kernel_transition`. |
-| Traceability (I-001) | `trace_id` | `logical_clock` + `yai_trace_transition()` | Kernel emits transition evidence. |
-| External Effect Boundary (I-006) | `external_effect` | Kernel + engine command-class gate | Enforced via `yai_command_class_for` in kernel guard and engine refusal. |
-| Command Intent | N/A (transition guards) | `last_command_id`, `command_seq` | Command is evaluated by engine; kernel gates state. |
+## Transition binding (high-level)
+Kernel state-machine transitions MUST remain consistent with formal model transitions (TLA module), especially for:
+- suspension/resumption boundaries
+- invalidation / reconfiguration gates
+- error and reset handling
 
----
+## Guard / enforcement binding
+The following guards MUST remain aligned:
+- Authority required
+- External effect guard
+- Compliance context validity guard
+- Determinism constraints within declared scope
 
-## Transition Binding Map
+## Required artifact roles (v1)
+Kernel-level evidence MUST allow offline verification of:
+- `decision_record`
+- `bundle_manifest`
+- `evidence_index`
+- `verification_report`
 
-| TLA Transition | Runtime Surface | Notes |
-| --- | --- | --- |
-| `Strap_Preboot` | `yai_kernel_transition(HALT -> PREBOOT)` | Kernel transition graph. |
-| `Preboot_Ready` | `yai_kernel_transition(PREBOOT -> READY)` | Kernel transition graph. |
-| `Handoff_Complete` | `yai_kernel_transition(READY -> HANDOFF_COMPLETE)` | Kernel transition graph. |
-| `Handoff_Run` | `yai_kernel_transition(HANDOFF_COMPLETE -> RUNNING)` | Kernel transition graph. |
-| `Engine_Execute` | Engine command processing | Engine sets RUNNING during execution; must be state-gated. |
-| `Critical_Invalidation` | `yai_kernel_transition(RUNNING -> SUSPENDED)` | Kernel transition graph. |
-| `Reconfigure` | `YAI_CMD_RECONFIGURE` (engine) | Clears `authority_lock`; runtime currently also sets `HALT` (combined reconfigure+reset). |
-| `Suspend_Resume` | `yai_kernel_transition(SUSPENDED -> RUNNING)` | Guarded by `authority_lock == false`. |
-| `System_Reset` | `yai_kernel_transition(SUSPENDED -> HALT)` | Kernel transition graph. |
-| `Engine_Error` | `yai_kernel_transition(RUNNING -> ERROR)` | Kernel transition graph. |
-| `Engine_Halt` | `yai_kernel_transition(RUNNING -> HALT)` | Kernel transition graph. |
-| `Error_Reset` | `yai_kernel_transition(ERROR -> HALT)` | Kernel transition graph. |
-
----
-
-## Guard / Enforcement Binding
-
-| Law Constraint | TLA Predicate | Runtime Enforcement |
-| --- | --- | --- |
-| Authority Required | `AuthorityRequired` | `yai_guard_authority` in `fsm.c` (`authority_lock` gate). |
-| Cognitive Integrity | `CognitiveIntegrity` | Same gate as above (implicit mapping). |
-| Energy Safe | `EnergySafe` | `yai_guard_energy` in `fsm.c`. |
-| External Effect Guard | `ExternalEffectGuard` | Enforced at L1 + L2 via command-class gating. |
-| Trace Bound | `TraceBound` | Formal-only (TLC model bound). |
-
----
-
-## Alignment Notes
-
-- Runtime conflates **authority** and **cognitive validity** via `authority_lock`.
-  If a separate cognitive validity field is introduced, this map MUST be updated.
-- `Reconfigure` is implemented as a kernel-safe reset (SUSPEND + clear lock + HALT).
-  This is equivalent to `Reconfigure` followed immediately by `System_Reset`.
-- External effect classification remains a required open item for I-006 compliance.
-
----
-
-## Change Control
-
-Any change to the kernel state machine, guards, or vault layout MUST update:
-
-- `formal/YAI_KERNEL.tla`
+## Change control
+Any change to kernel state machine, guards, or vault layout MUST update:
+- `formal/tla/YAI_KERNEL.tla`
 - this binding document
-- the relevant runtime implementation (`yai-kernel`)
+- the relevant runtime implementation
 
 Silent drift is non-compliant by definition.
