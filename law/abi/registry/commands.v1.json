@@ -180,7 +180,7 @@
       ],
       "consumes_artifacts": [
         {
-          "role": "bundle",
+          "role": "bundle_manifest",
           "schema_ref": "law/abi/artifacts-schema/bundle_manifest.v1.schema.json",
           "path_hint": "bundle/**"
         }
