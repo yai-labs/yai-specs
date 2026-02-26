@@ -1,325 +1,229 @@
-# YAI Law — Glossary
+# YAI Law — Glossary (Normative, ABI-anchored)
 
-This glossary defines the **controlled terminology** of the YAI Law.
+This glossary defines the controlled terminology of YAI Law.
 
-Its purpose is to prevent semantic drift, ambiguity, and reinterpretation
-of foundational concepts across the YAI ecosystem.
+It is **normative**: the meaning of terms here is authoritative within YAI Law.
+Downstream projects MAY extend vocabulary, but MUST NOT redefine terms.
 
-All terms defined here are **authoritative** within the scope of the Law.
-Downstream projects may extend vocabulary, but must not redefine these terms.
+This glossary is **ABI-anchored**: when a concept has a canonical primitive, command surface, or artifact role, this document points to the canonical registry.
 
----
+## Canonical sources (source of truth)
 
-## Purpose
+The authoritative machine-readable registries are:
 
-The glossary exists to:
+- Primitives (conceptual ABI): `law/abi/registry/primitives.v1.json`
+- Commands (CLI surface): `law/abi/registry/commands.v1.json`
+- Artifact roles (proof ABI): `law/abi/registry/artifacts.v1.json`
+- Artifact schemas (normative): `law/abi/artifacts-schema/*.v1.schema.json`
 
-- ensure consistent meaning across repositories and projects
-- prevent implicit redefinition of foundational concepts
-- provide a shared semantic reference for reasoning and documentation
-- separate *terminology* from *implementation language*
+Normative contracts live under:
 
-The Law governs meaning.
-Implementations consume meaning.
-
----
+- `law/normative/axioms/`
+- `law/normative/invariants/`
+- `law/normative/boundaries/`
 
 ## Scope
 
-This glossary includes:
+Included:
+- foundational concepts used by axioms, invariants, and boundaries
+- governance concepts: authority, decision, traceability, determinism
+- proof concepts: evidence, bundle, verification
 
-- core conceptual terms used in axioms, invariants, and boundaries
-- terms that define authority, execution, state, and governance
-- epistemic distinctions critical to YAI correctness
+Excluded:
+- implementation-specific names (frameworks, libraries)
+- runtime-specific operational details not bound to a registry
+- domain-specific extensions (these belong in packs)
 
-It intentionally excludes:
+## Registry conventions
 
-- implementation-specific terms
-- technology or framework names
-- runtime, tooling, or API vocabulary
-- domain-specific extensions
+- Primitive IDs use `S-###` (Substrate), `T-###` (Governance), `O-###` (Orchestration).
+- Commands are canonically identified as `yai.<group>.<name>`.
+- Artifact roles are canonically identified by `artifacts.v1.json` (example: `decision_record`, `bundle_manifest`).
 
 ---
 
-## Canonical Terms
+# Core Law Concepts
 
-### Axiom
+## Law
+The conceptual layer that defines axioms, structural invariants, epistemic boundaries, and authoritative meaning.
 
-A foundational assumption taken as true by definition and not derived from
-lower-level mechanisms.
+The Law defines meaning and authority, not runtime behavior.
+
+## Axiom
+A foundational assumption taken as true by definition and not derived from lower-level mechanisms.
 
 Axioms constrain what YAI is allowed to mean.
-They are non-configurable, non-derivable, and authoritative.
 
----
+## Structural Invariant
+A non-negotiable constraint that MUST always hold for a system to be considered a valid instance of YAI.
 
-### Structural Invariant
+Structural invariants derive authority from axioms and make them enforceable over time.
 
-A non-negotiable constraint that must always hold for a system to be considered
-a valid instance of YAI.
+## Boundary
+An explicit conceptual separation defining what the Law does and does not govern with respect to other domains.
 
-Structural invariants derive authority from axioms and make them enforceable
-over time.
+Boundaries prevent semantic overreach.
 
----
-
-### Law
-
-The conceptual layer of YAI that defines axioms, structural invariants,
-epistemic boundaries, and authoritative meaning.
-
-The Law defines meaning and authority, not behavior.
-
----
-
-### Execution
-
+## Execution
 The act of causing state transitions within the system.
 
 Execution implies consequence and accountability.
 
----
-
-### Runtime
-
-The domain responsible for executing actions, managing lifecycle, and enforcing
-constraints during operation.
+## Runtime
+The domain responsible for executing actions, managing lifecycle, and enforcing constraints during operation.
 
 The Runtime implements behavior within limits defined by the Law.
 
----
-
-### Intent
-
+## Intent
 A proposed, declarative request for execution (command candidates).
 
 Intent is not authority and cannot cause execution without control.
 
----
-
-### Authority
-
-The property by which actions, decisions, or state transitions are considered
-valid and enforceable within YAI.
-
-Authority must be explicit, traceable, and never inferred implicitly.
-
----
-
-### Inference
-
+## Inference
 The process of deriving conclusions, intentions, or proposals from information.
 
 Inference may inform decisions but never grants authority to act.
 
 ---
 
-### Control
+# Governance Concepts (ABI-anchored)
 
-The enforcement of authority over execution.
+These terms map directly to governance primitives in `primitives.v1.json`.
 
-Control determines what is allowed to happen, independent of inference quality.
+## Event (Primitive: `T-001 Event`)
+A recorded occurrence eligible to enter governance evaluation.
 
----
+Events are append-only once recorded.
 
-### State
+## Identity (Primitive: `T-002 Identity`)
+A stable identifier for an actor/component/workload participating in events and decisions.
 
-A derived, inspectable artifact representing the outcome of execution.
+Identity MUST be present in decision records (as subject/ref).
 
-State is not a cause, configuration, or source of authority.
+## Authority (Primitive: `T-003 Authority`)
+The right to request or enact an effect within a defined boundary.
 
----
+Authority MUST be explicit and auditable (no implicit escalation).
 
-### Vault
+## Contract (Primitive: `T-004 Contract`)
+A normative statement of allowed/required behavior, expressed as versioned inputs to governance.
 
-A bounded, shared-memory execution surface used for inter-component coordination.
+Contracts SHOULD be testable via qualification.
 
-The Vault is the canonical L0 contract surface.
+## Baseline (Primitive: `T-005 Baseline`)
+A named, versioned operational profile derived from a Contract used as an evaluation starting point.
 
----
+Baselines used in published bundles MUST be immutable.
 
-### Internal Transition
+## Policy (Primitive: `T-006 Policy`, Artifact role: `policy`)
+A concrete, machine-readable enforcement configuration derived from Contract + Baseline.
 
-A valid transition whose effects remain confined to YAI-controlled state.
+Policy material MUST be hash-identifiable and reproducible.
 
----
+## Decision (Primitive: `T-007 Decision`, Artifact role: `decision_record`)
+The formal result of evaluating an Event under Authority + Policy.
 
-### External-Effect Transition
+Every governed external effect MUST be preceded by a Decision.
 
-A valid transition that produces effects outside YAI-controlled state that are irreversible or not reliably reversible.
+## Outcome (Primitive: `T-008 Outcome`)
+A constrained result class for Decisions: `allow | deny | error`.
 
----
+## ReasonCode (Primitive: `T-009 ReasonCode`)
+A stable, namespaced code explaining the outcome in an auditable and aggregatable way.
 
-### External Effect Boundary
+ReasonCodes MUST NOT change meaning once published.
 
-The predicate separating internal transitions from transitions that produce irreversible or non-YAI-controlled effects.
+## Effect (Primitive: `T-010 Effect`)
+A state change or external action that crosses a defined boundary (network call, write, publish, mutation).
 
----
+External effects MUST be measurable when possible (attempted/applied).
 
-### Abstract Cost Accountability
-
-The requirement that every valid transition is attachable to abstract cost attributes within a declared metric space.
-
----
-
-### Cognitive Adaptability
-
-The foundational capability by which a YAI system explicitly suspends execution
-and reorganizes its cognitive configuration when observed reality invalidates current assumptions.
-
-Cognitive adaptability does not imply learning, optimization, or autonomy.
-
----
-
-### Cognitive Configuration
-
-The explicit set of assumptions, constraints, priorities, goals, and contextual validity
-that constitutes the cognitive basis under which execution is allowed to proceed.
-
-Cognitive configuration is not “State” as defined in this glossary.
+## Scope (Primitive: `T-021 Scope`)
+The explicit perimeter of application for authority/policy/claims (resources/actions).
 
 ---
 
-### Cognitive Validity / Invalidation
+# Proof & Verification Concepts (ABI-anchored)
 
-Cognitive validity is the condition under which a cognitive configuration remains consistent
-with observed reality and therefore may support execution.
+## Evidence (Primitive: `T-011 Evidence`, Artifact role: `evidence_index`)
+A curated set of artifacts proving what happened (or did not happen), sufficient to verify claims without re-running the system.
 
-Invalidation is the explicit detection that the cognitive configuration no longer supports valid execution.
+Evidence MUST be integrity-protected (hashes) and self-descriptive (index).
 
----
+## Run (Primitive: `T-012 Run`)
+A single execution instance that emits records and artifacts.
 
-### Cognitive Reconfiguration
+A Run MUST be uniquely addressable within a Bundle.
 
-An explicit, authority-bound transition from one cognitive configuration to another
-performed in response to invalidation.
+## Wave (Primitive: `T-013 Wave`)
+An orchestrated set of Runs under one scenario.
 
-Reconfiguration constrains whether execution may continue; it does not define how adaptation is implemented.
+A Wave SHOULD produce a publishable Bundle.
 
----
+## Bundle (Primitive: `T-014 Bundle`, Artifact role: `bundle_manifest`)
+A portable, auditable package containing curated evidence, policies, and a manifest.
 
-### Reconfiguration Record
+Bundles MUST be verifiable offline (no network required).
 
-The canonical inspectable artifact representing a cognitive reconfiguration transition.
+## Verification (Primitive: `T-015 Verification`, Artifact role: `verification_report`)
+A deterministic procedure that checks bundle integrity and claim consistency.
 
-A Reconfiguration Record must be traceable and authority-referenced, and must not be conflated with “State”.
+Verification MUST NOT require network access.
 
----
+## Traceability (Invariant: `I-001-traceability`)
+The property by which actions, decisions, and transitions can be attributed, reconstructed, and reasoned about after execution.
 
-### Traceability
+Traceability is a structural invariant and MUST be supported by evidence artifacts.
 
-The property by which actions, decisions, and state transitions can be
-attributed, reconstructed, and reasoned about after execution.
-
-Traceability is a structural invariant.
-
----
-
-### Determinism
-
-The property by which system behavior, given the same conditions and constraints,
-produces equivalent outcomes within a defined scope.
+## Determinism (Invariant: `I-002-determinism`)
+Given the same inputs and constraints, behavior produces equivalent outcomes within a defined scope.
 
 Determinism enables reconstruction, not prediction.
 
----
-
-### Reproducibility
-
-The ability to re-execute or reconstruct system behavior and obtain
-behaviorally equivalent results.
+## Reproducibility
+The ability to re-execute or reconstruct system behavior and obtain behaviorally equivalent results.
 
 Reproducibility is required for governance and accountability.
 
----
-
-### Governance
-
-The invariant by which authority, responsibility, and control remain enforceable
-over time, across system evolution.
+## Governance (Invariant: `I-003-governance`)
+The invariant by which authority, responsibility, and control remain enforceable over time, across system evolution.
 
 Governance is structural, not procedural.
 
 ---
 
-### Mind
+# Cognitive Layer Concepts (Conceptual, boundary-anchored)
 
+These terms are conceptual and scoped by L3 boundaries. They MUST NOT be used to bypass governance primitives.
+
+## Mind
 The domain responsible for intent formation, routing, and orchestration under L3 constraints.
 
 Mind proposes; it does not execute.
 
----
+## Cognitive Adaptability
+The capability by which a system explicitly suspends execution and reorganizes its cognitive configuration when observed reality invalidates current assumptions.
 
-### Consciousness
+Cognitive adaptability does not imply autonomy.
 
-The domain responsible for long-term memory, historical continuity,
-and retrospective reasoning.
+## Cognitive Configuration
+The explicit set of assumptions, constraints, priorities, goals, and contextual validity under which execution may proceed.
 
-Consciousness may inform inference but does not grant authority.
+## Cognitive Validity / Invalidation
+Validity: the configuration remains consistent with observed reality.
+Invalidation: explicit detection that it no longer supports valid execution.
 
----
+## Cognitive Reconfiguration
+An explicit, authority-bound transition from one configuration to another performed in response to invalidation.
 
-### Boundary
-
-An explicit conceptual separation defining what the Law does and does not
-govern with respect to other domains.
-
-Boundaries prevent semantic overreach.
-
----
-
-## Terminology Governance
-
-- Terms defined here may not be redefined downstream
-- New foundational terms require explicit inclusion
-- Ambiguous or overloaded terms must be clarified or rejected
-
-Terminology changes are **conceptual changes**.
+A reconfiguration MUST be traceable and MUST NOT be conflated with state.
 
 ---
 
-## Verification Vocabulary (Operational)
+# Terminology governance
 
-These terms define the canonical verification hierarchy used by YAI runtime
-validation. They are operational terms, not axiomatic terms.
+- Terms defined here MUST NOT be redefined downstream.
+- New foundational terms require explicit inclusion here (or in an approved extension pack).
+- When a term maps to a registry entry (primitive, command id, artifact role), the registry is authoritative for identifiers and schema expectations.
 
-### Verification Suite
-
-A reproducible, scripted composition of checks and gates with explicit pass/fail
-criteria.
-
-### Level Suite (L0..L7)
-
-The ordered verification suite that validates Law integrity (L0), formal/kernel
-coherence (L1), core verification (L2), and runtime gates up to provider and
-smoke coverage (L7).
-
-### Ops No-LLM Suite
-
-A deterministic operations suite that excludes prompt/LLM behavior and focuses
-on performance budgets, fault handling, security sanity, recovery/compatibility,
-and stress stability.
-
-### Gate
-
-A targeted executable check for one bounded concern (for example workspace
-lifecycle, events, graph, providers, dataset seed integrity).
-
-### Stratum
-
-A bounded architectural layer with explicit responsibilities, allowed couplings,
-and certifying gates.
-
-### Stratification Contract
-
-The authoritative mapping of layers (L0..L5), responsibilities, interfaces,
-storage surfaces, emitted evidence, and test suites required for release.
-
----
-
-## Final Note
-
-Language shapes architecture.
-
-A stable system requires stable meaning.
-This glossary exists to ensure YAI remains coherent as it evolves.
+Terminology changes are conceptual changes and MUST follow VERSIONING / COMPATIBILITY rules.
