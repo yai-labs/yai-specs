@@ -15,8 +15,8 @@ Primary docs in this folder:
 - `policy/README.md` (documentation policy for this repository)
 
 Normative source domains live outside `docs/`:
-- `../contracts/`
-- `../specs/`
+- `../law/normative/`
+- `../law/surfaces/`
 - `../formal/`
 - `../compliance/`
 - `../vectors/`

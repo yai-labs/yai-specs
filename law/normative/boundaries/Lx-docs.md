@@ -39,7 +39,7 @@ In this repository, the following are **normative**:
 * `axioms/*`
 * `invariants/*`
 * `boundaries/*`
-* `specs/protocol/include/*`
+* `law/surfaces/protocol/include/*`
 * `formal/YAI_KERNEL.tla`, `formal/YAI_KERNEL.cfg` (when present)
 
 If a downstream repo contradicts these, the downstream repo is wrong.
@@ -127,7 +127,7 @@ Normative interfaces include:
 * `axioms/*`
 * `invariants/*`
 * `boundaries/*`
-* `specs/protocol/include/*`
+* `law/surfaces/protocol/include/*`
 * `formal/YAI_KERNEL.tla`
 * `formal/YAI_KERNEL.cfg`
 

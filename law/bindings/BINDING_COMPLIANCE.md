@@ -4,19 +4,19 @@
 Compliance context and retention governance linkage to authority/effect boundaries.
 
 ## 2) Source-of-truth pointers
-- `contracts/extensions/compliance/C-001-compliance-context.md`
-- `contracts/extensions/compliance/C-003-retention-governance.md`
-- `contracts/invariants/I-006-external-effect-boundary.md`
-- `contracts/invariants/I-007-compliance-context-required.md`
+- `law/normative/extensions/compliance/C-001-compliance-context.md`
+- `law/normative/extensions/compliance/C-003-retention-governance.md`
+- `law/normative/invariants/I-006-external-effect-boundary.md`
+- `law/normative/invariants/I-007-compliance-context-required.md`
 
 ## 3) Invariants covered
 - `I-006-external-effect-boundary`
 - `I-007-compliance-context-required`
 
 ## 4) Spec artifacts
-- `compliance/schema/compliance.context.v1.json`
-- `compliance/schema/retention.policy.v1.json`
-- `specs/control/schema/authority.json`
+- `law/packs/schema/compliance.context.v1.json`
+- `law/packs/schema/retention.policy.v1.json`
+- `law/surfaces/control/schema/authority.json`
 
 ## 5) Test vectors
 - `vectors/audit_vectors.json`

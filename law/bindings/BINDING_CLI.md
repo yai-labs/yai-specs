@@ -4,9 +4,9 @@
 CLI command schema and command-surface traceability/governance linkage.
 
 ## 2) Source-of-truth pointers
-- `contracts/invariants/I-001-traceability.md`
-- `contracts/invariants/I-002-determinism.md`
-- `contracts/invariants/I-003-governance.md`
+- `law/normative/invariants/I-001-traceability.md`
+- `law/normative/invariants/I-002-determinism.md`
+- `law/normative/invariants/I-003-governance.md`
 
 ## 3) Invariants covered
 - `I-001-traceability`
@@ -14,9 +14,9 @@ CLI command schema and command-surface traceability/governance linkage.
 - `I-003-governance`
 
 ## 4) Spec artifacts
-- `specs/cli/schema/commands.v1.json`
-- `specs/cli/schema/commands.schema.json`
-- `specs/cli/notes/CLI_PUBLIC_INTERFACE.md`
+- `law/abi/registry/commands.v1.json`
+- `law/abi/schema/commands.v1.schema.json`
+- `law/surfaces/cli/notes/CLI_PUBLIC_INTERFACE.md`
 
 ## 5) Test vectors
 - `vectors/transport_vectors.json`

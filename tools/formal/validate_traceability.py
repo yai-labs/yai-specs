@@ -64,7 +64,7 @@ def validate_traceability(data: Dict[str, Any]) -> List[str]:
 
         expected_contract = CONTRACTS_INV_DIR / f"{iid}.md"
         if not expected_contract.exists():
-            errors.append(f"{inv_prefix}: invariant file not found in contracts/invariants: {rel(expected_contract)}")
+            errors.append(f"{inv_prefix}: invariant file not found in law/normative/invariants: {rel(expected_contract)}")
 
         contracts = inv.get("contracts", [])
         specs = inv.get("spec_artifacts", [])

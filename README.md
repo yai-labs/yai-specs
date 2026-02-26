@@ -39,8 +39,8 @@ Consumers pin a revision and integrate it as a dependency.
 Normative artifacts are binding (contracts you must implement/validate):
 
 - JSON schemas and contracts (`*.json`)
-- Protocol and ABI headers (`specs/protocol/include/*.h`, `specs/vault/include/*.h`)
-- Formal contracts and proofs (`contracts/**`)
+- Protocol and ABI headers (`law/surfaces/protocol/include/*.h`, `law/surfaces/vault/include/*.h`)
+- Formal contracts and proofs (`law/normative/**`)
 - Compliance packs (`compliance/**`)
 - Test vectors (`vectors/**`)
 

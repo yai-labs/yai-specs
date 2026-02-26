@@ -10,60 +10,60 @@ Policy specs:
 - `compliance/retention.policy.v1.json`
 
 Policy packs:
-- `compliance/packs/gdpr-eu/2026Q1/pack.meta.json`
-- `compliance/packs/gdpr-eu/2026Q1/retention.defaults.json`
-- `compliance/packs/gdpr-eu/2026Q1/taxonomy.data_classes.json`
-- `compliance/packs/gdpr-eu/2026Q1/taxonomy.legal_basis.json`
-- `compliance/packs/gdpr-eu/2026Q1/taxonomy.purposes.json`
+- `law/packs/compliance/gdpr-eu/2026Q1/pack.meta.json`
+- `law/packs/compliance/gdpr-eu/2026Q1/retention.defaults.json`
+- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.data_classes.json`
+- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.legal_basis.json`
+- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.purposes.json`
 
 ## Contracts (Normative Law)
 
-- `contracts/axioms/`
-- `contracts/invariants/`
-- `contracts/boundaries/`
-- `contracts/terminology/`
-- `contracts/extensions/`
-- `contracts/extensions/compliance/`
+- `law/normative/axioms/`
+- `law/normative/invariants/`
+- `law/normative/boundaries/`
+- `law/normative/terminology/`
+- `law/normative/extensions/`
+- `law/normative/extensions/compliance/`
 - `formal/`
 
 ## Protocol
 
-- `specs/protocol/include/protocol.h`
-- `specs/protocol/include/transport.h`
-- `specs/protocol/include/yai_protocol_ids.h`
-- `specs/protocol/include/errors.h`
-- `specs/protocol/include/auth.h`
-- `specs/protocol/include/roles.h`
-- `specs/protocol/include/session.h`
-- `specs/protocol/include/audit.h`
-- `specs/protocol/runtime/include/rpc_runtime.h`
+- `law/surfaces/protocol/include/protocol.h`
+- `law/surfaces/protocol/include/transport.h`
+- `law/surfaces/protocol/include/yai_protocol_ids.h`
+- `law/surfaces/protocol/include/errors.h`
+- `law/surfaces/protocol/include/auth.h`
+- `law/surfaces/protocol/include/roles.h`
+- `law/surfaces/protocol/include/session.h`
+- `law/surfaces/protocol/include/audit.h`
+- `law/surfaces/protocol/runtime/include/rpc_runtime.h`
 
 ## Control
 
-- `specs/control/schema/control_plane.v1.json`
-- `specs/control/schema/authority.json`
+- `law/surfaces/control/schema/control_plane.v1.json`
+- `law/surfaces/control/schema/authority.json`
 
 ## CLI
 
-- `specs/cli/schema/commands.v1.json`
-- `specs/cli/schema/commands.schema.json`
+- `law/abi/registry/commands.v1.json`
+- `law/abi/schema/commands.v1.schema.json`
 
 ## Vault
 
-- `specs/vault/schema/vault_abi.json`
-- `specs/vault/include/yai_vault_abi.h`
+- `law/surfaces/vault/schema/vault_abi.json`
+- `law/surfaces/vault/include/yai_vault_abi.h`
 
 ## Graph
 
-- `specs/graph/schema/graph.v1.json`
+- `law/surfaces/graph/schema/graph.v1.json`
 
 ## Providers
 
-- `specs/providers/schema/providers.v1.json`
+- `law/surfaces/providers/schema/providers.v1.json`
 
 ## Engine
 
-- `specs/engine/schema/engine_cortex.v1.json`
+- `law/surfaces/engine/schema/engine_cortex.v1.json`
 
 ## Vectors (Conformance)
 

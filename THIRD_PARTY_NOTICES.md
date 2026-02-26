@@ -2,4 +2,4 @@
 
 No bundled third-party source code.
 
-Generated artifacts in this repository are first-party outputs from in-repo specs/tooling.
+Generated artifacts in this repository are first-party outputs from in-repo law surfaces/tooling.

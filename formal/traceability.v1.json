@@ -7,12 +7,12 @@
       "id": "I-001-traceability",
       "title": "Traceability",
       "contracts": [
-        "contracts/invariants/I-001-traceability.md"
+        "law/normative/invariants/I-001-traceability.md"
       ],
       "spec_artifacts": [
-        "specs/protocol/include/protocol.h",
-        "specs/protocol/include/transport.h",
-        "specs/protocol/include/errors.h",
+        "law/surfaces/protocol/include/protocol.h",
+        "law/surfaces/protocol/include/transport.h",
+        "law/surfaces/protocol/include/errors.h",
         "REGISTRY.md"
       ],
       "vectors": [
@@ -29,8 +29,8 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_PROTOCOL.md",
-        "formal/bindings/BINDING_CLI.md"
+        "law/bindings/BINDING_PROTOCOL.md",
+        "law/bindings/BINDING_CLI.md"
       ],
       "coverage": {
         "docs": true,
@@ -42,12 +42,12 @@
       "id": "I-002-determinism",
       "title": "Determinism and Reproducibility",
       "contracts": [
-        "contracts/invariants/I-002-determinism.md"
+        "law/normative/invariants/I-002-determinism.md"
       ],
       "spec_artifacts": [
-        "specs/protocol/runtime/include/rpc_runtime.h",
-        "specs/protocol/include/session.h",
-        "specs/vault/include/yai_vault_abi.h"
+        "law/surfaces/protocol/runtime/include/rpc_runtime.h",
+        "law/surfaces/protocol/include/session.h",
+        "law/surfaces/vault/include/yai_vault_abi.h"
       ],
       "vectors": [
         "vectors/transport_vectors.json",
@@ -64,9 +64,9 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_PROTOCOL.md",
-        "formal/bindings/BINDING_VAULT.md",
-        "formal/bindings/BINDING_GRAPH.md"
+        "law/bindings/BINDING_PROTOCOL.md",
+        "law/bindings/BINDING_VAULT.md",
+        "law/bindings/BINDING_GRAPH.md"
       ],
       "coverage": {
         "docs": true,
@@ -78,12 +78,12 @@
       "id": "I-003-governance",
       "title": "Governance",
       "contracts": [
-        "contracts/invariants/I-003-governance.md"
+        "law/normative/invariants/I-003-governance.md"
       ],
       "spec_artifacts": [
-        "specs/control/schema/authority.json",
-        "specs/control/schema/control_plane.v1.json",
-        "specs/protocol/include/roles.h"
+        "law/surfaces/control/schema/authority.json",
+        "law/surfaces/control/schema/control_plane.v1.json",
+        "law/surfaces/protocol/include/roles.h"
       ],
       "vectors": [
         "vectors/auth_vectors.json",
@@ -99,8 +99,8 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_CONTROL.md",
-        "formal/bindings/BINDING_PROTOCOL.md"
+        "law/bindings/BINDING_CONTROL.md",
+        "law/bindings/BINDING_PROTOCOL.md"
       ],
       "coverage": {
         "docs": true,
@@ -112,11 +112,11 @@
       "id": "I-004-cognitive-reconfiguration",
       "title": "Governable Cognitive Reconfiguration",
       "contracts": [
-        "contracts/invariants/I-004-cognitive-reconfiguration.md"
+        "law/normative/invariants/I-004-cognitive-reconfiguration.md"
       ],
       "spec_artifacts": [
-        "specs/protocol/include/session.h",
-        "specs/control/schema/control_plane.v1.json"
+        "law/surfaces/protocol/include/session.h",
+        "law/surfaces/control/schema/control_plane.v1.json"
       ],
       "vectors": [
         "vectors/audit_vectors.json"
@@ -131,7 +131,7 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_CONTROL.md"
+        "law/bindings/BINDING_CONTROL.md"
       ],
       "coverage": {
         "docs": true,
@@ -143,12 +143,12 @@
       "id": "I-005-abstract-cost-accountability",
       "title": "Abstract Cost Accountability",
       "contracts": [
-        "contracts/invariants/I-005-abstract-cost-accountability.md"
+        "law/normative/invariants/I-005-abstract-cost-accountability.md"
       ],
       "spec_artifacts": [
-        "specs/engine/schema/engine_cortex.v1.json",
-        "specs/protocol/runtime/include/rpc_runtime.h",
-        "specs/graph/schema/graph.v1.json"
+        "law/surfaces/engine/schema/engine_cortex.v1.json",
+        "law/surfaces/protocol/runtime/include/rpc_runtime.h",
+        "law/surfaces/graph/schema/graph.v1.json"
       ],
       "vectors": [
         "vectors/audit_vectors.json"
@@ -163,8 +163,8 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_GRAPH.md",
-        "formal/bindings/BINDING_PROTOCOL.md"
+        "law/bindings/BINDING_GRAPH.md",
+        "law/bindings/BINDING_PROTOCOL.md"
       ],
       "coverage": {
         "docs": true,
@@ -176,12 +176,12 @@
       "id": "I-006-external-effect-boundary",
       "title": "External Effect Boundary",
       "contracts": [
-        "contracts/invariants/I-006-external-effect-boundary.md"
+        "law/normative/invariants/I-006-external-effect-boundary.md"
       ],
       "spec_artifacts": [
-        "specs/control/schema/authority.json",
-        "compliance/schema/compliance.context.v1.json",
-        "specs/protocol/include/auth.h"
+        "law/surfaces/control/schema/authority.json",
+        "law/packs/schema/compliance.context.v1.json",
+        "law/surfaces/protocol/include/auth.h"
       ],
       "vectors": [
         "vectors/auth_vectors.json",
@@ -197,8 +197,8 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_CONTROL.md",
-        "formal/bindings/BINDING_COMPLIANCE.md"
+        "law/bindings/BINDING_CONTROL.md",
+        "law/bindings/BINDING_COMPLIANCE.md"
       ],
       "coverage": {
         "docs": true,
@@ -210,12 +210,12 @@
       "id": "I-007-compliance-context-required",
       "title": "Compliance Context Required",
       "contracts": [
-        "contracts/invariants/I-007-compliance-context-required.md"
+        "law/normative/invariants/I-007-compliance-context-required.md"
       ],
       "spec_artifacts": [
-        "compliance/schema/compliance.context.v1.json",
-        "specs/control/schema/control_plane.v1.json",
-        "specs/control/schema/authority.json"
+        "law/packs/schema/compliance.context.v1.json",
+        "law/surfaces/control/schema/control_plane.v1.json",
+        "law/surfaces/control/schema/authority.json"
       ],
       "vectors": [
         "vectors/audit_vectors.json"
@@ -230,8 +230,8 @@
         }
       ],
       "bindings": [
-        "formal/bindings/BINDING_COMPLIANCE.md",
-        "formal/bindings/BINDING_CONTROL.md"
+        "law/bindings/BINDING_COMPLIANCE.md",
+        "law/bindings/BINDING_CONTROL.md"
       ],
       "coverage": {
         "docs": true,

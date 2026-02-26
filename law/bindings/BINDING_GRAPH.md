@@ -4,9 +4,9 @@
 Graph schema linkage and deterministic governance posture for graph surfaces.
 
 ## 2) Source-of-truth pointers
-- `contracts/invariants/I-002-determinism.md`
-- `contracts/invariants/I-003-governance.md`
-- `contracts/invariants/I-005-abstract-cost-accountability.md`
+- `law/normative/invariants/I-002-determinism.md`
+- `law/normative/invariants/I-003-governance.md`
+- `law/normative/invariants/I-005-abstract-cost-accountability.md`
 
 ## 3) Invariants covered
 - `I-002-determinism`
@@ -14,8 +14,8 @@ Graph schema linkage and deterministic governance posture for graph surfaces.
 - `I-005-abstract-cost-accountability`
 
 ## 4) Spec artifacts
-- `specs/graph/schema/graph.v1.json`
-- `specs/graph/notes/GRAPH_V1.md`
+- `law/surfaces/graph/schema/graph.v1.json`
+- `law/surfaces/graph/notes/GRAPH_V1.md`
 
 ## 5) Test vectors
 - `vectors/audit_vectors.json`
