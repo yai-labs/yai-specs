@@ -9,7 +9,7 @@ from typing import Any, Dict, List
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TRACE_PATH = REPO_ROOT / "formal" / "traceability.v1.json"
 SCHEMA_PATH = REPO_ROOT / "formal" / "schema" / "traceability.v1.schema.json"
-CONTRACTS_INV_DIR = REPO_ROOT / "contracts" / "invariants"
+LAW_INV_DIR = REPO_ROOT / "law" / "normative" / "invariants"
 
 
 def load_json(path: Path) -> Any:
@@ -62,9 +62,9 @@ def validate_traceability(data: Dict[str, Any]) -> List[str]:
 
         inv_prefix = f"{iid}"
 
-        expected_contract = CONTRACTS_INV_DIR / f"{iid}.md"
+        expected_contract = LAW_INV_DIR / f"{iid}.md"
         if not expected_contract.exists():
-            errors.append(f"{inv_prefix}: invariant file not found in contracts/invariants: {rel(expected_contract)}")
+            errors.append(f"{inv_prefix}: invariant file not found: {rel(expected_contract)}")
 
         contracts = inv.get("contracts", [])
         specs = inv.get("spec_artifacts", [])

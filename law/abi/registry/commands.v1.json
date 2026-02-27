@@ -1,0 +1,389 @@
+{
+  "version": "1.0",
+  "binary": "yai",
+  "defaults": {
+    "ws_flag": "--ws",
+    "ws_default_source": "config"
+  },
+  "exit_codes": {
+    "0": "success",
+    "1": "generic_failure",
+    "2": "invalid_arguments_or_contract_violation",
+    "3": "dependency_missing",
+    "4": "runtime_not_ready"
+  },
+  "commands": [
+    {
+      "id": "yai.lifecycle.up",
+      "name": "up",
+      "group": "lifecycle",
+      "summary": "Start stack: boot + engine + mind",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "build", "flag": "--build", "type": "bool", "required": false, "default": false },
+        { "name": "ai", "flag": "--ai", "type": "bool", "required": false, "default": false },
+        { "name": "no_engine", "flag": "--no-engine", "type": "bool", "required": false, "default": false },
+        { "name": "no_mind", "flag": "--no-mind", "type": "bool", "required": false, "default": false },
+        { "name": "detach", "flag": "--detach", "type": "bool", "required": false, "default": false },
+        { "name": "monitor", "flag": "--monitor", "type": "bool", "required": false, "default": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes", "write_session", "write_logs", "create_socket", "rpc_call"],
+      "law_hooks": ["I-001", "I-002", "I-006", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["O-004", "O-005", "S-016", "S-023", "S-026", "S-029", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.lifecycle.restart",
+      "name": "restart",
+      "group": "lifecycle",
+      "summary": "Restart stack for a workspace",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "build", "flag": "--build", "type": "bool", "required": false, "default": false },
+        { "name": "ai", "flag": "--ai", "type": "bool", "required": false, "default": false },
+        { "name": "no_engine", "flag": "--no-engine", "type": "bool", "required": false, "default": false },
+        { "name": "no_mind", "flag": "--no-mind", "type": "bool", "required": false, "default": false },
+        { "name": "detach", "flag": "--detach", "type": "bool", "required": false, "default": false },
+        { "name": "monitor", "flag": "--monitor", "type": "bool", "required": false, "default": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "force", "flag": "--force", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["signal_processes", "spawn_processes", "write_session", "write_logs", "create_socket", "rpc_call"],
+      "law_hooks": ["I-001", "I-002", "I-006", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["O-004", "O-005", "S-016", "S-023", "S-026", "S-029", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.lifecycle.down",
+      "name": "down",
+      "group": "lifecycle",
+      "summary": "Stop stack and cleanup runtime artifacts",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "force", "flag": "--force", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["signal_processes", "remove_session", "remove_socket", "rpc_call"],
+      "law_hooks": ["I-001", "I-006", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["O-004", "S-016", "S-023", "S-026", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.inspect.status",
+      "name": "status",
+      "group": "inspect",
+      "summary": "Show runtime status (pids, socket, vault readiness)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-001", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["S-026", "S-016", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.inspect.logs",
+      "name": "logs",
+      "group": "inspect",
+      "summary": "Tail logs for a component",
+      "args": [
+        {
+          "name": "component",
+          "pos": 1,
+          "type": "enum",
+          "values": ["boot", "engine", "mind", "kernel"],
+          "required": true
+        },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "follow", "flag": "--follow", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text"],
+      "side_effects": [],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": [],
+      "uses_primitives": ["S-016", "S-022"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.inspect.monitor",
+      "name": "monitor",
+      "group": "inspect",
+      "summary": "Live monitor (event stream) for a workspace",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["S-016", "S-022", "S-010", "T-001"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.inspect.events",
+      "name": "events",
+      "group": "inspect",
+      "summary": "Stream daemon events (NDJSON)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["S-016", "S-022", "S-010", "T-001"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.verify.verify",
+      "name": "verify",
+      "group": "verify",
+      "summary": "Run verification gates",
+      "args": [
+        { "name": "target", "pos": 1, "type": "enum", "values": ["core", "full"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes", "run_scripts"],
+      "law_hooks": ["I-003", "I-001", "Lx"],
+      "law_invariants": ["I-003-governance", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-015", "T-014", "S-008", "S-014", "O-007"],
+      "emits_artifacts": [
+        {
+          "role": "verification_report",
+          "schema_ref": "law/abi/artifacts-schema/verification_report.v1.schema.json",
+          "path_hint": "verify/report.json"
+        }
+      ],
+      "consumes_artifacts": [
+        {
+          "role": "bundle_manifest",
+          "schema_ref": "law/abi/artifacts-schema/bundle_manifest.v1.schema.json",
+          "path_hint": "bundle/**"
+        }
+      ]
+    },
+    {
+      "id": "yai.verify.test",
+      "name": "test",
+      "group": "verify",
+      "summary": "Run test gates",
+      "args": [
+        { "name": "target", "pos": 1, "type": "enum", "values": ["smoke"], "required": true },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes"],
+      "law_hooks": ["I-001", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["O-009", "S-026", "S-016", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.providers",
+      "name": "providers",
+      "group": "control",
+      "summary": "Provider lifecycle (discover/pair/attach/detach/status)",
+      "args": [
+        {
+          "name": "subcommand",
+          "pos": 1,
+          "type": "enum",
+          "values": ["discover", "list", "trust", "pair", "attach", "detach", "revoke", "status"],
+          "required": true
+        },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "write_trust", "write_session"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-006", "S-005", "S-016", "T-002", "T-003"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.dsar",
+      "name": "dsar",
+      "group": "control",
+      "summary": "DSAR workflow (request/status/execute)",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["request", "status", "execute"], "required": true },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-016", "T-003", "T-021"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.sessions",
+      "name": "sessions",
+      "group": "control",
+      "summary": "List or kill sessions",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["list", "kill"], "required": true },
+        { "name": "kill_ws", "pos": 2, "type": "string", "required": false },
+        { "name": "force", "flag": "--force", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "signal_processes"],
+      "law_hooks": ["I-001", "L1", "L2", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["S-026", "S-016", "S-023", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.chat",
+      "name": "chat",
+      "group": "control",
+      "summary": "Chat sessions and messages via control plane",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["list", "new", "select", "history", "send"], "required": true },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-016", "T-002", "S-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.shell",
+      "name": "shell",
+      "group": "control",
+      "summary": "Capability-gated shell execution via control plane",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["exec"], "required": true },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "spawn_processes"],
+      "law_hooks": ["I-001", "I-006", "L3"],
+      "law_invariants": ["I-001-traceability", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-030", "S-029", "T-003", "T-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.root",
+      "name": "root",
+      "group": "control",
+      "summary": "Root control-plane probes and handshake-level checks",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["ping"], "required": true },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "I-002", "I-003", "L1"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["L1-kernel"],
+      "uses_primitives": ["T-003", "T-007", "S-016", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.control.kernel",
+      "name": "kernel",
+      "group": "control",
+      "summary": "Kernel authority operations and workspace lifecycle",
+      "args": [
+        { "name": "subcommand", "pos": 1, "type": "enum", "values": ["ping", "ws"], "required": true },
+        { "name": "ws_action", "pos": 2, "type": "enum", "values": ["create", "destroy", "reset"], "required": false },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "write_session", "remove_session"],
+      "law_hooks": ["I-001", "I-002", "I-003", "I-006", "L1", "L2"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L1-kernel", "L2-engine"],
+      "uses_primitives": ["T-003", "T-007", "S-005", "S-006", "S-023", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.memory.graph",
+      "name": "graph",
+      "group": "memory",
+      "summary": "MindGraph operations (semantic add-node/add-edge, query uses semantic+vector+activation)",
+      "args": [
+        {
+          "name": "subcommand",
+          "pos": 1,
+          "type": "enum",
+          "values": ["add-node", "add-edge", "query", "stats", "node", "neighbors", "export", "awareness", "activate", "trace"],
+          "required": true
+        },
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_semantic", "read_semantic", "write_vector", "read_vector"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-006", "S-005", "S-012", "T-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+    {
+      "id": "yai.memory.embed",
+      "name": "embed",
+      "group": "memory",
+      "summary": "Generate embedding vector",
+      "args": [
+        { "name": "model", "flag": "--model", "type": "string", "required": false },
+        { "name": "text", "flag": "--text", "type": "string", "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_models"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-033", "S-016", "S-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    }
+  ]
+}
