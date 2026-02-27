@@ -13,6 +13,135 @@
     "4": "runtime_not_ready"
   },
   "commands": [
+
+
+    {
+      "id": "yai.root.ping",
+      "name": "ping",
+      "group": "root",
+      "summary": "Ping root plane (transport + handshake)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "I-002", "I-003", "L1"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["L1-kernel"],
+      "uses_primitives": ["T-003", "T-007", "S-016", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.kernel.ping",
+      "name": "ping",
+      "group": "kernel",
+      "summary": "Ping kernel plane via root (control RPC)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "I-002", "I-003", "L1", "L2"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["L1-kernel", "L2-engine"],
+      "uses_primitives": ["T-003", "T-007", "S-016", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.kernel.ws",
+      "name": "ws",
+      "group": "kernel",
+      "summary": "Workspace lifecycle via kernel (create/destroy/reset)",
+      "args": [
+        { "name": "action", "pos": 1, "type": "enum", "values": ["create", "destroy", "reset"], "required": true },
+        { "name": "ws_id", "pos": 2, "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "write_session", "remove_session"],
+      "law_hooks": ["I-001", "I-002", "I-003", "I-006", "L1", "L2"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance", "I-006-external-effect-boundary"],
+      "law_boundaries": ["L1-kernel", "L2-engine"],
+      "uses_primitives": ["T-003", "T-007", "S-005", "S-006", "S-023", "T-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.engine.ping",
+      "name": "ping",
+      "group": "engine",
+      "summary": "Ping engine plane via root (control RPC)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "I-002", "L2"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["L2-engine"],
+      "uses_primitives": ["S-016", "S-002", "T-003"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.mind.ping",
+      "name": "ping",
+      "group": "mind",
+      "summary": "Ping mind plane via root (control RPC)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "timeout_ms", "flag": "--timeout-ms", "type": "int", "required": false },
+        { "name": "arming", "flag": "--arming", "type": "bool", "required": false, "default": false },
+        { "name": "role", "flag": "--role", "type": "enum", "values": ["operator", "system"], "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call"],
+      "law_hooks": ["I-001", "L3"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["L3-mind"],
+      "uses_primitives": ["S-016", "S-002", "T-003"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.boot.status",
+      "name": "status",
+      "group": "boot",
+      "summary": "Boot plane status (local readiness + artifacts)",
+      "args": [
+        { "name": "ws", "flag": "--ws", "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files"],
+      "law_hooks": ["I-001", "I-002", "Lx"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-016", "S-002", "S-017"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+
+
     {
       "id": "yai.lifecycle.up",
       "name": "up",
@@ -80,6 +209,8 @@
       "emits_artifacts": [],
       "consumes_artifacts": []
     },
+
+ 
 
     {
       "id": "yai.inspect.status",
@@ -153,6 +284,7 @@
       "consumes_artifacts": []
     },
 
+
     {
       "id": "yai.verify.verify",
       "name": "verify",
@@ -193,6 +325,7 @@
       "emits_artifacts": [],
       "consumes_artifacts": []
     },
+
 
     {
       "id": "yai.control.providers",
@@ -285,11 +418,12 @@
       "emits_artifacts": [],
       "consumes_artifacts": []
     },
+
     {
       "id": "yai.control.root",
       "name": "root",
       "group": "control",
-      "summary": "Root control-plane probes and handshake-level checks",
+      "summary": "DEPRECATED: use 'yai root ping' (root control-plane probes)",
       "args": [
         { "name": "subcommand", "pos": 1, "type": "enum", "values": ["ping"], "required": true },
         { "name": "ws", "flag": "--ws", "type": "string", "required": false },
@@ -305,11 +439,13 @@
       "emits_artifacts": [],
       "consumes_artifacts": []
     },
+
+
     {
       "id": "yai.control.kernel",
       "name": "kernel",
       "group": "control",
-      "summary": "Kernel authority operations and workspace lifecycle",
+      "summary": "DEPRECATED: use 'yai kernel ping' and 'yai kernel ws' (kernel authority ops)",
       "args": [
         { "name": "subcommand", "pos": 1, "type": "enum", "values": ["ping", "ws"], "required": true },
         { "name": "ws_action", "pos": 2, "type": "enum", "values": ["create", "destroy", "reset"], "required": false },
@@ -326,6 +462,7 @@
       "emits_artifacts": [],
       "consumes_artifacts": []
     },
+
 
     {
       "id": "yai.memory.graph",
@@ -364,317 +501,1190 @@
       "consumes_artifacts": []
     },
 
-    { "id": "yai.substrate.ns", "name": "ns", "group": "substrate", "summary": "Namespace operations (declare/list/resolve/validate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["declare", "list", "resolve", "validate"], "required": true },
-      { "name": "name", "pos": 2, "type": "string", "required": false },
-      { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
-    ], "outputs": ["text", "json"], "side_effects": [], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-001","S-010"], "emits_artifacts": [], "consumes_artifacts": [] },
 
-    { "id": "yai.substrate.ref", "name": "ref", "group": "substrate", "summary": "Ref operations (parse/format/resolve/dereference)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["parse", "format", "resolve", "dereference"], "required": true },
-      { "name": "ref", "pos": 2, "type": "string", "required": false },
-      { "name": "store", "flag": "--store", "type": "string", "required": false },
-      { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-002","S-001","S-006"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.ns",
+      "name": "ns",
+      "group": "substrate",
+      "summary": "Namespace operations (declare/list/resolve/validate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["declare", "list", "resolve", "validate"], "required": true },
+        { "name": "name", "pos": 2, "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-001", "S-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.key", "name": "key", "group": "substrate", "summary": "Key operations (gen/load/fingerprint/sign/verify)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["gen","load","fingerprint","sign","verify"], "required": true },
-      { "name": "in", "flag": "--in", "type": "string", "required": false },
-      { "name": "out", "flag": "--out", "type": "string", "required": false },
-      { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-003"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.ref",
+      "name": "ref",
+      "group": "substrate",
+      "summary": "Ref operations (parse/format/resolve/dereference)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["parse", "format", "resolve", "dereference"], "required": true },
+        { "name": "ref", "pos": 2, "type": "string", "required": false },
+        { "name": "store", "flag": "--store", "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-002", "S-001", "S-006"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.hash", "name": "hash", "group": "substrate", "summary": "Hash operations (compute/verify/compare/treehash)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["compute","verify","compare","treehash"], "required": true },
-      { "name": "path", "pos": 2, "type": "string", "required": false },
-      { "name": "expected", "flag": "--expected", "type": "string", "required": false },
-      { "name": "algo", "flag": "--algo", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-004"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.key",
+      "name": "key",
+      "group": "substrate",
+      "summary": "Key operations (gen/load/fingerprint/sign/verify)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["gen", "load", "fingerprint", "sign", "verify"], "required": true },
+        { "name": "in", "flag": "--in", "type": "string", "required": false },
+        { "name": "out", "flag": "--out", "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-003"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.artifact", "name": "artifact", "group": "substrate", "summary": "Artifact operations (add/inspect/link/verify/gc-mark)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["add","inspect","link","verify","gc-mark"], "required": true },
-      { "name": "path", "pos": 2, "type": "string", "required": false },
-      { "name": "role", "flag": "--role", "type": "string", "required": false },
-      { "name": "store", "flag": "--store", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-005","S-002","S-004","S-006"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.hash",
+      "name": "hash",
+      "group": "substrate",
+      "summary": "Hash operations (compute/verify/compare/treehash)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["compute", "verify", "compare", "treehash"], "required": true },
+        { "name": "path", "pos": 2, "type": "string", "required": false },
+        { "name": "expected", "flag": "--expected", "type": "string", "required": false },
+        { "name": "algo", "flag": "--algo", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-004"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.store", "name": "store", "group": "substrate", "summary": "Store operations (put/get/list/exists/gc)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["put","get","list","exists","gc"], "required": true },
-      { "name": "ref", "pos": 2, "type": "string", "required": false },
-      { "name": "path", "flag": "--path", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-006","S-004","S-023"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.artifact",
+      "name": "artifact",
+      "group": "substrate",
+      "summary": "Artifact operations (add/inspect/link/verify/gc-mark)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["add", "inspect", "link", "verify", "gc-mark"], "required": true },
+        { "name": "path", "pos": 2, "type": "string", "required": false },
+        { "name": "role", "flag": "--role", "type": "string", "required": false },
+        { "name": "store", "flag": "--store", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-005", "S-002", "S-004", "S-006"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.schema", "name": "schema", "group": "substrate", "summary": "Schema operations (register/show/check/upgrade-map)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["register","show","check","upgrade-map"], "required": true },
-      { "name": "schema_ref", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-007"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.store",
+      "name": "store",
+      "group": "substrate",
+      "summary": "Store operations (put/get/list/exists/gc)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["put", "get", "list", "exists", "gc"], "required": true },
+        { "name": "ref", "pos": 2, "type": "string", "required": false },
+        { "name": "path", "flag": "--path", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-006", "S-004", "S-023"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.validate", "name": "validate", "group": "substrate", "summary": "Deterministic validation (schema + cross-file)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["validate-schema","validate-set","emit-report"], "required": true },
-      { "name": "target", "pos": 2, "type": "string", "required": false },
-      { "name": "out", "flag": "--out", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002","I-001"], "law_invariants": ["I-002-determinism","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-008","S-007","S-013","S-014"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.schema",
+      "name": "schema",
+      "group": "substrate",
+      "summary": "Schema operations (register/show/check/upgrade-map)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["register", "show", "check", "upgrade-map"], "required": true },
+        { "name": "schema_ref", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-007"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.clock", "name": "clock", "group": "substrate", "summary": "Clock operations (stamp/normalize/compare/bound)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["stamp","normalize","compare","bound"], "required": true },
-      { "name": "a", "pos": 2, "type": "string", "required": false },
-      { "name": "b", "pos": 3, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-009"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.validate",
+      "name": "validate",
+      "group": "substrate",
+      "summary": "Deterministic validation (schema + cross-file)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["validate-schema", "validate-set", "emit-report"], "required": true },
+        { "name": "target", "pos": 2, "type": "string", "required": false },
+        { "name": "out", "flag": "--out", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002", "I-001"],
+      "law_invariants": ["I-002-determinism", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-008", "S-007", "S-013", "S-014"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.record", "name": "record", "group": "substrate", "summary": "Record operations (append/read/scan/filter)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["append","read","scan","filter"], "required": true },
-      { "name": "path", "pos": 2, "type": "string", "required": false },
-      { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-010","S-004","S-009"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.clock",
+      "name": "clock",
+      "group": "substrate",
+      "summary": "Clock operations (stamp/normalize/compare/bound)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["stamp", "normalize", "compare", "bound"], "required": true },
+        { "name": "a", "pos": 2, "type": "string", "required": false },
+        { "name": "b", "pos": 3, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-009"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.timeline", "name": "timeline", "group": "substrate", "summary": "Timeline operations (build/link/check/summarize)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["build","link","check","summarize"], "required": true },
-      { "name": "in", "flag": "--in", "type": "string", "required": false },
-      { "name": "out", "flag": "--out", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-011","S-010","S-004"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.record",
+      "name": "record",
+      "group": "substrate",
+      "summary": "Record operations (append/read/scan/filter)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["append", "read", "scan", "filter"], "required": true },
+        { "name": "path", "pos": 2, "type": "string", "required": false },
+        { "name": "json", "flag": "--json", "type": "bool", "required": false, "default": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-010", "S-004", "S-009"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.metrics", "name": "metrics", "group": "substrate", "summary": "Metric operations (emit/aggregate/rollup/diff)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["emit","aggregate","rollup","diff"], "required": true },
-      { "name": "in", "flag": "--in", "type": "string", "required": false },
-      { "name": "out", "flag": "--out", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-012","S-010"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.timeline",
+      "name": "timeline",
+      "group": "substrate",
+      "summary": "Timeline operations (build/link/check/summarize)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["build", "link", "check", "summarize"], "required": true },
+        { "name": "in", "flag": "--in", "type": "string", "required": false },
+        { "name": "out", "flag": "--out", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-011", "S-010", "S-004"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.index", "name": "index", "group": "substrate", "summary": "Index operations (build/update/verify/materialize)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["build","update","verify","materialize"], "required": true },
-      { "name": "root", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-013","S-005","S-004"], "emits_artifacts": [
-      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
-    ], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.metrics",
+      "name": "metrics",
+      "group": "substrate",
+      "summary": "Metric operations (emit/aggregate/rollup/diff)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["emit", "aggregate", "rollup", "diff"], "required": true },
+        { "name": "in", "flag": "--in", "type": "string", "required": false },
+        { "name": "out", "flag": "--out", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-012", "S-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.manifest", "name": "manifest", "group": "substrate", "summary": "Manifest operations (compose/seal/verify/diff)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["compose","seal","verify","diff"], "required": true },
-      { "name": "root", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-014","S-013","S-004"], "emits_artifacts": [
-      { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
-    ], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.index",
+      "name": "index",
+      "group": "substrate",
+      "summary": "Index operations (build/update/verify/materialize)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["build", "update", "verify", "materialize"], "required": true },
+        { "name": "root", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-013", "S-005", "S-004"],
+      "emits_artifacts": [
+        { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      ],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.select", "name": "select", "group": "substrate", "summary": "Selector operations (select/explain/replay/lock)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["select","explain","replay","lock"], "required": true },
-      { "name": "selector", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-015","S-010","S-013"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.manifest",
+      "name": "manifest",
+      "group": "substrate",
+      "summary": "Manifest operations (compose/seal/verify/diff)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["compose", "seal", "verify", "diff"], "required": true },
+        { "name": "root", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-014", "S-013", "S-004"],
+      "emits_artifacts": [
+        { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
+      ],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.channel", "name": "channel", "group": "substrate", "summary": "Channel operations (open/write/tail/export)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["open","write","tail","export"], "required": true },
-      { "name": "target", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-016"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.select",
+      "name": "select",
+      "group": "substrate",
+      "summary": "Selector operations (select/explain/replay/lock)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["select", "explain", "replay", "lock"], "required": true },
+        { "name": "selector", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-015", "S-010", "S-013"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.env", "name": "env", "group": "substrate", "summary": "Environment fingerprint (capture/hash/diff/assert)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["capture","hash","diff","assert"], "required": true },
-      { "name": "out", "flag": "--out", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-017","S-004"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.channel",
+      "name": "channel",
+      "group": "substrate",
+      "summary": "Channel operations (open/write/tail/export)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["open", "write", "tail", "export"], "required": true },
+        { "name": "target", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-016"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.compat", "name": "compat", "group": "substrate", "summary": "Compatibility/versioning (classify/check/negotiate/deprecate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["classify","check","negotiate","deprecate"], "required": true },
-      { "name": "a", "pos": 2, "type": "string", "required": false },
-      { "name": "b", "pos": 3, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-018"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.env",
+      "name": "env",
+      "group": "substrate",
+      "summary": "Environment fingerprint (capture/hash/diff/assert)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["capture", "hash", "diff", "assert"], "required": true },
+        { "name": "out", "flag": "--out", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-017", "S-004"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.fs", "name": "fs", "group": "substrate", "summary": "Filesystem ops (path/file/dir)", "args": [
-      { "name": "subsystem", "pos": 1, "type": "enum", "values": ["path","file","dir"], "required": true },
-      { "name": "op", "pos": 2, "type": "string", "required": false },
-      { "name": "target", "pos": 3, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-006","I-001"], "law_invariants": ["I-006-external-effect-boundary","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-019","S-020","S-021"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.compat",
+      "name": "compat",
+      "group": "substrate",
+      "summary": "Compatibility/versioning (classify/check/negotiate/deprecate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["classify", "check", "negotiate", "deprecate"], "required": true },
+        { "name": "a", "pos": 2, "type": "string", "required": false },
+        { "name": "b", "pos": 3, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-018"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.stream", "name": "stream", "group": "substrate", "summary": "Stream ops (open/push/pull/flush/close)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["open","push","pull","flush","close"], "required": true },
-      { "name": "target", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-022"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.fs",
+      "name": "fs",
+      "group": "substrate",
+      "summary": "Filesystem ops (path/file/dir)",
+      "args": [
+        { "name": "subsystem", "pos": 1, "type": "enum", "values": ["path", "file", "dir"], "required": true },
+        { "name": "op", "pos": 2, "type": "string", "required": false },
+        { "name": "target", "pos": 3, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-006", "I-001"],
+      "law_invariants": ["I-006-external-effect-boundary", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-019", "S-020", "S-021"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.lock", "name": "lock", "group": "substrate", "summary": "Lock ops (acquire/release/try/assert-held)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["acquire","release","try","assert-held"], "required": true },
-      { "name": "name", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-023"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.stream",
+      "name": "stream",
+      "group": "substrate",
+      "summary": "Stream ops (open/push/pull/flush/close)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["open", "push", "pull", "flush", "close"], "required": true },
+        { "name": "target", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-022"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.txn", "name": "txn", "group": "substrate", "summary": "Transaction ops (begin/stage/commit/rollback)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["begin","stage","commit","rollback"], "required": true },
-      { "name": "target", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-024","S-023","S-006"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.lock",
+      "name": "lock",
+      "group": "substrate",
+      "summary": "Lock ops (acquire/release/try/assert-held)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["acquire", "release", "try", "assert-held"], "required": true },
+        { "name": "name", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-023"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.error", "name": "error", "group": "substrate", "summary": "Error ops (raise/wrap/classify/render)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["raise","wrap","classify","render"], "required": true },
-      { "name": "code", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-025"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.txn",
+      "name": "txn",
+      "group": "substrate",
+      "summary": "Transaction ops (begin/stage/commit/rollback)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["begin", "stage", "commit", "rollback"], "required": true },
+        { "name": "target", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-024", "S-023", "S-006"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.resource", "name": "resource", "group": "substrate", "summary": "Resource ops (measure/allocate/release/cap)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["measure","allocate","release","cap"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_system"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-027"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.error",
+      "name": "error",
+      "group": "substrate",
+      "summary": "Error ops (raise/wrap/classify/render)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["raise", "wrap", "classify", "render"], "required": true },
+        { "name": "code", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-025"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.quota", "name": "quota", "group": "substrate", "summary": "Quota ops (set/enforce/report/diff)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["set","enforce","report","diff"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-005"], "law_invariants": ["I-005-abstract-cost-accountability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-028","S-027"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.resource",
+      "name": "resource",
+      "group": "substrate",
+      "summary": "Resource ops (measure/allocate/release/cap)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["measure", "allocate", "release", "cap"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_system"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-027"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.sandbox", "name": "sandbox", "group": "substrate", "summary": "Sandbox ops (create/enter/enforce/inspect)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["create","enter","enforce","inspect"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["spawn_processes"], "law_hooks": ["I-006"], "law_invariants": ["I-006-external-effect-boundary"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-029","S-028"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.quota",
+      "name": "quota",
+      "group": "substrate",
+      "summary": "Quota ops (set/enforce/report/diff)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["set", "enforce", "report", "diff"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-005"],
+      "law_invariants": ["I-005-abstract-cost-accountability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-028", "S-027"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.cap", "name": "cap", "group": "substrate", "summary": "Capability ops (declare/assert/list/deny)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["declare","assert","list","deny"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-003"], "law_invariants": ["I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-030","S-029"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.sandbox",
+      "name": "sandbox",
+      "group": "substrate",
+      "summary": "Sandbox ops (create/enter/enforce/inspect)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["create", "enter", "enforce", "inspect"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes"],
+      "law_hooks": ["I-006"],
+      "law_invariants": ["I-006-external-effect-boundary"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-029", "S-028"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.net", "name": "net", "group": "substrate", "summary": "Network ops (endpoint/route)", "args": [
-      { "name": "subsystem", "pos": 1, "type": "enum", "values": ["endpoint","route"], "required": true },
-      { "name": "op", "pos": 2, "type": "string", "required": false },
-      { "name": "value", "pos": 3, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["network"], "law_hooks": ["I-006","I-001"], "law_invariants": ["I-006-external-effect-boundary","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-031","S-032"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.cap",
+      "name": "cap",
+      "group": "substrate",
+      "summary": "Capability ops (declare/assert/list/deny)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["declare", "assert", "list", "deny"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-003"],
+      "law_invariants": ["I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-030", "S-029"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.codec", "name": "codec", "group": "substrate", "summary": "Codec ops (encode/decode/sniff/assert)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["encode","decode","sniff","assert"], "required": true },
-      { "name": "in", "flag": "--in", "type": "string", "required": false },
-      { "name": "out", "flag": "--out", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-033"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.net",
+      "name": "net",
+      "group": "substrate",
+      "summary": "Network ops (endpoint/route)",
+      "args": [
+        { "name": "subsystem", "pos": 1, "type": "enum", "values": ["endpoint", "route"], "required": true },
+        { "name": "op", "pos": 2, "type": "string", "required": false },
+        { "name": "value", "pos": 3, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["network"],
+      "law_hooks": ["I-006", "I-001"],
+      "law_invariants": ["I-006-external-effect-boundary", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-031", "S-032"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.seed", "name": "seed", "group": "substrate", "summary": "Seed ops (set/get/derive/record)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["set","get","derive","record"], "required": true },
-      { "name": "value", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-034"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.codec",
+      "name": "codec",
+      "group": "substrate",
+      "summary": "Codec ops (encode/decode/sniff/assert)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["encode", "decode", "sniff", "assert"], "required": true },
+        { "name": "in", "flag": "--in", "type": "string", "required": false },
+        { "name": "out", "flag": "--out", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-033"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.prov", "name": "prov", "group": "substrate", "summary": "Provenance ops (record/link/query/render)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["record","link","query","render"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-035","S-002","S-010","S-005"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.seed",
+      "name": "seed",
+      "group": "substrate",
+      "summary": "Seed ops (set/get/derive/record)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["set", "get", "derive", "record"], "required": true },
+        { "name": "value", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-034"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.journal", "name": "journal", "group": "substrate", "summary": "Journal ops (append/rotate/verify/export)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["append","rotate","verify","export"], "required": true },
-      { "name": "path", "flag": "--path", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-041","S-010"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.prov",
+      "name": "prov",
+      "group": "substrate",
+      "summary": "Provenance ops (record/link/query/render)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["record", "link", "query", "render"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-035", "S-002", "S-010", "S-005"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.checkpoint", "name": "checkpoint", "group": "substrate", "summary": "Checkpoint ops (create/restore/list/prune)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["create","restore","list","prune"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-042","S-006","S-023"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.journal",
+      "name": "journal",
+      "group": "substrate",
+      "summary": "Journal ops (append/rotate/verify/export)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["append", "rotate", "verify", "export"], "required": true },
+        { "name": "path", "flag": "--path", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-041", "S-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.diff", "name": "diff", "group": "substrate", "summary": "Diff ops (diff/summarize/classify)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["diff","summarize","classify"], "required": true },
-      { "name": "a", "pos": 2, "type": "string", "required": false },
-      { "name": "b", "pos": 3, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-043","S-004","S-013"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.checkpoint",
+      "name": "checkpoint",
+      "group": "substrate",
+      "summary": "Checkpoint ops (create/restore/list/prune)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["create", "restore", "list", "prune"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-042", "S-006", "S-023"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.substrate.patch", "name": "patch", "group": "substrate", "summary": "Patch ops (apply/verify/rollback)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["apply","verify","rollback"], "required": true },
-      { "name": "patch", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-006"], "law_invariants": ["I-001-traceability","I-006-external-effect-boundary"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-044","S-024","S-041"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.diff",
+      "name": "diff",
+      "group": "substrate",
+      "summary": "Diff ops (diff/summarize/classify)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["diff", "summarize", "classify"], "required": true },
+        { "name": "a", "pos": 2, "type": "string", "required": false },
+        { "name": "b", "pos": 3, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-043", "S-004", "S-013"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.event", "name": "event", "group": "governance", "summary": "Governance event ops (emit/classify/link/ingest)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["emit","classify","link","ingest"], "required": true },
-      { "name": "in", "flag": "--in", "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-001","S-010","S-009","S-002"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.substrate.patch",
+      "name": "patch",
+      "group": "substrate",
+      "summary": "Patch ops (apply/verify/rollback)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["apply", "verify", "rollback"], "required": true },
+        { "name": "patch", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001", "I-006"],
+      "law_invariants": ["I-001-traceability", "I-006-external-effect-boundary"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["S-044", "S-024", "S-041"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.identity", "name": "identity", "group": "governance", "summary": "Identity ops (bind/resolve/attest/alias)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["bind","resolve","attest","alias"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-002","S-002","S-003"], "emits_artifacts": [], "consumes_artifacts": [] },
 
-    { "id": "yai.governance.authority", "name": "authority", "group": "governance", "summary": "Authority ops (request/evaluate/grant-deny/audit)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["request","evaluate","grant-deny","audit"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["rpc_call","write_files"], "law_hooks": ["I-003","I-001"], "law_invariants": ["I-003-governance","I-001-traceability"], "law_boundaries": ["L1-kernel","L2-engine","L3-mind"], "uses_primitives": ["T-003","T-021","S-002"], "emits_artifacts": [], "consumes_artifacts": [] },
 
-    { "id": "yai.governance.contract", "name": "contract", "group": "governance", "summary": "Contract ops (define/reference/test/deprecate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["define","reference","test","deprecate"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-003"], "law_invariants": ["I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-004","S-001","S-007"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.event",
+      "name": "event",
+      "group": "governance",
+      "summary": "Governance event ops (emit/classify/link/ingest)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["emit", "classify", "link", "ingest"], "required": true },
+        { "name": "in", "flag": "--in", "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-001", "S-010", "S-009", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.baseline", "name": "baseline", "group": "governance", "summary": "Baseline ops (select/pin/hash/audit)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["select","pin","hash","audit"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002","I-003"], "law_invariants": ["I-002-determinism","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-005","T-004","S-004"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.identity",
+      "name": "identity",
+      "group": "governance",
+      "summary": "Identity ops (bind/resolve/attest/alias)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["bind", "resolve", "attest", "alias"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-002", "S-002", "S-003"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.policy", "name": "policy", "group": "governance", "summary": "Policy ops (load/hash/evaluate/pin)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["load","hash","evaluate","pin"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-003","I-001"], "law_invariants": ["I-003-governance","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-006","T-004","T-005","S-004","S-007"], "emits_artifacts": [
-      { "role": "policy", "schema_ref": "schema/policy.v1.schema.json", "path_hint": "policy.v1.json" }
-    ], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.authority",
+      "name": "authority",
+      "group": "governance",
+      "summary": "Authority ops (request/evaluate/grant-deny/audit)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["request", "evaluate", "grant-deny", "audit"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["rpc_call", "write_files"],
+      "law_hooks": ["I-003", "I-001"],
+      "law_invariants": ["I-003-governance", "I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["T-003", "T-021", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.decision", "name": "decision", "group": "governance", "summary": "Decision ops (make/record/link/explain)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["make","record","link","explain"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-003"], "law_invariants": ["I-001-traceability","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-007","T-001","T-006","T-003","S-010"], "emits_artifacts": [
-      { "role": "decision_record", "schema_ref": "schema/decision_record.v1.schema.json", "path_hint": "decision_record.jsonl" }
-    ], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.contract",
+      "name": "contract",
+      "group": "governance",
+      "summary": "Contract ops (define/reference/test/deprecate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["define", "reference", "test", "deprecate"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-003"],
+      "law_invariants": ["I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-004", "S-001", "S-007"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.reason", "name": "reason", "group": "governance", "summary": "ReasonCode ops (assign/catalog/aggregate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["assign","catalog","aggregate"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": [], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-009","S-001"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.baseline",
+      "name": "baseline",
+      "group": "governance",
+      "summary": "Baseline ops (select/pin/hash/audit)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["select", "pin", "hash", "audit"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002", "I-003"],
+      "law_invariants": ["I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-005", "T-004", "S-004"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.effect", "name": "effect", "group": "governance", "summary": "Effect ops (attempt/apply/measure/record)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["attempt","apply","measure","record"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["network","write_files"], "law_hooks": ["I-006","I-007","I-001"], "law_invariants": ["I-006-external-effect-boundary","I-007-compliance-context-required","I-001-traceability"], "law_boundaries": ["L1-kernel","L2-engine","L3-mind"], "uses_primitives": ["T-010","T-007","S-010"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.policy",
+      "name": "policy",
+      "group": "governance",
+      "summary": "Policy ops (load/hash/evaluate/pin)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["load", "hash", "evaluate", "pin"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-003", "I-001"],
+      "law_invariants": ["I-003-governance", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-006", "T-004", "T-005", "S-004", "S-007"],
+      "emits_artifacts": [
+        { "role": "policy", "schema_ref": "schema/policy.v1.schema.json", "path_hint": "policy.v1.json" }
+      ],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.evidence", "name": "evidence", "group": "governance", "summary": "Evidence ops (collect/curate/hash/index)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["collect","curate","hash","index"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-011","S-005","S-013","S-004"], "emits_artifacts": [
-      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
-    ], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.decision",
+      "name": "decision",
+      "group": "governance",
+      "summary": "Decision ops (make/record/link/explain)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["make", "record", "link", "explain"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001", "I-003"],
+      "law_invariants": ["I-001-traceability", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-007", "T-001", "T-006", "T-003", "S-010"],
+      "emits_artifacts": [
+        { "role": "decision_record", "schema_ref": "schema/decision_record.v1.schema.json", "path_hint": "decision_record.jsonl" }
+      ],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.run", "name": "run", "group": "governance", "summary": "Run ops (start/end/emit/validate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["start","end","emit","validate"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-012","S-010","S-013","S-014","S-017"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.reason",
+      "name": "reason",
+      "group": "governance",
+      "summary": "ReasonCode ops (assign/catalog/aggregate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["assign", "catalog", "aggregate"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": [],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-009", "S-001"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.wave", "name": "wave", "group": "governance", "summary": "Wave ops (plan/execute/select/summarize)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["plan","execute","select","summarize"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["spawn_processes","write_files"], "law_hooks": ["I-002","I-001"], "law_invariants": ["I-002-determinism","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-013","T-012","S-015"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.effect",
+      "name": "effect",
+      "group": "governance",
+      "summary": "Effect ops (attempt/apply/measure/record)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["attempt", "apply", "measure", "record"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["network", "write_files"],
+      "law_hooks": ["I-006", "I-007", "I-001"],
+      "law_invariants": ["I-006-external-effect-boundary", "I-007-compliance-context-required", "I-001-traceability"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["T-010", "T-007", "S-010"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.bundle.bundle", "name": "bundle", "group": "bundle", "summary": "Bundle ops (build/seal/export/import/verify/show)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["build","seal","export","import","verify","show"], "required": true },
-      { "name": "path", "pos": 2, "type": "string", "required": false }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002","I-003"], "law_invariants": ["I-001-traceability","I-002-determinism","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-014","S-014","S-013","S-006","S-004","O-006"], "emits_artifacts": [
-      { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
-    ], "consumes_artifacts": [
-      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
-    ] },
+    {
+      "id": "yai.governance.evidence",
+      "name": "evidence",
+      "group": "governance",
+      "summary": "Evidence ops (collect/curate/hash/index)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["collect", "curate", "hash", "index"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-011", "S-005", "S-013", "S-004"],
+      "emits_artifacts": [
+        { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      ],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.claim", "name": "claim", "group": "governance", "summary": "Claim ops (declare/scope/link-evidence/verify)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["declare","scope","link-evidence","verify"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-003"], "law_invariants": ["I-001-traceability","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-016","T-021","T-011"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.run",
+      "name": "run",
+      "group": "governance",
+      "summary": "Run ops (start/end/emit/validate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["start", "end", "emit", "validate"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-012", "S-010", "S-013", "S-014", "S-017"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.assert", "name": "assert", "group": "governance", "summary": "Assertion ops (evaluate/record/aggregate)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["evaluate","record","aggregate"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-017","S-011","S-012"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.wave",
+      "name": "wave",
+      "group": "governance",
+      "summary": "Wave ops (plan/execute/select/summarize)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["plan", "execute", "select", "summarize"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes", "write_files"],
+      "law_hooks": ["I-002", "I-001"],
+      "law_invariants": ["I-002-determinism", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-013", "T-012", "S-015"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.controls", "name": "controls", "group": "governance", "summary": "Controls catalog ops (define/map/audit)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["define","map","audit"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-003"], "law_invariants": ["I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-018","T-004","T-019"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.claim",
+      "name": "claim",
+      "group": "governance",
+      "summary": "Claim ops (declare/scope/link-evidence/verify)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["declare", "scope", "link-evidence", "verify"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001", "I-003"],
+      "law_invariants": ["I-001-traceability", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-016", "T-021", "T-011"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.invariant", "name": "invariant", "group": "governance", "summary": "Invariant ops (list/check/explain)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["list","check","explain"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files"], "law_hooks": ["I-003","I-001"], "law_invariants": ["I-003-governance","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-019","S-011","S-008"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.assert",
+      "name": "assert",
+      "group": "governance",
+      "summary": "Assertion ops (evaluate/record/aggregate)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["evaluate", "record", "aggregate"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-017", "S-011", "S-012"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.exception", "name": "exception", "group": "governance", "summary": "Exception ops (grant/scope/expire/audit)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["grant","scope","expire","audit"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-003"], "law_invariants": ["I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-020","T-021"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.controls",
+      "name": "controls",
+      "group": "governance",
+      "summary": "Controls catalog ops (define/map/audit)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["define", "map", "audit"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-003"],
+      "law_invariants": ["I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-018", "T-004", "T-019"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.scope", "name": "scope", "group": "governance", "summary": "Scope ops (define/match/serialize)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["define","match","serialize"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-003"], "law_invariants": ["I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-021","S-001","S-002"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.invariant",
+      "name": "invariant",
+      "group": "governance",
+      "summary": "Invariant ops (list/check/explain)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["list", "check", "explain"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files"],
+      "law_hooks": ["I-003", "I-001"],
+      "law_invariants": ["I-003-governance", "I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-019", "S-011", "S-008"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.governance.disclosure", "name": "disclosure", "group": "governance", "summary": "Disclosure ops (declare/prove-nonleak/verify)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["declare","prove-nonleak","verify"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-003"], "law_invariants": ["I-001-traceability","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-023","T-011"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.exception",
+      "name": "exception",
+      "group": "governance",
+      "summary": "Exception ops (grant/scope/expire/audit)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["grant", "scope", "expire", "audit"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-003"],
+      "law_invariants": ["I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-020", "T-021"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.orch.pack", "name": "pack", "group": "orch", "summary": "Pack ops (install/pin/list/resolve)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["install","pin","list","resolve"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-002","I-003"], "law_invariants": ["I-002-determinism","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["O-001","S-006","S-018","T-004","T-006"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.scope",
+      "name": "scope",
+      "group": "governance",
+      "summary": "Scope ops (define/match/serialize)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["define", "match", "serialize"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-003"],
+      "law_invariants": ["I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-021", "S-001", "S-002"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.orch.trial", "name": "trial", "group": "orch", "summary": "Trial ops (run/describe/list/replay)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["run","describe","list","replay"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["spawn_processes"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["L1-kernel","L2-engine","L3-mind"], "uses_primitives": ["O-002","T-012","S-029","S-034"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.governance.disclosure",
+      "name": "disclosure",
+      "group": "governance",
+      "summary": "Disclosure ops (declare/prove-nonleak/verify)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["declare", "prove-nonleak", "verify"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-003"],
+      "law_invariants": ["I-001-traceability", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-023", "T-011"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.orch.plan", "name": "plan", "group": "orch", "summary": "Plan ops (render/lock/execute/diff)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["render","lock","execute","diff"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files","spawn_processes"], "law_hooks": ["I-002"], "law_invariants": ["I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["O-003","S-015","S-034"], "emits_artifacts": [], "consumes_artifacts": [] },
 
-    { "id": "yai.orch.runner", "name": "runner", "group": "orch", "summary": "Runner ops (execute/emit/checkpoint/abort)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["execute","emit","checkpoint","abort"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["spawn_processes","write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["L1-kernel","L2-engine"], "uses_primitives": ["O-004","S-042","S-008","O-005"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.bundle.bundle",
+      "name": "bundle",
+      "group": "bundle",
+      "summary": "Bundle ops (build/seal/export/import/verify/show)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["build", "seal", "export", "import", "verify", "show"], "required": true },
+        { "name": "path", "pos": 2, "type": "string", "required": false }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-002", "I-003"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["T-014", "S-014", "S-013", "S-006", "S-004", "O-006"],
+      "emits_artifacts": [
+        { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
+      ],
+      "consumes_artifacts": [
+        { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      ]
+    },
 
-    { "id": "yai.orch.emit", "name": "emit", "group": "orch", "summary": "Emitter ops (emit-event/emit-decision/emit-effect/emit-metrics/flush)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["emit-event","emit-decision","emit-effect","emit-metrics","flush"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["O-005","S-010","S-004","S-005","S-013"], "emits_artifacts": [], "consumes_artifacts": [] },
 
-    { "id": "yai.orch.job", "name": "job", "group": "orch", "summary": "Job ops (schedule/run/status/cancel)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["schedule","run","status","cancel"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["spawn_processes","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["O-009","S-026","S-016"], "emits_artifacts": [], "consumes_artifacts": [] },
+    {
+      "id": "yai.orch.pack",
+      "name": "pack",
+      "group": "orch",
+      "summary": "Pack ops (install/pin/list/resolve)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["install", "pin", "list", "resolve"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-002", "I-003"],
+      "law_invariants": ["I-002-determinism", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["O-001", "S-006", "S-018", "T-004", "T-006"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
 
-    { "id": "yai.orch.report", "name": "report", "group": "orch", "summary": "Report ops (build/render/export)", "args": [
-      { "name": "op", "pos": 1, "type": "enum", "values": ["build","render","export"], "required": true }
-    ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-003"], "law_invariants": ["I-001-traceability","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["O-010","S-013","T-022"], "emits_artifacts": [], "consumes_artifacts": [] }
+    {
+      "id": "yai.orch.trial",
+      "name": "trial",
+      "group": "orch",
+      "summary": "Trial ops (run/describe/list/replay)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["run", "describe", "list", "replay"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["L1-kernel", "L2-engine", "L3-mind"],
+      "uses_primitives": ["O-002", "T-012", "S-029", "S-034"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.orch.plan",
+      "name": "plan",
+      "group": "orch",
+      "summary": "Plan ops (render/lock/execute/diff)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["render", "lock", "execute", "diff"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files", "spawn_processes"],
+      "law_hooks": ["I-002"],
+      "law_invariants": ["I-002-determinism"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["O-003", "S-015", "S-034"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.orch.runner",
+      "name": "runner",
+      "group": "orch",
+      "summary": "Runner ops (execute/emit/checkpoint/abort)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["execute", "emit", "checkpoint", "abort"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes", "write_files"],
+      "law_hooks": ["I-001", "I-002"],
+      "law_invariants": ["I-001-traceability", "I-002-determinism"],
+      "law_boundaries": ["L1-kernel", "L2-engine"],
+      "uses_primitives": ["O-004", "S-042", "S-008", "O-005"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.orch.emit",
+      "name": "emit",
+      "group": "orch",
+      "summary": "Emitter ops (emit-event/emit-decision/emit-effect/emit-metrics/flush)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["emit-event", "emit-decision", "emit-effect", "emit-metrics", "flush"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["O-005", "S-010", "S-004", "S-005", "S-013"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.orch.job",
+      "name": "job",
+      "group": "orch",
+      "summary": "Job ops (schedule/run/status/cancel)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["schedule", "run", "status", "cancel"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["spawn_processes", "write_files"],
+      "law_hooks": ["I-001"],
+      "law_invariants": ["I-001-traceability"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["O-009", "S-026", "S-016"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    },
+
+    {
+      "id": "yai.orch.report",
+      "name": "report",
+      "group": "orch",
+      "summary": "Report ops (build/render/export)",
+      "args": [
+        { "name": "op", "pos": 1, "type": "enum", "values": ["build", "render", "export"], "required": true }
+      ],
+      "outputs": ["text", "json"],
+      "side_effects": ["read_files", "write_files"],
+      "law_hooks": ["I-001", "I-003"],
+      "law_invariants": ["I-001-traceability", "I-003-governance"],
+      "law_boundaries": ["Lx-docs"],
+      "uses_primitives": ["O-010", "S-013", "T-022"],
+      "emits_artifacts": [],
+      "consumes_artifacts": []
+    }
   ]
 }
