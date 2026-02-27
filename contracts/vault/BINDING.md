@@ -5,19 +5,19 @@ Vault ABI and state/authority alignment at the L0 boundary.
 
 ## 2) Canonical sources
 Law:
-- `law/normative/axioms/A-003-state.md`
-- `law/normative/boundaries/L0-vault.md`
-- `law/normative/invariants/I-002-determinism.md`
-- `law/normative/invariants/I-003-governance.md`
+- `foundation/axioms/A-003-state.md`
+- `foundation/boundaries/L0-vault.md`
+- `foundation/invariants/I-002-determinism.md`
+- `foundation/invariants/I-003-governance.md`
 
 Surfaces:
-- `law/surfaces/vault/include/yai_vault_abi.h`
-- `law/surfaces/vault/schema/vault_abi.json`
-- `law/surfaces/protocol/include/yai_protocol_ids.h`
+- `contracts/vault/include/yai_vault_abi.h`
+- `contracts/vault/schema/vault_abi.json`
+- `contracts/protocol/include/yai_protocol_ids.h`
 
 ABI registries:
-- `law/abi/registry/primitives.v1.json`
-- `law/abi/registry/artifacts.v1.json`
+- `registry/primitives.v1.json`
+- `registry/artifacts.v1.json`
 
 ## 3) Invariants covered
 - `I-002-determinism`

@@ -67,7 +67,7 @@ To prove this invariant offline, bundles MUST provide:
 - `verification_report`
 
 Required supporting schema (compliance):
-- `law/packs/schema/compliance.context.v1.json` (the compliance context serialization)
+- `schema/compliance.context.v1.json` (the compliance context serialization)
 
 Recommended:
 - `policy` (when the compliance context requirement is policy-governed per domain pack)
@@ -88,7 +88,7 @@ A verifier MUST be able to validate:
 
 3) **Compliance context present + valid**
 - For each external-effect decision:
-  - compliance context must be present in evidence and validate against `law/packs/schema/compliance.context.v1.json`
+  - compliance context must be present in evidence and validate against `schema/compliance.context.v1.json`
   - decision evidence must indicate `compliance_context_valid = TRUE` at decision time
 
 4) **Authority not NONE**

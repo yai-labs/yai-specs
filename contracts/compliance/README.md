@@ -5,21 +5,21 @@ Compliance context and retention governance linkage to authority and external-ef
 
 ## 2) Canonical sources
 Law:
-- `law/normative/extensions/compliance/C-001-compliance-context.md`
-- `law/normative/extensions/compliance/C-003-retention-governance.md`
-- `law/normative/invariants/I-006-external-effect-boundary.md`
-- `law/normative/invariants/I-007-compliance-context-required.md`
+- `foundation/extensions/compliance/C-001-compliance-context.md`
+- `foundation/extensions/compliance/C-003-retention-governance.md`
+- `foundation/invariants/I-006-external-effect-boundary.md`
+- `foundation/invariants/I-007-compliance-context-required.md`
 
 Packs / schemas:
-- `law/packs/schema/compliance.context.v1.json`
-- `law/packs/schema/retention.policy.v1.json`
+- `schema/compliance.context.v1.json`
+- `schema/retention.policy.v1.json`
 
 Surface:
-- `law/surfaces/control/schema/authority.json`
+- `contracts/control/schema/authority.json`
 
 ABI registries:
-- `law/abi/registry/artifacts.v1.json`
-- `law/abi/registry/primitives.v1.json`
+- `registry/artifacts.v1.json`
+- `registry/primitives.v1.json`
 
 ## 3) Invariants covered
 - `I-006-external-effect-boundary`

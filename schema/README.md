@@ -1,4 +1,4 @@
-# law/abi/artifacts-schema
+# schema/
 
 Normative JSON Schemas for proof artifacts produced by runs/bundles:
 - decision_record.v1.schema.json

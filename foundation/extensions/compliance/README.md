@@ -6,7 +6,7 @@ The machine-readable compliance source of truth lives in `compliance/`.
 ## Canonical Links
 
 - Policy specs: `../../../compliance/`
-- Packs: `../../../law/packs/compliance/`
+- Packs: `../../../packs/compliance/`
 
 ## Rules
 

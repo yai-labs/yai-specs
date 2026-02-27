@@ -1,4 +1,4 @@
-# law/abi/
+# registry/
 
 Machine-readable ABI surface.
 

@@ -11,16 +11,16 @@ This glossary is **ABI-anchored**: when a concept has a canonical primitive, com
 
 The authoritative machine-readable registries are:
 
-- Primitives (conceptual ABI): `law/abi/registry/primitives.v1.json`
-- Commands (CLI surface): `law/abi/registry/commands.v1.json`
-- Artifact roles (proof ABI): `law/abi/registry/artifacts.v1.json`
-- Artifact schemas (normative): `law/abi/artifacts-schema/*.v1.schema.json`
+- Primitives (conceptual ABI): `registry/primitives.v1.json`
+- Commands (CLI surface): `registry/commands.v1.json`
+- Artifact roles (proof ABI): `registry/artifacts.v1.json`
+- Artifact schemas (normative): `schema/*.v1.schema.json`
 
 Normative contracts live under:
 
-- `law/normative/axioms/`
-- `law/normative/invariants/`
-- `law/normative/boundaries/`
+- `foundation/axioms/`
+- `foundation/invariants/`
+- `foundation/boundaries/`
 
 ## Scope
 

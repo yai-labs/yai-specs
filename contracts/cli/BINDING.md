@@ -9,11 +9,11 @@ This binding defines how CLI commands relate to:
 - required proof artifacts for verification
 
 ## 2) Canonical sources
-- Commands registry: `law/abi/registry/commands.v1.json`
-- Commands schema: `law/abi/schema/commands.v1.schema.json`
-- Primitives registry: `law/abi/registry/primitives.v1.json`
-- Artifact roles registry: `law/abi/registry/artifacts.v1.json`
-- CLI notes: `law/surfaces/cli/notes/CLI_PUBLIC_INTERFACE.md`
+- Commands registry: `registry/commands.v1.json`
+- Commands schema: `registry/schema/commands.v1.schema.json`
+- Primitives registry: `registry/primitives.v1.json`
+- Artifact roles registry: `registry/artifacts.v1.json`
+- CLI notes: `contracts/cli/notes/CLI_PUBLIC_INTERFACE.md`
 
 ## 3) Invariants covered
 - `I-001-traceability`

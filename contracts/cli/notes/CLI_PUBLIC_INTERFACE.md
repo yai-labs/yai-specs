@@ -171,4 +171,4 @@ Examples:
 
 ### Deprecated / Historical
 - `yai tui` is removed from CLI and replaced by YX GUI.
-- Historical reference remains in `law/surfaces/cli/notes/TUI_COCKPIT_V1.md`.
+- Historical reference remains in `contracts/cli/notes/TUI_COCKPIT_V1.md`.

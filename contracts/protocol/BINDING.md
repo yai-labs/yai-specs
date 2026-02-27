@@ -5,24 +5,24 @@ Protocol envelope, transport, session/auth semantics, and protocol-level determi
 
 ## 2) Canonical sources
 Law:
-- `law/normative/invariants/I-001-traceability.md`
-- `law/normative/invariants/I-002-determinism.md`
-- `law/normative/invariants/I-003-governance.md`
-- `law/normative/invariants/I-006-external-effect-boundary.md`
-- `law/normative/invariants/I-007-compliance-context-required.md`
+- `foundation/invariants/I-001-traceability.md`
+- `foundation/invariants/I-002-determinism.md`
+- `foundation/invariants/I-003-governance.md`
+- `foundation/invariants/I-006-external-effect-boundary.md`
+- `foundation/invariants/I-007-compliance-context-required.md`
 
 Surfaces:
-- `law/surfaces/protocol/include/protocol.h`
-- `law/surfaces/protocol/include/transport.h`
-- `law/surfaces/protocol/include/auth.h`
-- `law/surfaces/protocol/include/errors.h`
-- `law/surfaces/protocol/include/roles.h`
-- `law/surfaces/protocol/include/session.h`
-- `law/surfaces/protocol/runtime/include/rpc_runtime.h`
+- `contracts/protocol/include/protocol.h`
+- `contracts/protocol/include/transport.h`
+- `contracts/protocol/include/auth.h`
+- `contracts/protocol/include/errors.h`
+- `contracts/protocol/include/roles.h`
+- `contracts/protocol/include/session.h`
+- `contracts/protocol/runtime/include/rpc_runtime.h`
 
 ABI registries:
-- `law/abi/registry/primitives.v1.json`
-- `law/abi/registry/artifacts.v1.json`
+- `registry/primitives.v1.json`
+- `registry/artifacts.v1.json`
 
 ## 3) Invariants covered
 - `I-001-traceability`

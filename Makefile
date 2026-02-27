@@ -27,9 +27,9 @@ lint-layout:
 # --------------------------------
 check: lint-layout lint-json
 	@echo "[check] checking required surface files..."
-	@test -f law/surfaces/protocol/include/yai_protocol_ids.h
-	@test -f law/surfaces/vault/include/yai_vault_abi.h
-	@test -f law/surfaces/protocol/runtime/include/rpc_runtime.h
+	@test -f contracts/protocol/include/yai_protocol_ids.h
+	@test -f contracts/vault/include/yai_vault_abi.h
+	@test -f contracts/protocol/runtime/include/rpc_runtime.h
 	@echo "[check] OK"
 
 lint-json:
@@ -56,13 +56,13 @@ lint-docs:
 # --------------------------------
 formal-bindings-check:
 	@echo "[formal] checking required bindings..."
-	@test -f law/bindings/protocol/README.md
-	@test -f law/bindings/vault/README.md
-	@test -f law/bindings/graph/README.md
-	@test -f law/bindings/control/README.md
-	@test -f law/bindings/cli/README.md
-	@test -f law/bindings/compliance/README.md
-	@test -f law/bindings/kernel/README.md
+	@test -f contracts/protocol/BINDING.md
+	@test -f contracts/vault/BINDING.md
+	@test -f runtime/mind/graph/BINDING.md
+	@test -f contracts/control/BINDING.md
+	@test -f contracts/cli/BINDING.md
+	@test -f contracts/compliance/README.md
+	@test -f runtime/kernel/BINDING.md
 	@echo "[formal] bindings: OK"
 
 formal-coverage:

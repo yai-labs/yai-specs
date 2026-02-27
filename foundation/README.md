@@ -1,3 +1,3 @@
-# law/normative/
+# foundation/
 
-Human normative documents. These MUST reference canonical registries in `law/abi/registry/`.
+Human normative documents. These MUST reference canonical registries in `registry/`.

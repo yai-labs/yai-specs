@@ -103,7 +103,7 @@ Commands that drive control-plane/execution boundaries SHOULD preserve governanc
 - `yai.lifecycle.down`
 - `yai.lifecycle.restart`
 
-(Exact command set may evolve; command IDs are canonical in `law/abi/registry/commands.v1.json`.)
+(Exact command set may evolve; command IDs are canonical in `registry/commands.v1.json`.)
 
 ## Verification procedure (offline)
 A verifier MUST be able to validate governance properties offline:

@@ -18,14 +18,14 @@ fi
 
 # 2) Canonical ABI references must appear in normative terminology + invariants (at least once)
 REQ_FILES=(
-  "law/normative/terminology/glossary.md"
+  "foundation/terminology/glossary.md"
 )
 
 for f in "${REQ_FILES[@]}"; do
   test -f "$f" || fail "missing required file: $f"
-  rg -n "law/abi/registry/primitives\.v1\.json" "$f" >/dev/null || fail "$f missing primitives registry reference"
-  rg -n "law/abi/registry/commands\.v1\.json" "$f" >/dev/null || fail "$f missing commands registry reference"
-  rg -n "law/abi/registry/artifacts\.v1\.json" "$f" >/dev/null || fail "$f missing artifacts registry reference"
+  rg -n "registry/primitives\.v1\.json" "$f" >/dev/null || fail "$f missing primitives registry reference"
+  rg -n "registry/commands\.v1\.json" "$f" >/dev/null || fail "$f missing commands registry reference"
+  rg -n "registry/artifacts\.v1\.json" "$f" >/dev/null || fail "$f missing artifacts registry reference"
 done
 
 echo "[lint-normative] OK"

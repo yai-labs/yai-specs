@@ -144,7 +144,7 @@ If an execution crosses the external effect boundary (I-006), L2 MUST provide au
 * `TODO(link): runtime engine bridge header path in yai repo`
 * `TODO(link): runtime transport client header path in yai repo`
 * `TODO(link): runtime shared constants header path in yai repo`
-* `law/surfaces/protocol/include/*`
+* `contracts/protocol/include/*`
 * `../kernel/include/yai_vault.h`
 
 (Any additional interface introduced by L2 must not expand authority; it must remain an execution surface.)

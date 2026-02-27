@@ -5,16 +5,16 @@ They are human-readable but must remain verifiable via machine-readable registri
 
 ## Canonical sources (source of truth)
 Machine registries:
-- Primitives ABI: `law/abi/registry/primitives.v1.json`
-- Commands surface: `law/abi/registry/commands.v1.json`
-- Artifact roles ABI: `law/abi/registry/artifacts.v1.json`
-- Artifact schemas: `law/abi/artifacts-schema/*.v1.schema.json`
+- Primitives ABI: `registry/primitives.v1.json`
+- Commands surface: `registry/commands.v1.json`
+- Artifact roles ABI: `registry/artifacts.v1.json`
+- Artifact schemas: `schema/*.v1.schema.json`
 
 Normative law:
-- Axioms: `law/normative/axioms/`
-- Invariants: `law/normative/invariants/`
-- Boundaries: `law/normative/boundaries/`
-- Compliance extensions: `law/normative/extensions/`
+- Axioms: `foundation/axioms/`
+- Invariants: `foundation/invariants/`
+- Boundaries: `foundation/boundaries/`
+- Compliance extensions: `foundation/extensions/`
 
 Formal:
 - Traceability matrix: `formal/traceability.v1.json`

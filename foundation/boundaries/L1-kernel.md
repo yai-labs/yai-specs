@@ -137,7 +137,7 @@ This boundary binds:
 * `formal/YAI_KERNEL.tla`, `formal/YAI_KERNEL.cfg`
 * `../kernel/include/yai_kernel.h`, `../kernel/include/kernel.h`
 * `../kernel/include/yai_vault.h`
-* `law/surfaces/protocol/include/protocol.h`
+* `contracts/protocol/include/protocol.h`
 
 All downstream components interact with the kernel only through these surfaces (direct state mutation elsewhere is non-compliant).
 

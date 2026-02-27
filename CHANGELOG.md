@@ -12,11 +12,11 @@ This file records notable changes to normative contracts and their documentation
 
 - MAJOR (contract root): replace `deps/yai-specs` with `deps/yai-law` as the single pinned law source for `yai-cli`.
 - MAJOR (path surface): contract pointers moved to Law v2 canonical layout:
-  - Commands: `deps/yai-law/law/abi/registry/commands.v1.json`
-  - Primitives: `deps/yai-law/law/abi/registry/primitives.v1.json`
-  - Artifacts: `deps/yai-law/law/abi/registry/artifacts.v1.json`
-  - Protocol/Vault/Control surfaces: `deps/yai-law/law/surfaces/**`
-  - Compliance schemas/packs: `deps/yai-law/law/packs/**`
+  - Commands: `deps/yai-law/registry/commands.v1.json`
+  - Primitives: `deps/yai-law/registry/primitives.v1.json`
+  - Artifacts: `deps/yai-law/registry/artifacts.v1.json`
+  - Protocol/Vault/Control surfaces: `deps/yai-law/contracts/**`
+  - Compliance schemas/packs: `deps/yai-law/packs/**`
 - PATCH (docs/tooling): consumer documentation and tooling updated to reference `yai-law` (no legacy `yai-specs` paths).
 
 ## [0.1.0] - 2026-02-17

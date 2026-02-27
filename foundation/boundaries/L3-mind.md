@@ -163,7 +163,7 @@ L3 proposes; L1 authorizes; L2 executes with augmented evidence.
 * `mind/src/cognition/llm/adapter.rs`
 * `mind/src/server.rs`
 * `mind/src/transport/bridge/*` (if present; must remain proposal-only)
-* `law/surfaces/protocol/include/*`
+* `contracts/protocol/include/*`
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "yai-law:law/abi/artifacts-schema/policy.v1.schema.json",
+  "$id": "yai-law:schema/policy.v1.schema.json",
   "title": "YAI Policy v1",
   "type": "object",
   "required": ["v", "policy_id", "policy_hash", "baseline", "contract_ref", "rules"],

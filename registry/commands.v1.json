@@ -168,10 +168,10 @@
       "law_boundaries": ["Lx-docs"],
       "uses_primitives": ["T-015", "T-014", "S-008", "S-014", "O-007"],
       "emits_artifacts": [
-        { "role": "verification_report", "schema_ref": "law/abi/artifacts-schema/verification_report.v1.schema.json", "path_hint": "verify/report.json" }
+        { "role": "verification_report", "schema_ref": "schema/verification_report.v1.schema.json", "path_hint": "verify/report.json" }
       ],
       "consumes_artifacts": [
-        { "role": "bundle_manifest", "schema_ref": "law/abi/artifacts-schema/bundle_manifest.v1.schema.json", "path_hint": "bundle/**" }
+        { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle/**" }
       ]
     },
     {
@@ -443,14 +443,14 @@
       { "name": "op", "pos": 1, "type": "enum", "values": ["build","update","verify","materialize"], "required": true },
       { "name": "root", "pos": 2, "type": "string", "required": false }
     ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-013","S-005","S-004"], "emits_artifacts": [
-      { "role": "evidence_index", "schema_ref": "law/abi/artifacts-schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
     ], "consumes_artifacts": [] },
 
     { "id": "yai.substrate.manifest", "name": "manifest", "group": "substrate", "summary": "Manifest operations (compose/seal/verify/diff)", "args": [
       { "name": "op", "pos": 1, "type": "enum", "values": ["compose","seal","verify","diff"], "required": true },
       { "name": "root", "pos": 2, "type": "string", "required": false }
     ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002"], "law_invariants": ["I-001-traceability","I-002-determinism"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["S-014","S-013","S-004"], "emits_artifacts": [
-      { "role": "bundle_manifest", "schema_ref": "law/abi/artifacts-schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
+      { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
     ], "consumes_artifacts": [] },
 
     { "id": "yai.substrate.select", "name": "select", "group": "substrate", "summary": "Selector operations (select/explain/replay/lock)", "args": [
@@ -581,13 +581,13 @@
     { "id": "yai.governance.policy", "name": "policy", "group": "governance", "summary": "Policy ops (load/hash/evaluate/pin)", "args": [
       { "name": "op", "pos": 1, "type": "enum", "values": ["load","hash","evaluate","pin"], "required": true }
     ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-003","I-001"], "law_invariants": ["I-003-governance","I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-006","T-004","T-005","S-004","S-007"], "emits_artifacts": [
-      { "role": "policy", "schema_ref": "law/abi/artifacts-schema/policy.v1.schema.json", "path_hint": "policy.v1.json" }
+      { "role": "policy", "schema_ref": "schema/policy.v1.schema.json", "path_hint": "policy.v1.json" }
     ], "consumes_artifacts": [] },
 
     { "id": "yai.governance.decision", "name": "decision", "group": "governance", "summary": "Decision ops (make/record/link/explain)", "args": [
       { "name": "op", "pos": 1, "type": "enum", "values": ["make","record","link","explain"], "required": true }
     ], "outputs": ["text","json"], "side_effects": ["write_files"], "law_hooks": ["I-001","I-003"], "law_invariants": ["I-001-traceability","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-007","T-001","T-006","T-003","S-010"], "emits_artifacts": [
-      { "role": "decision_record", "schema_ref": "law/abi/artifacts-schema/decision_record.v1.schema.json", "path_hint": "decision_record.jsonl" }
+      { "role": "decision_record", "schema_ref": "schema/decision_record.v1.schema.json", "path_hint": "decision_record.jsonl" }
     ], "consumes_artifacts": [] },
 
     { "id": "yai.governance.reason", "name": "reason", "group": "governance", "summary": "ReasonCode ops (assign/catalog/aggregate)", "args": [
@@ -601,7 +601,7 @@
     { "id": "yai.governance.evidence", "name": "evidence", "group": "governance", "summary": "Evidence ops (collect/curate/hash/index)", "args": [
       { "name": "op", "pos": 1, "type": "enum", "values": ["collect","curate","hash","index"], "required": true }
     ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001"], "law_invariants": ["I-001-traceability"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-011","S-005","S-013","S-004"], "emits_artifacts": [
-      { "role": "evidence_index", "schema_ref": "law/abi/artifacts-schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
     ], "consumes_artifacts": [] },
 
     { "id": "yai.governance.run", "name": "run", "group": "governance", "summary": "Run ops (start/end/emit/validate)", "args": [
@@ -616,9 +616,9 @@
       { "name": "op", "pos": 1, "type": "enum", "values": ["build","seal","export","import","verify","show"], "required": true },
       { "name": "path", "pos": 2, "type": "string", "required": false }
     ], "outputs": ["text","json"], "side_effects": ["read_files","write_files"], "law_hooks": ["I-001","I-002","I-003"], "law_invariants": ["I-001-traceability","I-002-determinism","I-003-governance"], "law_boundaries": ["Lx-docs"], "uses_primitives": ["T-014","S-014","S-013","S-006","S-004","O-006"], "emits_artifacts": [
-      { "role": "bundle_manifest", "schema_ref": "law/abi/artifacts-schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
+      { "role": "bundle_manifest", "schema_ref": "schema/bundle_manifest.v1.schema.json", "path_hint": "bundle_manifest.json" }
     ], "consumes_artifacts": [
-      { "role": "evidence_index", "schema_ref": "law/abi/artifacts-schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
+      { "role": "evidence_index", "schema_ref": "schema/evidence_index.v1.schema.json", "path_hint": "evidence_index.json" }
     ] },
 
     { "id": "yai.governance.claim", "name": "claim", "group": "governance", "summary": "Claim ops (declare/scope/link-evidence/verify)", "args": [

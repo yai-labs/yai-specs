@@ -5,7 +5,7 @@ It is **normative**: implementations MUST conform.
 Where this document conflicts with ad-hoc code or UI behavior, the code/UI must change.
 
 Canonical schema source:
-- `law/surfaces/control/schema/control_plane.v1.json`
+- `contracts/control/schema/control_plane.v1.json`
 
 ---
 
@@ -89,7 +89,7 @@ Transport:
 - Framing: NDJSON / JSON-Lines (one JSON object per line)
 
 Envelope:
-- RPC wire format is defined by `law/surfaces/protocol/include/transport.h` and `law/surfaces/protocol/include/protocol.h`
+- RPC wire format is defined by `contracts/protocol/include/transport.h` and `contracts/protocol/include/protocol.h`
 - `ws_id` MUST be present on all runtime-bound requests
 - Session handshake is required when running in session mode (`protocol_handshake`)
 
@@ -144,7 +144,7 @@ Responses (editorial index; canonical list is in `control_plane.v1.json`):
 
 - All runtime-bound requests MUST carry `ws_id` and MUST be rejected on mismatch.
 - Privileged requests MUST be gated (`arming=true` + `role=operator`) and audited.
-- Events MUST be schema-versioned and tracked in `law/surfaces/control/schema/control_plane.v1.json` and `REGISTRY.md`.
+- Events MUST be schema-versioned and tracked in `contracts/control/schema/control_plane.v1.json` and `REGISTRY.md`.
 - The control plane must remain enforceable without UI (CLI-first verifiable behavior).
 
 ---

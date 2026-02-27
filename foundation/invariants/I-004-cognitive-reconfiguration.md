@@ -100,7 +100,7 @@ This invariant is system-wide. Typical surfaces involved include:
 - `yai.control.kernel` (authority boundary and workspace lifecycle)
 - `yai.verify.verify` (offline enforcement)
 
-Command IDs are canonical in `law/abi/registry/commands.v1.json`.
+Command IDs are canonical in `registry/commands.v1.json`.
 
 ## Verification procedure (offline)
 A verifier MUST be able to validate, without network access:

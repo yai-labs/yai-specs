@@ -5,18 +5,18 @@ Kernel behavior MUST conform to these mappings.
 
 ## Canonical sources
 Law:
-- `law/normative/axioms/*`
-- `law/normative/invariants/*`
-- `law/normative/boundaries/L0-vault.md`
-- `law/normative/boundaries/L1-kernel.md`
+- `foundation/axioms/*`
+- `foundation/invariants/*`
+- `foundation/boundaries/L0-vault.md`
+- `foundation/boundaries/L1-kernel.md`
 
 Formal:
 - `formal/tla/YAI_KERNEL.tla`
 - `formal/configs/YAI_KERNEL.quick.cfg`
 
 ABI registries:
-- `law/abi/registry/primitives.v1.json`
-- `law/abi/registry/artifacts.v1.json`
+- `registry/primitives.v1.json`
+- `registry/artifacts.v1.json`
 
 ## Variable binding map (conceptual)
 This section describes expected correspondences. Runtime symbols may evolve; the mapping MUST be kept aligned.

@@ -4,7 +4,7 @@ This registry defines the canonical location of normative artifacts and the rule
 
 ## ID Registry
 
-The authoritative ID registry lives in `law/surfaces/protocol/include/yai_protocol_ids.h`.
+The authoritative ID registry lives in `contracts/protocol/include/yai_protocol_ids.h`.
 
 Rules:
 - IDs are never reused.
@@ -14,34 +14,34 @@ Rules:
 
 ## Normative JSON Contracts
 
-- `law/abi/registry/commands.v1.json`
-- `law/abi/schema/commands.v1.schema.json`
+- `registry/commands.v1.json`
+- `registry/schema/commands.v1.schema.json`
 - `compliance/compliance.context.v1.json`
 - `compliance/retention.policy.v1.json`
-- `law/packs/compliance/gdpr-eu/2026Q1/pack.meta.json`
-- `law/packs/compliance/gdpr-eu/2026Q1/retention.defaults.json`
-- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.data_classes.json`
-- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.legal_basis.json`
-- `law/packs/compliance/gdpr-eu/2026Q1/taxonomy.purposes.json`
-- `law/surfaces/control/schema/control_plane.v1.json`
-- `law/surfaces/control/schema/authority.json`
-- `law/surfaces/engine/schema/engine_cortex.v1.json`
-- `law/surfaces/graph/schema/graph.v1.json`
-- `law/surfaces/providers/schema/providers.v1.json`
-- `law/surfaces/vault/schema/vault_abi.json`
+- `packs/compliance/gdpr-eu/2026Q1/pack.meta.json`
+- `packs/compliance/gdpr-eu/2026Q1/retention.defaults.json`
+- `packs/compliance/gdpr-eu/2026Q1/taxonomy.data_classes.json`
+- `packs/compliance/gdpr-eu/2026Q1/taxonomy.legal_basis.json`
+- `packs/compliance/gdpr-eu/2026Q1/taxonomy.purposes.json`
+- `contracts/control/schema/control_plane.v1.json`
+- `contracts/control/schema/authority.json`
+- `runtime/engine/schema/engine_cortex.v1.json`
+- `runtime/mind/graph/schema/graph.v1.json`
+- `contracts/providers/schema/providers.v1.json`
+- `contracts/vault/schema/vault_abi.json`
 
 ## Normative C Headers
 
-- `law/surfaces/protocol/include/protocol.h`
-- `law/surfaces/protocol/include/transport.h`
-- `law/surfaces/protocol/include/yai_protocol_ids.h`
-- `law/surfaces/protocol/include/errors.h`
-- `law/surfaces/protocol/include/auth.h`
-- `law/surfaces/protocol/include/roles.h`
-- `law/surfaces/protocol/include/session.h`
-- `law/surfaces/protocol/include/audit.h`
-- `law/surfaces/protocol/runtime/include/rpc_runtime.h`
-- `law/surfaces/vault/include/yai_vault_abi.h`
+- `contracts/protocol/include/protocol.h`
+- `contracts/protocol/include/transport.h`
+- `contracts/protocol/include/yai_protocol_ids.h`
+- `contracts/protocol/include/errors.h`
+- `contracts/protocol/include/auth.h`
+- `contracts/protocol/include/roles.h`
+- `contracts/protocol/include/session.h`
+- `contracts/protocol/include/audit.h`
+- `contracts/protocol/runtime/include/rpc_runtime.h`
+- `contracts/vault/include/yai_vault_abi.h`
 
 ## Conformance Vectors
 

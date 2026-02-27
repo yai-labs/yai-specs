@@ -61,7 +61,7 @@ For every external-effect transition:
 - A valid compliance context MUST be present and auditable at decision time.
 - The binding MUST be enforceable at the authority layer and verifiable offline.
 
-(Implementation note: compliance schemas are under `law/packs/schema/` and domain packs under `law/packs/compliance/`.)
+(Implementation note: compliance schemas are under `schema/` and domain packs under `packs/compliance/`.)
 
 ## ABI anchors
 
@@ -106,7 +106,7 @@ Commands that are likely to drive or expose effect surfaces SHOULD preserve boun
 - `yai.control.kernel`
 - `yai.lifecycle.up` / `yai.lifecycle.restart` / `yai.lifecycle.down`
 
-(See canonical command IDs in `law/abi/registry/commands.v1.json`.)
+(See canonical command IDs in `registry/commands.v1.json`.)
 
 ## Verification procedure (offline)
 A verifier MUST be able to validate boundary compliance without network access:
@@ -129,7 +129,7 @@ A verifier MUST be able to validate boundary compliance without network access:
 - For external effects, ensure required semantic fields are present (target/effect class/irreversibility basis/intent/risk/mitigation note).
 
 5) **Compliance context**
-- For external effects, verify presence of a compliance context reference/serialization that validates against `law/packs/schema/compliance.context.v1.json` (and applicable pack constraints where relevant).
+- For external effects, verify presence of a compliance context reference/serialization that validates against `schema/compliance.context.v1.json` (and applicable pack constraints where relevant).
 
 6) **Report**
 - `verification_report` MUST produce FAIL findings for:

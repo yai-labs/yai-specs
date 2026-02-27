@@ -5,18 +5,18 @@ Graph schema linkage and deterministic governance posture for graph surfaces.
 
 ## 2) Canonical sources
 Law:
-- `law/normative/invariants/I-002-determinism.md`
-- `law/normative/invariants/I-003-governance.md`
-- `law/normative/invariants/I-005-abstract-cost-accountability.md`
+- `foundation/invariants/I-002-determinism.md`
+- `foundation/invariants/I-003-governance.md`
+- `foundation/invariants/I-005-abstract-cost-accountability.md`
 
 Surfaces:
-- `law/surfaces/graph/schema/graph.v1.json`
-- `law/surfaces/graph/notes/GRAPH_V1.md`
+- `runtime/mind/graph/schema/graph.v1.json`
+- `runtime/mind/graph/notes/GRAPH_V1.md`
 
 ABI registries:
-- `law/abi/registry/primitives.v1.json`
-- `law/abi/registry/artifacts.v1.json`
-- `law/abi/registry/commands.v1.json`
+- `registry/primitives.v1.json`
+- `registry/artifacts.v1.json`
+- `registry/commands.v1.json`
 
 ## 3) Invariants covered
 - `I-002-determinism`

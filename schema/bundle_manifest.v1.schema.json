@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "yai-law:law/abi/artifacts-schema/bundle_manifest.v1.schema.json",
+  "$id": "yai-law:schema/bundle_manifest.v1.schema.json",
   "title": "YAI Evidence Bundle Manifest v1",
   "type": "object",
   "required": ["v", "bundle_id", "generated_at", "artifacts"],
