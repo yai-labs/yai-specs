@@ -1,52 +1,49 @@
-# YAI Law Documentation
+# YAI Law Documentation (Informative Layer)
 
-`docs/` contains informative documentation for `yai-law`.
+`docs/` is the informative documentation layer for `yai-law`.
+It is designed for enterprise-grade navigation, interpretation, and onboarding of law consumers.
 
-This directory helps readers navigate, interpret, and consume the canonical law surfaces defined elsewhere in the repository. It does not redefine normative contracts.
+`docs/` does not originate or redefine normative authority.
 
 ## Purpose
 
-Artifacts under `docs/` are documentation-first and informative.
-
-They exist to:
-
-* explain repository structure
-* support generated documentation flows
-* point readers to canonical indexes and policy documents
-* improve navigation across the law surface
-
-If documentation conflicts with a canonical artifact elsewhere in the repository, the canonical artifact prevails.
-
-## Canonical indexes
-
-Primary repository indexes live at the root:
-
-* `../SPEC_MAP.md`
-* `../REGISTRY.md`
-* `../VERSIONING.md`
-* `../COMPATIBILITY.md`
-
-## Primary documents in this directory
-
-* `C_MAINPAGE.md` — Doxygen entry page
-* `pointers/SPEC_MAP.pointer.md` — pointer to the canonical map
-* `policy/README.md` — documentation policy for this repository
-
-## Normative source domains
-
-Normative source domains live outside `docs/`:
-
-* `../authority/`
-* `../foundation/`
-* `../runtime/`
-* `../contracts/`
-* `../registry/`
-* `../schema/`
-* `../formal/`
-* `../packs/`
-* `../vectors/`
+Artifacts in this directory exist to:
+- explain how to consume law safely and consistently
+- provide navigation pointers to canonical indexes
+- support generated documentation and policy interpretation
+- improve traceable onboarding across contracts, runtime constraints, compliance, and formal assets
 
 ## Interpretation rule
 
-`docs/` supports law consumption.
-It is not the origin of repository authority.
+If a document in `docs/` conflicts with canonical artifacts outside `docs/`, canonical artifacts prevail.
+
+## Canonical indexes (root)
+
+- `../SPEC_MAP.md`
+- `../REGISTRY.md`
+- `../VERSIONING.md`
+- `../COMPATIBILITY.md`
+- `../CHANGELOG.md`
+
+## Primary documents in this directory
+
+- `C_MAINPAGE.md` - doxygen/documentation entry page
+- `pointers/SPEC_MAP.pointer.md` - pointer to canonical structure map
+- `policy/README.md` - documentation policy and governance rules
+
+## Normative source domains (outside `docs/`)
+
+- `../authority/`
+- `../foundation/`
+- `../runtime/`
+- `../contracts/`
+- `../registry/`
+- `../schema/`
+- `../formal/`
+- `../packs/`
+- `../vectors/`
+
+## Platform alignment note
+
+Consumers in `yai-sdk`, `yai-cli`, `yai`, and `yai-ops` should reference this directory as informative support only.
+Normative references must always target canonical law domains.
