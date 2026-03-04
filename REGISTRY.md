@@ -49,6 +49,7 @@ These schemas define repository-wide artifact and policy payloads.
 These schemas define public interface surfaces.
 
 - `contracts/control/schema/control_plane.v1.json`
+- `contracts/control/schema/control_call.v1.json`
 - `contracts/control/schema/authority.json`
 - `contracts/providers/schema/providers.v1.json`
 - `contracts/vault/schema/vault_abi.json`
@@ -87,3 +88,8 @@ Vectors are informative validation artifacts. They do not override normative con
 - `vectors/transport_vectors.json`
 - `vectors/auth_vectors.json`
 - `vectors/audit_vectors.json`
+## Registry scale
+
+Current command registry target is **200 command_id per group** across 14 groups (total 2800 IDs).
+This profile is a **registry-scale stress and coverage surface**, not a final product taxonomy.
+Expansion is generated via `tools/gen/commands_expand_v1.py` and validated via `make validate-law-registry`.

@@ -28,6 +28,7 @@ typedef enum {
     YAI_CMD_PING        = 0x0101u,
     YAI_CMD_HANDSHAKE   = 0x0102u,
     YAI_CMD_CONTROL     = 0x0104u,
+    YAI_CMD_CONTROL_CALL = 0x0105u,
 
     /* Privileged */
     YAI_CMD_RECONFIGURE = (0x0103u | YAI_CMD_CLASS_PRIVILEGED),

@@ -68,3 +68,8 @@ A CLI-surface change must update, as applicable:
 * relevant validation artifacts when behavior changes
 
 Silent drift between CLI behavior and the canonical command surface is non-compliant by definition.
+## Registry scale profile
+
+The CLI contract is expected to remain deterministic with large registries (target: 2800 command_id, 200 per group).
+This profile validates discoverability and invocation surface under load; it does not replace product curation/taxonomy governance.
+Consumers must support `yai help --all` and `yai help <command_id>` across the full canonical registry.

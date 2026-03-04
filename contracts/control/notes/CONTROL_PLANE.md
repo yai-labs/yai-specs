@@ -6,6 +6,7 @@ Where this document conflicts with ad-hoc code or UI behavior, the code/UI must 
 
 Canonical schema source:
 - `contracts/control/schema/control_plane.v1.json`
+- `contracts/control/schema/control_call.v1.json`
 
 ---
 
@@ -137,6 +138,10 @@ Responses (editorial index; canonical list is in `control_plane.v1.json`):
 - `events_started`
 - `event`
 - `error`
+
+Control-call request/response (canonical structure):
+- `yai.control.call.v1` request
+- `yai.control.reply.v1` response with deterministic `status` in `ok|error|nyi`
 
 ---
 

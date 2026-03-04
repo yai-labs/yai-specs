@@ -13,6 +13,7 @@ Law:
 
 Surfaces / schemas:
 - `contracts/control/schema/control_plane.v1.json`
+- `contracts/control/schema/control_call.v1.json`
 - `contracts/control/schema/authority.json`
 - `schema/compliance.context.v1.json`
 - `schema/retention.policy.v1.json`
@@ -47,6 +48,7 @@ Command IDs involved (non-exhaustive; see `commands.v1.json`):
 - `yai.control.kernel`
 - `yai.control.root`
 - `yai.control.shell` (high-risk surface; MUST NOT bypass boundary rules)
+- `yai.control.call` (generic deterministic routing surface)
 
 ## 7) Known gaps / TODO
 - Dedicated control-plane TLA module (optional) for command taxonomy semantics.
