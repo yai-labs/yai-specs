@@ -42,7 +42,10 @@
       "additionalProperties": false,
       "required": ["type", "status", "code", "reason", "command_id", "target_plane"],
       "properties": {
-        "type": { "const": "yai.control.reply.v1" },
+        "type": {
+          "type": "string",
+          "enum": ["yai.control.reply.v1", "yai.exec.reply.v1"]
+        },
         "status": {
           "type": "string",
           "enum": ["ok", "error", "nyi"]
@@ -55,6 +58,9 @@
             "NOT_IMPLEMENTED",
             "UNAUTHORIZED",
             "INVALID_TARGET",
+            "RUNTIME_NOT_READY",
+            "SERVER_UNAVAILABLE",
+            "PROTOCOL_ERROR",
             "INTERNAL_ERROR"
           ]
         },

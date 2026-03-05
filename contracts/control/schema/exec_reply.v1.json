@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "yai-law:contracts/control/schema/exec_reply.v1.json",
+  "title": "YAI Exec Reply v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "status",
+    "code",
+    "reason",
+    "command_id",
+    "target_plane",
+    "trace_id"
+  ],
+  "properties": {
+    "type": {
+      "const": "yai.exec.reply.v1"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "error",
+        "nyi"
+      ]
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "NOT_IMPLEMENTED",
+        "BAD_ARGS",
+        "UNAUTHORIZED",
+        "INVALID_TARGET",
+        "RUNTIME_NOT_READY",
+        "SERVER_UNAVAILABLE",
+        "PROTOCOL_ERROR",
+        "INTERNAL_ERROR"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "command_id": {
+      "type": "string",
+      "pattern": "^yai\\.[a-z0-9_\\-]+\\.[a-z0-9_\\-]+$"
+    },
+    "target_plane": {
+      "type": "string",
+      "enum": [
+        "root",
+        "kernel",
+        "engine"
+      ]
+    },
+    "trace_id": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision_record_path": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "evidence_index_path": {
+          "type": "string",
+          "maxLength": 512
+        }
+      }
+    }
+  }
+}
