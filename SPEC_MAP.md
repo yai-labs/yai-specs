@@ -61,6 +61,10 @@ Canonical control-plane schemas:
 - `contracts/control/schema/exec_reply.v1.json`
 - `contracts/control/schema/authority.json`
 
+Execution path rule:
+
+- `exec_reply.v1.json` is the mandatory single envelope for command execution replies.
+
 ## 5) Vault
 
 Canonical vault surfaces:

@@ -33,6 +33,23 @@ It is normative. Implementations must conform.
 - `3` dependency missing
 - `4` runtime not ready
 
+### Canonical execution line
+- Execution output is text-only and canonicalized as:
+  - `yai: <status>: <code>: <reason> (command_id=<id>)`
+- The line is printed for `ok`, `nyi`, and `error` outcomes.
+- `<status>/<code>/<reason>/<command_id>` are derived from `contracts/control/schema/exec_reply.v1.json`.
+
+### Status/code to CLI rc mapping
+- `ok/OK -> 0`
+- `nyi/NOT_IMPLEMENTED -> 6`
+- `error/BAD_ARGS -> 2`
+- `error/UNAUTHORIZED -> 5`
+- `error/RUNTIME_NOT_READY -> 4`
+- `error/SERVER_UNAVAILABLE -> 107`
+- `error/PROTOCOL_ERROR -> 1`
+- `error/INTERNAL_ERROR -> 1`
+- `error/INVALID_TARGET -> 1`
+
 ### Default Workspace
 - A workspace id (`--ws`) identifies a runtime instance.
 - If omitted, `ws_default` is loaded from config.
