@@ -116,7 +116,7 @@ They pin, integrate, validate, and promote only with evidence.
 Compliance-sensitive and authority-sensitive behavior must remain aligned across:
 - foundational compliance law (`foundation/extensions/compliance/`)
 - compliance schemas (`schema/compliance.context.v1.json`, `schema/retention.policy.v1.json`)
-- control authority surfaces (`contracts/control/schema/authority.json`)
+- control authority surfaces (`contracts/control/schema/authority.v1.json`, compatibility alias `contracts/control/schema/authority.json`)
 - formal governance properties (`formal/tla/YAI_KERNEL.tla`)
 
 This includes governance for external effects, compliance-context validity, and traceability.

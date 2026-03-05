@@ -14,6 +14,8 @@ Law:
 Surfaces / schemas:
 - `contracts/control/schema/control_plane.v1.json`
 - `contracts/control/schema/control_call.v1.json`
+- `contracts/control/schema/exec_reply.v1.json`
+- `contracts/control/schema/authority.v1.json`
 - `contracts/control/schema/authority.json`
 - `schema/compliance.context.v1.json`
 - `schema/retention.policy.v1.json`

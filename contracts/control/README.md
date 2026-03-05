@@ -19,6 +19,7 @@ Canonical schemas:
 * `schema/control_plane.v1.json`
 * `schema/control_call.v1.json`
 * `schema/exec_reply.v1.json`
+* `schema/authority.v1.json`
 * `schema/authority.json`
 
 Execution reply policy:
@@ -26,6 +27,8 @@ Execution reply policy:
 * `schema/exec_reply.v1.json` is the single execution envelope for SDK↔runtime calls.
 * Runtime `control.call` responses must always conform to `yai.exec.reply.v1`.
 * `status` + `code` are deterministic for the same input.
+* `schema/authority.v1.json` is the normative authority schema.
+* `schema/authority.json` is a deprecated compatibility alias.
 
 Supporting material:
 

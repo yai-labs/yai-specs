@@ -43,8 +43,7 @@
       "required": ["type", "status", "code", "reason", "command_id", "target_plane"],
       "properties": {
         "type": {
-          "type": "string",
-          "enum": ["yai.control.reply.v1", "yai.exec.reply.v1"]
+          "const": "yai.exec.reply.v1"
         },
         "status": {
           "type": "string",

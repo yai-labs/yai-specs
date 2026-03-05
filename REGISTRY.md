@@ -59,9 +59,11 @@ These schemas define public interface surfaces:
 - `contracts/control/schema/control_plane.v1.json`
 - `contracts/control/schema/control_call.v1.json`
 - `contracts/control/schema/exec_reply.v1.json`
+- `contracts/control/schema/authority.v1.json`
 - `contracts/control/schema/authority.json`
 
 `contracts/control/schema/exec_reply.v1.json` is the canonical execution reply contract for SDK↔runtime.
+`contracts/control/schema/authority.v1.json` is the canonical authority contract.
 - `contracts/providers/schema/providers.v1.json`
 - `contracts/vault/schema/vault_abi.json`
 - `runtime/engine/schema/engine_cortex.v1.json`
