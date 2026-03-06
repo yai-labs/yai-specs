@@ -109,8 +109,45 @@
             "uniqueItems": true,
             "items": {
                 "type": "string",
-                "pattern": "^[a-z0-9][a-z0-9_\\-]{1,63}$"
+                "minLength": 1
             }
+        },
+
+        "surface": {
+          "type": "string",
+          "enum": ["user", "tool", "internal"]
+        },
+        "domain": {
+          "type": "string",
+          "enum": ["workspace", "runtime", "governance", "policy", "bundle", "inspection", "verification", "diagnostics", "dev"]
+        },
+        "layer": {
+          "type": "string",
+          "enum": ["boot", "root", "kernel", "engine", "mind", "substrate", "orch", "docs"]
+        },
+        "stability": {
+          "type": "string",
+          "enum": ["stable", "beta", "experimental"]
+        },
+        "entrypoint": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_\\-]{0,31}$"
+        },
+        "help_order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "canonical_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command_path_tokens": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_\\-]{0,63}$"
+          }
         },
 
         "deprecated": { "type": "boolean" },

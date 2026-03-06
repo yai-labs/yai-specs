@@ -91,12 +91,60 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
             errors.append(f"duplicate command id: {cid}")
         seen.add(cid)
 
+    surface_entrypoints: Set[str] = set()
+    path_seen: Dict[str, str] = {}
+    alias_seen: Dict[str, str] = {}
+    required_taxonomy = (
+        "surface",
+        "domain",
+        "layer",
+        "stability",
+        "entrypoint",
+        "topic",
+        "canonical_path",
+        "command_path_tokens",
+    )
+
     # validate per-command links
     for c in cmd_list:
         if not isinstance(c, dict):
             continue
 
         cid = c.get("id") or f"{c.get('group','?')}.{c.get('name','?')}"
+
+        for key in required_taxonomy:
+            if key not in c:
+                errors.append(f"{cid}: missing taxonomy field '{key}'")
+        if isinstance(c.get("command_path_tokens"), list):
+            tokens = c.get("command_path_tokens") or []
+            if len(tokens) == 0:
+                errors.append(f"{cid}: command_path_tokens must not be empty")
+            else:
+                canonical = " ".join(str(t) for t in tokens)
+                if canonical != c.get("canonical_path"):
+                    errors.append(f"{cid}: canonical_path mismatch with command_path_tokens")
+                prev = path_seen.get(canonical)
+                if prev and prev != cid:
+                    errors.append(f"{cid}: canonical_path collision with {prev}: '{canonical}'")
+                path_seen[canonical] = cid
+        else:
+            errors.append(f"{cid}: command_path_tokens must be an array")
+
+        aliases = c.get("aliases", [])
+        if isinstance(aliases, list):
+            for alias in aliases:
+                if not isinstance(alias, str) or not alias.strip():
+                    errors.append(f"{cid}: aliases contains invalid value")
+                    continue
+                prev = alias_seen.get(alias)
+                if prev and prev != cid:
+                    errors.append(f"{cid}: alias collision '{alias}' already used by {prev}")
+                alias_seen[alias] = cid
+
+        if c.get("surface") == "user":
+            ep = c.get("entrypoint")
+            if isinstance(ep, str) and ep:
+                surface_entrypoints.add(ep)
 
         # primitives linkage
         uses = c.get("uses_primitives", [])
@@ -151,6 +199,12 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
                     # schema_ref omitted: accept, but still ensure canonical exists
                     if not ensure_file_exists(canonical_schema_ref):
                         errors.append(f"{cid}: canonical schema_ref not found for role '{role}': {canonical_schema_ref}")
+
+    if len(surface_entrypoints) > 20:
+        errors.append(
+            f"surface entrypoint guardrail exceeded: {len(surface_entrypoints)} > 20 "
+            f"({', '.join(sorted(surface_entrypoints))})"
+        )
 
     return errors
 

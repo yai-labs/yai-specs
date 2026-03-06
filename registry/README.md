@@ -39,8 +39,25 @@ If a human-readable note conflicts with a canonical registry entry, the registry
 
 - `primitives.v1.json` — canonical primitives registry
 - `commands.v1.json` — canonical command registry
+- `commands.surface.v1.json` — surface command subset for default UX
+- `commands.topics.v1.json` — hierarchical entrypoint/topic/op index
 - `artifacts.v1.json` — canonical artifact-role registry
 - `schema/` — JSON Schemas validating registry structure
 - `ids/` — supporting identifier notes and allocation context
+
+## Command Taxonomy v1
+
+`commands.v1.json` includes taxonomy metadata for each command:
+
+- `surface`: `surface | ancillary | plumbing`
+- `domain`: user-facing domain classification
+- `layer`: runtime architecture layer attribution
+- `stability`: `stable | experimental | planned | deprecated`
+- `entrypoint`, `help_order`, `command_path_tokens`, `canonical_path`
+
+Generation and enforcement:
+
+- rewrite/normalize: `tools/gen/commands_rewrite_taxonomy_v1.py`
+- validation guardrails: `tools/validate/validate_registry.py`
 
 For repository-wide registry interpretation, see `../REGISTRY.md`.
