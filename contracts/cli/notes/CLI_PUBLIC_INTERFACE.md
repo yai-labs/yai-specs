@@ -33,12 +33,11 @@ It is normative. Implementations must conform.
 - `3` dependency missing
 - `4` runtime not ready
 
-### Canonical execution line
-- Execution output is text-only and canonicalized as:
-  - default: `yai: <status>: <code>: <reason>`
-  - verbose (`--verbose-contract`): `yai: <status>: <code>: <reason> (command_id=<id>, trace_id=<tid>, target_plane=<plane>)`
-- The line is printed for `ok`, `nyi`, and `error` outcomes.
-- `<status>/<code>/<reason>` and verbose metadata are derived from `contracts/control/schema/exec_reply.v1.json`.
+### Canonical reply rendering
+- Runtime emits `yai.exec.reply.v1` envelopes.
+- Default human mode renders outcome + `summary` + `hints`.
+- Verbose mode can expose `reason`, `details`, `trace_id`, and plane metadata.
+- JSON mode emits the raw envelope with no additional text framing.
 
 ### Status/code to CLI rc mapping
 - `ok/OK -> 0`

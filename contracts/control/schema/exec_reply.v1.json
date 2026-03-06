@@ -11,6 +11,7 @@
         "status",
         "code",
         "reason",
+        "summary",
         "command_id",
         "target_plane",
         "trace_id"
@@ -38,11 +39,7 @@
     },
     "status": {
       "type": "string",
-      "enum": [
-        "ok",
-        "error",
-        "nyi"
-      ]
+      "enum": ["ok", "error", "nyi"]
     },
     "code": {
       "type": "string",
@@ -51,30 +48,44 @@
         "NOT_IMPLEMENTED",
         "BAD_ARGS",
         "UNAUTHORIZED",
+        "DENIED",
         "INVALID_TARGET",
         "RUNTIME_NOT_READY",
         "SERVER_UNAVAILABLE",
         "PROTOCOL_ERROR",
-        "INTERNAL_ERROR"
+        "INTERNAL_ERROR",
+        "NOT_FOUND",
+        "CONFLICT",
+        "INVALID_STATE"
       ]
     },
-    "summary": {
+    "reason": {
       "type": "string",
       "minLength": 1,
       "maxLength": 256
     },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
     "hint": {
       "type": "array",
+      "maxItems": 8,
       "items": {
         "type": "string",
         "minLength": 1,
         "maxLength": 256
       }
     },
-    "reason": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
+    "hints": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
     },
     "command_id": {
       "type": "string",
@@ -82,17 +93,17 @@
     },
     "target_plane": {
       "type": "string",
-      "enum": [
-        "root",
-        "kernel",
-        "engine"
-      ]
+      "enum": ["root", "kernel", "engine"]
     },
     "trace_id": {
       "type": "string",
       "maxLength": 128
     },
     "data": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "details": {
       "type": "object",
       "additionalProperties": true
     },
@@ -124,14 +135,7 @@
     },
     "meta": {
       "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "version",
-        "ts",
-        "duration_ms",
-        "target_plane",
-        "command_id"
-      ],
+      "additionalProperties": true,
       "properties": {
         "version": {
           "type": "string",
@@ -171,5 +175,39 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "code": {
+            "const": "OK"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "nyi"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "code": {
+            "const": "NOT_IMPLEMENTED"
+          }
+        }
+      }
+    }
+  ]
 }
