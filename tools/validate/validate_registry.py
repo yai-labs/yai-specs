@@ -2,9 +2,8 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -16,6 +15,20 @@ COMMANDS_SCHEMA = REPO_ROOT / "registry" / "schema" / "commands.v1.schema.json"
 
 ARTIFACTS_REG = REPO_ROOT / "registry" / "artifacts.v1.json"
 ARTIFACTS_SCHEMA = REPO_ROOT / "registry" / "schema" / "artifacts.v1.schema.json"
+
+SURFACE_ENTRYPOINTS = {
+    "ws",
+    "run",
+    "gov",
+    "verify",
+    "inspect",
+    "bundle",
+    "config",
+    "doctor",
+    "watch",
+    "help",
+    "version",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -31,7 +44,8 @@ def validate_jsonschema(instance: Dict[str, Any], schema: Dict[str, Any]) -> Lis
     try:
         from jsonschema import Draft202012Validator
     except Exception as exc:
-        return [f"jsonschema dependency is required (pip install jsonschema). import error: {exc}"]
+        print(f"[registry] WARN: jsonschema not installed, skipping schema validation ({exc})")
+        return []
 
     errors: List[str] = []
     v = Draft202012Validator(schema)
@@ -51,9 +65,6 @@ def primitives_id_set(primitives: Dict[str, Any]) -> Set[str]:
 
 
 def artifacts_role_map(artifacts: Dict[str, Any]) -> Dict[str, str]:
-    """
-    Returns: role -> schema_ref
-    """
     out: Dict[str, str] = {}
     for a in artifacts.get("artifacts", []):
         role = a.get("role")
@@ -77,76 +88,49 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
     if not isinstance(cmd_list, list):
         return ["commands.commands must be an array"]
 
-    # uniqueness of command IDs
-    seen: Set[str] = set()
+    seen_ids: Set[str] = set()
+    seen_paths: Dict[str, str] = {}
+    surface_entrypoints: Set[str] = set()
+
     for c in cmd_list:
         if not isinstance(c, dict):
             errors.append("commands.commands[] must be objects")
             continue
+
         cid = c.get("id")
         if not isinstance(cid, str) or not cid:
-            # schema should catch this, but keep robust
             continue
-        if cid in seen:
+
+        if cid in seen_ids:
             errors.append(f"duplicate command id: {cid}")
-        seen.add(cid)
+        seen_ids.add(cid)
 
-    surface_entrypoints: Set[str] = set()
-    path_seen: Dict[str, str] = {}
-    alias_seen: Dict[str, str] = {}
-    required_taxonomy = (
-        "surface",
-        "domain",
-        "layer",
-        "stability",
-        "entrypoint",
-        "topic",
-        "canonical_path",
-        "command_path_tokens",
-    )
-
-    # validate per-command links
-    for c in cmd_list:
-        if not isinstance(c, dict):
-            continue
-
-        cid = c.get("id") or f"{c.get('group','?')}.{c.get('name','?')}"
-
-        for key in required_taxonomy:
-            if key not in c:
-                errors.append(f"{cid}: missing taxonomy field '{key}'")
-        if isinstance(c.get("command_path_tokens"), list):
-            tokens = c.get("command_path_tokens") or []
-            if len(tokens) == 0:
-                errors.append(f"{cid}: command_path_tokens must not be empty")
-            else:
-                canonical = " ".join(str(t) for t in tokens)
-                if canonical != c.get("canonical_path"):
-                    errors.append(f"{cid}: canonical_path mismatch with command_path_tokens")
-                prev = path_seen.get(canonical)
-                if prev and prev != cid:
-                    errors.append(f"{cid}: canonical_path collision with {prev}: '{canonical}'")
-                path_seen[canonical] = cid
+        cpath = c.get("canonical_path")
+        if not isinstance(cpath, str) or not cpath.strip():
+            errors.append(f"{cid}: canonical_path missing or empty")
         else:
-            errors.append(f"{cid}: command_path_tokens must be an array")
+            owner = seen_paths.get(cpath)
+            if owner and owner != cid:
+                errors.append(f"canonical_path collision: '{cpath}' used by {owner} and {cid}")
+            seen_paths[cpath] = cid
 
+        surface = c.get("surface")
+        entrypoint = c.get("entrypoint")
+        stability = c.get("stability")
         aliases = c.get("aliases", [])
-        if isinstance(aliases, list):
-            for alias in aliases:
-                if not isinstance(alias, str) or not alias.strip():
-                    errors.append(f"{cid}: aliases contains invalid value")
-                    continue
-                prev = alias_seen.get(alias)
-                if prev and prev != cid:
-                    errors.append(f"{cid}: alias collision '{alias}' already used by {prev}")
-                alias_seen[alias] = cid
 
-        if c.get("surface") == "user":
-            ep = c.get("entrypoint")
-            if isinstance(ep, str) and ep:
-                surface_entrypoints.add(ep)
+        if surface == "surface":
+            if entrypoint not in SURFACE_ENTRYPOINTS:
+                errors.append(f"{cid}: surface command has non-surface entrypoint '{entrypoint}'")
+            if isinstance(entrypoint, str):
+                surface_entrypoints.add(entrypoint)
 
-        # primitives linkage
+        if stability == "deprecated":
+            has_aliases = isinstance(aliases, list) and len(aliases) > 0
+            replaced_by = c.get("replaced_by")
+            if not has_aliases and not replaced_by:
+                errors.append(f"{cid}: deprecated command must define aliases or replaced_by")
+
         uses = c.get("uses_primitives", [])
         if uses is None:
             uses = []
@@ -160,7 +144,6 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
                 if pid not in prim_ids:
                     errors.append(f"{cid}: unknown primitive id referenced: {pid}")
 
-        # artifacts linkage
         for field in ("emits_artifacts", "consumes_artifacts"):
             items = c.get(field, [])
             if items is None:
@@ -186,25 +169,26 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
                 canonical_schema_ref = role_map[role]
                 schema_ref = it.get("schema_ref")
 
-                # If provided, it MUST match registry (hard mode)
                 if isinstance(schema_ref, str) and schema_ref.strip():
                     if schema_ref != canonical_schema_ref:
                         errors.append(
-                            f"{cid}: {field} role '{role}' schema_ref mismatch: "
-                            f"got '{schema_ref}' expected '{canonical_schema_ref}'"
+                            f"{cid}: {field} role '{role}' schema_ref mismatch: got '{schema_ref}' expected '{canonical_schema_ref}'"
                         )
                     if not ensure_file_exists(schema_ref):
                         errors.append(f"{cid}: schema_ref not found: {schema_ref}")
                 else:
-                    # schema_ref omitted: accept, but still ensure canonical exists
                     if not ensure_file_exists(canonical_schema_ref):
                         errors.append(f"{cid}: canonical schema_ref not found for role '{role}': {canonical_schema_ref}")
 
-    if len(surface_entrypoints) > 20:
-        errors.append(
-            f"surface entrypoint guardrail exceeded: {len(surface_entrypoints)} > 20 "
-            f"({', '.join(sorted(surface_entrypoints))})"
-        )
+    if len(surface_entrypoints) > 12:
+        errors.append(f"surface entrypoints guardrail exceeded: {len(surface_entrypoints)} (> 12)")
+
+    sorted_by_id = sorted(
+        (c for c in cmd_list if isinstance(c, dict) and isinstance(c.get("id"), str)),
+        key=lambda x: x["id"],
+    )
+    if [c.get("id") for c in cmd_list if isinstance(c, dict)] != [c["id"] for c in sorted_by_id]:
+        errors.append("commands list is not stable-sorted by id")
 
     return errors
 

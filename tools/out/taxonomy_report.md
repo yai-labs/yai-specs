@@ -1,31 +1,32 @@
 # Command Taxonomy Report v1
 
-- total_commands: 2800
-- surface_entrypoints: 2
+- commands_total: 2800
+- surface_entrypoints: 6
+- surface_entrypoint_names: bundle, gov, inspect, run, verify, ws
 
-## By Surface
-- internal: 1982
-- tool: 800
-- user: 18
+## Surface Counts
+- ancillary: 800
+- plumbing: 1971
+- surface: 29
 
-## By Domain
+## Stability Counts
+- experimental: 222
+- planned: 2549
+- stable: 29
+
+## Domain Counts
 - bundle: 200
 - governance: 200
 - inspection: 200
-- policy: 59
-- runtime: 1920
+- runtime: 1979
 - verification: 200
 - workspace: 21
 
-## By Layer
-- docs: 424
+## Layer Counts
+- docs: 425
 - engine: 970
-- kernel: 201
+- kernel: 200
 - mind: 1205
 
-## By Stability
-- experimental: 2782
-- stable: 18
-
-## Fallback (dev/internal)
-- count: 0
+## Unclassified
+- none
