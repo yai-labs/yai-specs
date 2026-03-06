@@ -44,5 +44,5 @@ Commands that participate in governed execution SHOULD also reference:
 No dedicated CLI TLA module yet.
 CLI compliance is currently indirect via protocol/control/kernel constraints modeled in `formal/tla/YAI_KERNEL.tla`.
 
-## 8) Known gaps / TODO
+## 8) Known gaps
 - Introduce a command → formal-action mapping table (optional) if/when CLI becomes part of TLC harness.

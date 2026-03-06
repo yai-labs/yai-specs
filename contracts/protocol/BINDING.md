@@ -49,6 +49,6 @@ Protocol surfaces MUST preserve evidence sufficient for:
   - `ExternalEffectGuard`
   - `[](external_effect => compliance_context_valid)`
 
-## 6) Known gaps / TODO
+## 6) Known gaps
 - Make explicit formal properties for all protocol header fields (magic/version/payload invariants).
 - Integrate transport vector replay into TLC harness (optional).

@@ -99,7 +99,7 @@ The current formal relation is indirect, through shared runtime governance const
 
 This means graph law is already governed, but not yet modeled as an independent formal state-transition surface.
 
-## 8) Known gaps / TODO
+## 8) Known gaps
 
 * Graph-specific transition modeling in TLA, where justified
 * Graph-specific vectors for replay and formal-alignment workflows, where justified

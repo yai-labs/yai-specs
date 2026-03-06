@@ -37,5 +37,5 @@ Vault-level transitions MUST support:
   - `VaultAbiVersionOk`
   - `TypeInvariant`
 
-## 6) Known gaps / TODO
+## 6) Known gaps
 - Dedicated vault-focused TLA module beyond kernel-level abstraction (optional).
