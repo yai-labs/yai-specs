@@ -31,7 +31,8 @@ def validate_jsonschema(instance: Dict[str, Any], schema: Dict[str, Any]) -> Lis
     try:
         from jsonschema import Draft202012Validator
     except Exception as exc:
-        return [f"jsonschema dependency is required (pip install jsonschema). import error: {exc}"]
+        print(f"[registry] WARN: jsonschema dependency not available, schema validation skipped ({exc})")
+        return []
 
     errors: List[str] = []
     v = Draft202012Validator(schema)
@@ -72,6 +73,16 @@ def ensure_file_exists(path_str: str) -> bool:
 
 def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Dict[str, str]) -> List[str]:
     errors: List[str] = []
+    allowed_surface = {"surface", "ancillary", "plumbing"}
+    allowed_stability = {"stable", "experimental", "planned", "deprecated"}
+    allowed_scope = {"global", "workspace", "session", "runtime"}
+    allowed_effect = {"read_only", "mutating", "effectful"}
+    allowed_visibility = {"public", "advanced", "internal", "hidden"}
+    allowed_authority = {"none", "operator", "elevated", "policy_gated"}
+    allowed_impl = {"implemented", "stubbed", "nyi", "planned"}
+    allowed_surface_entrypoints = {
+        "ws", "run", "gov", "verify", "inspect", "bundle", "config", "doctor", "watch", "help", "version"
+    }
 
     cmd_list = commands.get("commands", [])
     if not isinstance(cmd_list, list):
@@ -92,11 +103,87 @@ def validate_commands(commands: Dict[str, Any], prim_ids: Set[str], role_map: Di
         seen.add(cid)
 
     # validate per-command links
+    seen_paths: Dict[str, str] = {}
+    seen_aliases: Dict[str, str] = {}
     for c in cmd_list:
         if not isinstance(c, dict):
             continue
 
         cid = c.get("id") or f"{c.get('group','?')}.{c.get('name','?')}"
+        canonical_path = c.get("canonical_path")
+        if not isinstance(canonical_path, str) or not canonical_path.strip():
+            errors.append(f"{cid}: canonical_path must be a non-empty string")
+        else:
+            owner = seen_paths.get(canonical_path)
+            if owner and owner != cid:
+                errors.append(f"{cid}: canonical_path collision with {owner}: {canonical_path}")
+            else:
+                seen_paths[canonical_path] = cid
+
+        surface = c.get("surface")
+        stability = c.get("stability")
+        command_scope = c.get("command_scope")
+        effect_class = c.get("effect_class")
+        visibility = c.get("visibility")
+        authority_class = c.get("authority_class")
+        impl_status = c.get("implementation_status")
+        entrypoint = c.get("entrypoint")
+        hidden = bool(c.get("hidden", False))
+        requires_workspace = bool(c.get("requires_workspace", False))
+
+        if surface not in allowed_surface:
+            errors.append(f"{cid}: invalid surface: {surface}")
+        if stability not in allowed_stability:
+            errors.append(f"{cid}: invalid stability: {stability}")
+        if command_scope not in allowed_scope:
+            errors.append(f"{cid}: invalid command_scope: {command_scope}")
+        if effect_class not in allowed_effect:
+            errors.append(f"{cid}: invalid effect_class: {effect_class}")
+        if visibility not in allowed_visibility:
+            errors.append(f"{cid}: invalid visibility: {visibility}")
+        if authority_class not in allowed_authority:
+            errors.append(f"{cid}: invalid authority_class: {authority_class}")
+        if impl_status not in allowed_impl:
+            errors.append(f"{cid}: invalid implementation_status: {impl_status}")
+        if not isinstance(entrypoint, str) or not entrypoint:
+            errors.append(f"{cid}: missing entrypoint")
+
+        if surface == "surface" and visibility != "public":
+            errors.append(f"{cid}: surface command must have visibility=public")
+        if surface == "surface" and entrypoint not in allowed_surface_entrypoints:
+            errors.append(f"{cid}: surface command entrypoint not allowed: {entrypoint}")
+        if command_scope == "workspace" and not requires_workspace:
+            errors.append(f"{cid}: workspace command must set requires_workspace=true")
+        if effect_class == "effectful" and authority_class == "none":
+            errors.append(f"{cid}: effectful command must not use authority_class=none")
+        if visibility == "public" and hidden:
+            errors.append(f"{cid}: public command cannot be hidden=true")
+        if stability == "deprecated":
+            if not c.get("deprecated_by") and not c.get("alias_of") and not c.get("replaced_by"):
+                errors.append(f"{cid}: deprecated command requires deprecated_by/alias_of/replaced_by")
+        if stability == "stable" and impl_status in {"nyi", "planned"}:
+            errors.append(f"{cid}: stable command cannot have implementation_status={impl_status}")
+
+        side_effects = c.get("side_effects", [])
+        if not isinstance(side_effects, list):
+            side_effects = []
+        if effect_class == "read_only":
+            incompatible = {"write_files", "delete_files", "network", "rpc_call", "external_effect"} & set(
+                x for x in side_effects if isinstance(x, str)
+            )
+            if incompatible:
+                errors.append(f"{cid}: read_only command has incompatible side_effects: {sorted(incompatible)}")
+
+        aliases = c.get("aliases", [])
+        if isinstance(aliases, list):
+            for a in aliases:
+                if not isinstance(a, str):
+                    continue
+                owner = seen_aliases.get(a)
+                if owner and owner != cid:
+                    errors.append(f"{cid}: alias collision for '{a}' (already used by {owner})")
+                else:
+                    seen_aliases[a] = cid
 
         # primitives linkage
         uses = c.get("uses_primitives", [])

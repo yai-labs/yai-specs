@@ -93,7 +93,29 @@
 
     "command": {
       "type": "object",
-      "required": ["id", "name", "group", "summary", "args"],
+      "required": [
+        "id",
+        "name",
+        "group",
+        "summary",
+        "args",
+        "surface",
+        "stability",
+        "entrypoint",
+        "topic",
+        "op",
+        "domain",
+        "layer",
+        "canonical_path",
+        "command_scope",
+        "effect_class",
+        "visibility",
+        "authority_class",
+        "implementation_status",
+        "requires_workspace",
+        "requires_runtime",
+        "requires_authority"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -136,7 +158,56 @@
         },
 
         "emits_artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact_io" } },
-        "consumes_artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact_io" } }
+        "consumes_artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact_io" } },
+
+        "surface": { "type": "string", "enum": ["surface", "ancillary", "plumbing"] },
+        "stability": { "type": "string", "enum": ["stable", "experimental", "planned", "deprecated"] },
+        "entrypoint": { "type": "string", "minLength": 1 },
+        "topic": { "type": "string", "minLength": 1 },
+        "op": { "type": "string", "minLength": 1 },
+        "domain": {
+          "type": "string",
+          "enum": [
+            "workspace",
+            "runtime",
+            "governance",
+            "policy",
+            "bundle",
+            "inspection",
+            "verification",
+            "diagnostics",
+            "configuration",
+            "help",
+            "internal"
+          ]
+        },
+        "layer": {
+          "type": "string",
+          "enum": ["boot", "root", "kernel", "engine", "mind", "substrate", "orch", "docs"]
+        },
+        "canonical_path": { "type": "string", "minLength": 1 },
+
+        "command_scope": { "type": "string", "enum": ["global", "workspace", "session", "runtime"] },
+        "effect_class": { "type": "string", "enum": ["read_only", "mutating", "effectful"] },
+        "visibility": { "type": "string", "enum": ["public", "advanced", "internal", "hidden"] },
+        "authority_class": { "type": "string", "enum": ["none", "operator", "elevated", "policy_gated"] },
+        "implementation_status": { "type": "string", "enum": ["implemented", "stubbed", "nyi", "planned"] },
+
+        "requires_workspace": { "type": "boolean" },
+        "requires_runtime": { "type": "boolean" },
+        "requires_authority": { "type": "boolean" },
+        "hidden": { "type": "boolean" },
+
+        "deprecated_by": {
+          "type": "string",
+          "pattern": "^yai\\.[a-z0-9_\\-]+\\.[a-z0-9_\\-]+$"
+        },
+        "promoted_from": { "type": "string", "enum": ["planned", "experimental"] },
+        "alias_of": {
+          "type": "string",
+          "pattern": "^yai\\.[a-z0-9_\\-]+\\.[a-z0-9_\\-]+$"
+        },
+        "help_order": { "type": "integer", "minimum": 0 }
       },
       "additionalProperties": true,
 
@@ -148,6 +219,33 @@
           },
           "then": {
             "required": ["replaced_by"]
+          }
+        },
+        {
+          "if": {
+            "properties": { "surface": { "const": "surface" } },
+            "required": ["surface"]
+          },
+          "then": {
+            "properties": { "visibility": { "const": "public" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "command_scope": { "const": "workspace" } },
+            "required": ["command_scope"]
+          },
+          "then": {
+            "properties": { "requires_workspace": { "const": true } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "visibility": { "const": "public" } },
+            "required": ["visibility"]
+          },
+          "then": {
+            "properties": { "hidden": { "const": false } }
           }
         }
       ]
