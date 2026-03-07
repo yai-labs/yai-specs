@@ -1,134 +1,126 @@
-# YAI Law — Canonical Governance Substrate for the YAI Platform
+# YAI Law
 
-YAI = "YAI Ain't Intelligence".
+YAI Law is the canonical rule system of the YAI platform.
 
-`yai-law` is the canonical normative repository for the YAI platform.
-It defines the contract surface that governs runtime behavior, operator control, SDK compatibility, compliance posture, and formal verification boundaries.
+It defines the contracts, constraints, invariants, formal boundaries, and machine-readable surfaces that govern how YAI is built, exposed, validated, and operated.
 
-This repository is authority-first, not narrative-first.
-Downstream repositories consume it as a pinned dependency and must prove conformance.
+This repository is normative by design.  
+Downstream systems do not reinterpret it. They consume it, pin it, and prove conformance against it.
 
----
+## Platform position
 
-## 1) Platform role
+YAI Law anchors the platform chain:
 
-`yai-law` is the legal-technical root of the platform stack:
+`yai-law` → `yai-sdk` → `yai-cli` → `yai` → `yai-ops`
 
-`yai-law` -> `yai-sdk` -> `yai-cli` -> `yai` -> `yai-ops`
+That chain is a discipline, not a diagram.  
+Law defines the rules. Interfaces carry them forward. Systems implement them. Operations verify them.
 
-- `yai-law`: canonical normative source of truth
-- `yai-sdk`: law-constrained client abstraction
-- `yai-cli`: canonical command surface over SDK + law
-- `yai`: runtime and program implementation constrained by law
-- `yai-ops`: operational evidence and validation against law-defined expectations
+## What this repository defines
 
-If any consumer diverges from law-defined contracts, the consumer is non-conforming.
+YAI Law defines the canonical surfaces of the platform, including:
 
----
+- foundational law: axioms, invariants, boundaries, terminology, and normative extensions
+- contracts for protocol, control, providers, vault, and related system surfaces
+- runtime constraints across the governed platform model
+- machine-readable registries, schemas, and allocation rules
+- formal models, traceability structures, and verification linkage
+- normative packs, overlays, and validation vectors
+- publication, compatibility, and deprecation posture for law surfaces
 
-## 2) What this repository defines
+Law authority originates here.  
+Implementation authority does not.
 
-- Canonical protocol, control, and vault contract surfaces
-- Runtime-layer constraints across Boot, Root, Kernel, Engine, and Mind-facing domains
-- Foundational law (axioms, invariants, boundaries, terminology, extensions)
-- Canonical machine-readable registries and schemas
-- Formal models and traceability artifacts
-- Published normative packs (including compliance overlays)
-- Validation vectors and release verification surfaces
+## Normative posture
 
-Law authority originates here; implementation authority does not.
-
----
-
-## 3) Normative vs informative
+This repository distinguishes between artifacts that bind the platform and artifacts that explain it.
 
 ### Normative artifacts
-Normative artifacts are binding and enforceable.
 
-Examples:
-- `registry/**`
-- `registry/schema/**`, `schema/**`
-- `contracts/protocol/include/*.h`, `contracts/vault/include/*.h`
+Normative artifacts are binding platform law.
+
+Examples include:
+
 - `foundation/**`
+- `contracts/**`
 - `runtime/**`
+- `registry/**`
+- `registry/schema/**`
+- `schema/**`
+- `formal/**`
 - `packs/**`
 - `vectors/**`
 
 ### Informative artifacts
-Informative artifacts explain and navigate normative law but do not override it.
 
-Examples:
-- section-level README files
+Informative artifacts support navigation, explanation, and adoption, but do not override law.
+
+Examples include:
+
+- section-level `README.md` files
 - explanatory notes
-- navigation maps not explicitly declared normative
+- pointer documents
+- informative maps not explicitly declared normative
 
-Conflict rule: normative artifacts always prevail.
+Where informative and normative content diverge, normative artifacts prevail.
 
----
+## Repository structure
 
-## 4) Repository structure
+- `authority/` — publication status, compatibility posture, and deprecation discipline
+- `foundation/` — axioms, invariants, boundaries, terminology, and extensions
+- `contracts/` — canonical contract surfaces and bindings
+- `runtime/` — platform runtime constraints and governed operating model
+- `registry/` — machine-readable registries and registry-bound schemas
+- `schema/` — transversal schemas for policy, evidence, and structured payloads
+- `formal/` — formal models, configs, artifacts, and traceability assets
+- `packs/` — published normative overlays, including compliance packs
+- `vectors/` — validation vectors
+- `tools/` — validation and release tooling
+- `docs/` — informative navigation and supporting documentation
 
-- `authority/` - publication status, compatibility posture, deprecation policy
-- `foundation/` - axioms, invariants, boundaries, terminology, normative extensions
-- `runtime/` - canonical runtime-layer constraints (including Mind-facing surfaces)
-- `contracts/` - public cross-layer contract interfaces and bindings
-- `registry/` - canonical machine-readable registries and registry-bound schemas
-- `schema/` - transversal schemas for policy and artifact payloads
-- `formal/` - formal models, configs, proofs, traceability assets
-- `packs/` - versioned normative overlays, including compliance packs
-- `vectors/` - validation vectors
-- `tools/` - verification and release tooling
-- `docs/` - informative navigation and policy documentation
+## Consumption model
 
----
+Consumers must treat YAI Law as a pinned dependency.
 
-## 5) Consumption model (pinning is mandatory)
+Recommended approaches include:
 
-Consumers must treat `yai-law` as a pinned dependency:
+- submodule pinning for auditability, or
+- vendored snapshots with explicit commit references
 
-- Prefer submodule pinning for auditability, or
-- Vendor a snapshot with an explicit commit reference
+Adoption is deliberate:
 
-Upgrade process is deliberate:
-1. Read `VERSIONING.md`
-2. Check `COMPATIBILITY.md`
-3. Review `CHANGELOG.md`
-4. Execute conformance gates before adoption
+1. review `VERSIONING.md`
+2. check `COMPATIBILITY.md`
+3. read `CHANGELOG.md`
+4. execute conformance gates before promotion
 
-Consumers do not redefine law locally.
-They pin, integrate, validate, and promote only with evidence.
+Consumers do not redefine law locally.  
+They pin it, integrate it, validate it, and promote it with evidence.
 
----
+## Canonical references
 
-## 6) Canonical indexes
+- `SPEC_MAP.md` — authoritative structure and navigation map
+- `REGISTRY.md` — canonical registries and allocation rules
+- `VERSIONING.md` — versioning and compatibility contract
+- `COMPATIBILITY.md` — consumer compatibility expectations
+- `CHANGELOG.md` — contract and surface evolution log
+- `SECURITY.md` — disclosure and security policy
 
-- `SPEC_MAP.md` - authoritative structure and navigation map
-- `REGISTRY.md` - canonical registries and allocation rules
-- `VERSIONING.md` - versioning and compatibility contract
-- `COMPATIBILITY.md` - consumer compatibility expectations
-- `CHANGELOG.md` - contract/surface evolution log
-- `SECURITY.md` - disclosure and security policy
-
-Cross-repo docs/surface governance pointers:
-- `docs/pointers/DOCS_ARCHITECTURE.pointer.md`
-- `docs/pointers/SURFACE_POLICY.pointer.md`
-
----
-
-## 7) Formal and compliance linkage
+## Formal and compliance alignment
 
 Compliance-sensitive and authority-sensitive behavior must remain aligned across:
-- foundational compliance law (`foundation/extensions/compliance/`)
-- compliance schemas (`schema/compliance.context.v1.json`, `schema/retention.policy.v1.json`)
-- control authority surfaces (`contracts/control/schema/authority.v1.json`, compatibility alias `contracts/control/schema/authority.json`)
-- formal governance properties (`formal/tla/YAI_KERNEL.tla`)
 
-This includes governance for external effects, compliance-context validity, and traceability.
+- foundational law
+- contract surfaces
+- runtime constraints
+- registry and schema definitions
+- formal models and traceability assets
+- compliance packs and validation vectors
 
----
+This includes alignment for governance of external effects, compliance context validity, traceability, and operational proof.
 
-## 8) Status and publication rule
+## Status
 
-Unless explicitly marked otherwise, published artifacts in this repository are canonical public law for their corresponding platform surfaces.
+Published artifacts in this repository are canonical law for their corresponding YAI platform surfaces unless explicitly marked otherwise.
 
-This repository is the normative foundation for enterprise-grade governed execution across the YAI platform.
+YAI Law is the normative foundation of the platform.
