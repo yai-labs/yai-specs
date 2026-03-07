@@ -2,44 +2,45 @@
 
 `docs/` is the informative documentation layer of `yai-law`.
 
-It exists to explain, index, and support consumption of the canonical law surface defined elsewhere in the repository. It does not create or replace normative authority.
+It explains and indexes canonical law artifacts. It does not replace normative authority.
 
 ## Role
 
-Artifacts under `docs/` are informative.
-
-They may:
-
-* explain repository structure
-* clarify how canonical artifacts are intended to be read or consumed
-* support generated documentation flows
-* point readers to canonical indexes and policy documents
+Artifacts under `docs/` are informative and may:
+- explain repository structure
+- clarify interpretation of canonical artifacts
+- support validation and migration work
 
 They must not redefine law.
 
-## Rules
-
-* Keep links relative and repository-local where possible
-* Do not duplicate normative contract text unnecessarily
-* Point readers to canonical sources such as `SPEC_MAP.md`, `REGISTRY.md`, `COMPATIBILITY.md`, and `VERSIONING.md`
-* Keep explanatory notes subordinate to canonical repository artifacts
-* If an informative note conflicts with a normative artifact, the normative artifact prevails
-
 ## Normative sources
 
-Normative authority lives outside `docs/`, especially in:
+Normative authority remains in:
+- `foundation/`
+- `runtime/`
+- `contracts/`
+- `registry/`
+- `schema/`
+- `formal/`
+- `packs/`
 
-* `foundation/`
-* `runtime/`
-* `contracts/`
-* `registry/`
-* `schema/`
-* `formal/`
-* `packs/`
+## Refoundation and hardening documents
 
-## Documentation discipline
+- `docs/policy/law-refoundation-blueprint.md`
+- `docs/policy/law-refoundation-mapping-matrix.md`
+- `docs/policy/law-refoundation-placement-rules.md`
+- `docs/policy/foundation-rewrite-rationale.md`
+- `docs/policy/foundation-rewrite-matrix.md`
+- `docs/policy/runtime-contracts-realignment.md`
+- `docs/policy/runtime-contracts-mapping-matrix.md`
+- `docs/policy/formal-registry-schema-realignment.md`
+- `docs/policy/formal-registry-schema-mapping-matrix.md`
+- `docs/policy/repo-identity-rewrite.md`
+- `docs/policy/repo-identity-mapping-matrix.md`
+- `docs/policy/law-legacy-decommission-matrix.md`
+- `docs/policy/law-refoundation-closeout.md`
+- `docs/policy/post-refactor-authoring-rules.md`
 
-Documentation should improve navigation and interpretation without introducing ambiguity, drift, or parallel sources of truth.
+## Discipline
 
-A good documentation artifact explains the law.
-It does not compete with it.
+If an informative note conflicts with a normative artifact, the normative artifact prevails.

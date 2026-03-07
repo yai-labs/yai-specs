@@ -1,12 +1,12 @@
 {
   "v": 1,
-  "generated_from": "yai_primitives_v2_osgrade.csv (normalized) + runtime_plane_extension.v1",
+  "generated_from": "yai_primitives_v2_osgrade.csv (normalized) + runtime_plane_extension.v1 + ontology_realign.core_exec_brain",
   "rules": {
     "cli_alias_format": "<group>-<name>",
     "cli_canonical_id_format": "yai.<group>.<name>",
     "notes": [
-      "Primitives define stable capability surfaces and their deterministic CLI bindings.",
-      "CLI bindings point to registry commands; hardcoded commands must converge into registry over time."
+      "Primitives define stable capability surfaces and deterministic bindings.",
+      "Primary runtime ontology is core/exec/brain; historical boot/root/kernel/engine/mind names are compatibility aliases only."
     ]
   },
   "primitives": [
@@ -113,13 +113,11 @@
       "family": "CLI",
       "domain": "Control",
       "name": "Control Plane",
-      "definition": "Control plane entrypoints for root/kernel/engine/mind/boot operations.",
+      "definition": "Control-plane entrypoints aligned to core/exec/brain; legacy root/kernel/engine/mind/boot labels are compatibility aliases.",
       "ops": [
-        "root",
-        "kernel",
-        "engine",
-        "mind",
-        "boot"
+        "core",
+        "exec",
+        "brain"
       ],
       "depends_on": [
         "R-001",
@@ -182,7 +180,7 @@
       "family": "Orchestration",
       "domain": "Test unit",
       "name": "Trial",
-      "definition": "Executable qualification unit: input \u2192 Run + records + metrics.",
+      "definition": "Executable qualification unit: input → Run + records + metrics.",
       "ops": [
         "run",
         "describe",
@@ -925,7 +923,7 @@
       "family": "Substrate",
       "domain": "Inventory",
       "name": "Index",
-      "definition": "Machine-readable inventory of artifacts (role\u2192path/hash/ref).",
+      "definition": "Machine-readable inventory of artifacts (role→path/hash/ref).",
       "ops": [
         "build",
         "update",
@@ -1468,7 +1466,7 @@
       "family": "Substrate",
       "domain": "Serialization",
       "name": "Codec",
-      "definition": "Declared/versioned codec (json/jsonl/cbor\u2026) with stable identifiers.",
+      "definition": "Declared/versioned codec (json/jsonl/cbor…) with stable identifiers.",
       "ops": [
         "encode",
         "decode",
@@ -1518,7 +1516,7 @@
       "family": "Substrate",
       "domain": "Provenance",
       "name": "Provenance",
-      "definition": "Lineage graph for artifacts (inputs\u2192outputs) traceable and queryable.",
+      "definition": "Lineage graph for artifacts (inputs→outputs) traceable and queryable.",
       "ops": [
         "record",
         "link",

@@ -44,6 +44,25 @@ def validate_schema(instance: Dict[str, Any], schema: Dict[str, Any]) -> List[st
     return errors
 
 
+def validate_runtime_ontology(data: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    ont = data.get("runtime_ontology")
+    if not isinstance(ont, dict):
+        return ["runtime_ontology object is required"]
+
+    primary = ont.get("primary", [])
+    if not isinstance(primary, list):
+        return ["runtime_ontology.primary must be an array"]
+
+    req = {"core", "exec", "brain"}
+    have = set(str(x) for x in primary)
+    missing = sorted(req - have)
+    if missing:
+        errors.append(f"runtime_ontology.primary missing required values: {', '.join(missing)}")
+
+    return errors
+
+
 def validate_traceability(data: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
 
@@ -52,10 +71,11 @@ def validate_traceability(data: Dict[str, Any]) -> List[str]:
     if repo_version != version_file:
         errors.append(f"repo_version mismatch: traceability={repo_version} VERSION={version_file}")
 
+    errors.extend(validate_runtime_ontology(data))
+
     invariants = data.get("invariants", [])
     for inv in invariants:
         iid = inv.get("id", "")
-        title = inv.get("title", "")
         if not isinstance(iid, str) or not re.match(r"^I-\d{3}-", iid):
             errors.append(f"invalid invariant id: {iid}")
             continue
@@ -71,6 +91,10 @@ def validate_traceability(data: Dict[str, Any]) -> List[str]:
         vectors = inv.get("vectors", [])
         formal = inv.get("formal", [])
         bindings = inv.get("bindings", [])
+        scopes = inv.get("ontology_scopes", [])
+
+        if not isinstance(scopes, list) or len(scopes) == 0:
+            errors.append(f"{inv_prefix}: ontology_scopes must be a non-empty array")
 
         for p in contracts:
             ensure_path_exists(str(p), errors, f"{inv_prefix} contract")

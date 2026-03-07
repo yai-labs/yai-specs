@@ -1,6 +1,8 @@
 /**
  * @file rpc_runtime.h
  * @brief Runtime RPC helpers for envelope validation and response preparation.
+ *
+ * Shared protocol-runtime helper surface for core/exec/brain modules.
  */
 #pragma once
 

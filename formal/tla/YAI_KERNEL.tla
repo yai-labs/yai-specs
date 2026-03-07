@@ -1,4 +1,6 @@
 ----------------------- MODULE YAI_KERNEL -----------------------
+\* Historical artifact name retained for continuity.
+\* Primary semantic ontology: core sovereignty + exec/brain governed participation.
 EXTENDS Naturals, LAW_IDS
 
 CONSTANTS 
@@ -7,7 +9,7 @@ CONSTANTS
     TraceBoundMax
 
 States == {"HALT", "PREBOOT", "READY", "HANDOFF_COMPLETE", "RUNNING", "SUSPEND", "ERROR"}
-Authority == {"NONE", "STRAP", "ENGINE"}
+Authority == {"NONE", "CORE", "EXEC"}
 
 VARIABLES 
     state,
@@ -59,7 +61,7 @@ Init ==
 Strap_Preboot ==
     /\ state = "HALT"
     /\ state' = "PREBOOT"
-    /\ authority' = "STRAP"
+    /\ authority' = "CORE"
     /\ energy' = MaxEnergy
     /\ external_effect' = FALSE
     /\ UNCHANGED <<cognitive_map, trace_id, compliance_context_valid>>
@@ -73,8 +75,9 @@ Preboot_Ready ==
 Handoff_Complete ==
     /\ state = "READY"
     /\ state' = "HANDOFF_COMPLETE"
+    /\ authority' = "EXEC"
     /\ external_effect' = FALSE
-    /\ UNCHANGED <<authority, cognitive_map, energy, trace_id, compliance_context_valid>>
+    /\ UNCHANGED <<cognitive_map, energy, trace_id, compliance_context_valid>>
 
 Handoff_Run ==
     /\ state = "HANDOFF_COMPLETE"

@@ -1,0 +1,22 @@
+# Foundation Rewrite Matrix
+
+| Current file | Current concept | Rewritten concept | Action | Rationale | Normative impact | Follow-up needed |
+|---|---|---|---|---|---|---|
+| `foundation/README.md` | generic foundation index | ontology-governed normative entrypoint | `keep-id-rewrite-content` | make foundation explicitly aligned to new runtime ontology | high | cascade to runtime/contracts docs |
+| `foundation/axioms/A-001-execution.md` | execution first principle (generic) | governed execution mapped to `core/exec/brain` | `keep-id-rewrite-content` | execution must reflect plane separation | high | align contracts/control wording |
+| `foundation/axioms/A-002-authority.md` | authority/inference separation with legacy kernel framing | sovereign authority centered on `core` | `keep-id-rewrite-content` | remove historical package coupling | high | align runtime/control docs |
+| `foundation/axioms/A-003-state.md` | state as derived artifact | state discipline across sovereign/execution/cognitive planes | `keep-id-rewrite-content` | make state model plane-explicit | high | align runtime state docs |
+| `foundation/axioms/A-004-adaptability.md` | cognitive adaptability (mind-leaning) | governed adaptability with `brain` non-sovereign role | `keep-id-rewrite-content` | prevent autonomy drift | high | align I-004 and runtime/brain docs |
+| `foundation/invariants/I-001-traceability.md` | broad traceability requirements | plane-aware traceability obligations | `keep-id-rewrite-content` | remove topology drift | high | align evidence mappings in contracts |
+| `foundation/invariants/I-002-determinism.md` | deterministic/repro guidance | deterministic obligations per plane role | `keep-id-rewrite-content` | protect sovereign determinism | high | align formal configs and evidence checks |
+| `foundation/invariants/I-003-governance.md` | governance invariant | non-bypassable governance with `core` sovereignty | `keep-id-rewrite-content` | enforce authority center | high | align contracts/control and runtime docs |
+| `foundation/invariants/I-004-cognitive-reconfiguration.md` | reconfiguration framed by mind legacy | integrated governed `brain` reconfiguration | `keep-id-rewrite-content` | remove externalized mind model | high | align runtime/mind -> brain docs |
+| `foundation/invariants/I-005-abstract-cost-accountability.md` | abstract cost invariant | cost accountability mapped to plane semantics | `keep-id-rewrite-content` | maintain accountability with new ontology | medium | align metrics schemas later |
+| `foundation/invariants/I-006-external-effect-boundary.md` | external-effect boundary (mixed wording) | explicit `core` authority + `exec` effect boundary | `keep-id-rewrite-content` | remove ambiguity on effect governance | high | align control/protocol contracts |
+| `foundation/invariants/I-007-compliance-context-required.md` | compliance context invariant | compliance context bound to `core` decision + `exec` effect path | `keep-id-rewrite-content` | preserve compliance enforcement with new model | high | align compliance contracts/runtime docs |
+| `foundation/boundaries/L0-vault.md` | vault low-level boundary | foundational state surface boundary | `keep-id-rewrite-content` | keep stable L0 anchor | medium | confirm contracts/vault mapping |
+| `foundation/boundaries/L1-kernel.md` | kernel primary boundary | sovereign core boundary (kernel as legacy alias) | `keep-id-rewrite-content` | strong transition without breaking level id | high | consider later file rename to `L1-core.md` |
+| `foundation/boundaries/L2-engine.md` | engine primary boundary | execution boundary (engine as legacy alias) | `keep-id-rewrite-content` | align external-effect plane | high | consider later file rename to `L2-exec.md` |
+| `foundation/boundaries/L3-mind.md` | mind primary boundary | cognitive boundary (mind as legacy alias) | `keep-id-rewrite-content` | align cognitive plane | high | consider later file rename to `L3-brain.md` |
+| `foundation/boundaries/Lx-docs.md` | docs/meta boundary | normative vs explanatory boundary with ontology rule | `keep-id-rewrite-content` | prevent documentary drift | medium | align docs/pointers and top-level docs |
+| `foundation/terminology/glossary.md` | mixed glossary | explicit primary/historical/deprecated taxonomy | `keep-id-rewrite-content` | remove term ambiguity | high | propagate terminology to runtime/contracts |

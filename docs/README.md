@@ -1,63 +1,31 @@
-# YAI Law Documentation (Informative Layer)
+# Documentation Layer (`docs/`)
 
-`docs/` is the informative documentation layer for `yai-law`.
-It is designed for enterprise-grade navigation, interpretation, and onboarding of law consumers.
-
-`docs/` does not originate or redefine normative authority.
+`docs/` is an informative navigation layer.
+It does not create normative authority.
 
 ## Purpose
 
-Artifacts in this directory exist to:
-- explain how to consume law safely and consistently
-- provide navigation pointers to canonical indexes
-- support generated documentation and policy interpretation
-- improve traceable onboarding across contracts, runtime constraints, compliance, and formal assets
+- orient readers to canonical law surfaces
+- provide pointer documents and policy notes
+- support cross-repo navigation without duplicating normative truth
 
-## Interpretation rule
+## Canonical entry points
 
-If a document in `docs/` conflicts with canonical artifacts outside `docs/`, canonical artifacts prevail.
-
-## Canonical indexes (root)
-
+- `../README.md`
+- `../FOUNDATION.md`
 - `../SPEC_MAP.md`
 - `../REGISTRY.md`
-- `../VERSIONING.md`
-- `../COMPATIBILITY.md`
-- `../CHANGELOG.md`
 
-## Primary documents in this directory
+## Primary pointer set
 
-- `C_MAINPAGE.md` - doxygen/documentation entry page
-- `pointers/SPEC_MAP.pointer.md` - pointer to canonical structure map
-- `pointers/DOCS_ARCHITECTURE.pointer.md` - cross-repo docs architecture and truth boundaries
-- `pointers/SURFACE_POLICY.pointer.md` - command surface exposure/promotion policy pointer
-- `pointers/WORKSPACE_MODEL.pointer.md` - workspace model v2 pointer (identity, lifecycle, root, binding)
-- `policy/README.md` - documentation policy and governance rules
-- `reports/docs_surface_architecture_report_v1.md` - cross-repo docs/surface architecture classification report
+- `pointers/SPEC_MAP.pointer.md`
+- `pointers/DOCS_ARCHITECTURE.pointer.md`
+- `pointers/COMMAND_TAXONOMY.pointer.md`
+- `pointers/REPLY_ARCHITECTURE.pointer.md`
+- `pointers/RUNTIME_RESOLUTION.pointer.md`
+- `pointers/SURFACE_POLICY.pointer.md`
+- `pointers/WORKSPACE_MODEL.pointer.md`
 
-## Normative source domains (outside `docs/`)
+## Rule
 
-- `../authority/`
-- `../foundation/`
-- `../runtime/`
-- `../contracts/`
-- `../registry/`
-- `../schema/`
-- `../formal/`
-- `../packs/`
-- `../vectors/`
-
-## Platform alignment note
-
-Consumers in `yai-sdk`, `yai-cli`, `yai`, and `yai-ops` should reference this directory as informative support only.
-Normative references must always target canonical law domains.
-
-## Command surface taxonomy note
-
-Command navigation semantics are normative in the registry taxonomy:
-- `entrypoint`
-- `topic`
-- `op`
-- `canonical_path`
-
-Consumers should derive help/navigation behavior from those law fields instead of inventing local command grouping rules.
+If a document in `docs/` conflicts with canonical normative artifacts, canonical artifacts prevail.

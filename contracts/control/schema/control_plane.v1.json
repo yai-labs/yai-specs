@@ -4,7 +4,13 @@
     "protocol_version": 1,
     "envelope": {
       "schema_id": "rpc.envelope.v1",
-      "required": ["v", "trace_id", "arming", "role", "request"],
+      "required": [
+        "v",
+        "trace_id",
+        "arming",
+        "role",
+        "request"
+      ],
       "fields": {
         "v": "u8",
         "trace_id": "string",
@@ -44,6 +50,19 @@
         "server_version": "string",
         "capabilities": "string[]",
         "policy": "object|null"
+      }
+    },
+    "ontology": {
+      "primary_planes": [
+        "core",
+        "exec",
+        "brain"
+      ],
+      "legacy_aliases": {
+        "root": "core.dispatch(alias)",
+        "kernel": "core.sovereignty(alias)",
+        "engine": "exec(alias)",
+        "mind": "brain(alias)"
       }
     }
   }

@@ -4,17 +4,34 @@
   "title": "YAI Control Call v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["request", "response"],
+  "required": [
+    "request",
+    "response"
+  ],
   "properties": {
     "request": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["type", "target_plane", "command_id", "argv"],
+      "required": [
+        "type",
+        "target_plane",
+        "command_id",
+        "argv"
+      ],
       "properties": {
-        "type": { "const": "yai.control.call.v1" },
+        "type": {
+          "const": "yai.control.call.v1"
+        },
         "target_plane": {
           "type": "string",
-          "enum": ["kernel", "engine", "root"]
+          "enum": [
+            "core",
+            "exec",
+            "brain",
+            "kernel",
+            "engine",
+            "root"
+          ]
         },
         "command_id": {
           "type": "string",
@@ -32,7 +49,9 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "dry_run": { "type": "boolean" }
+            "dry_run": {
+              "type": "boolean"
+            }
           }
         }
       }
@@ -40,14 +59,25 @@
     "response": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["type", "status", "code", "reason", "command_id", "target_plane"],
+      "required": [
+        "type",
+        "status",
+        "code",
+        "reason",
+        "command_id",
+        "target_plane"
+      ],
       "properties": {
         "type": {
           "const": "yai.exec.reply.v1"
         },
         "status": {
           "type": "string",
-          "enum": ["ok", "error", "nyi"]
+          "enum": [
+            "ok",
+            "error",
+            "nyi"
+          ]
         },
         "code": {
           "type": "string",
@@ -63,27 +93,50 @@
             "INTERNAL_ERROR"
           ]
         },
-        "reason": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
         "command_id": {
           "type": "string",
           "pattern": "^yai\\.[a-z0-9_\\-]+\\.[a-z0-9_\\-]+$"
         },
         "target_plane": {
           "type": "string",
-          "enum": ["kernel", "engine", "root"]
+          "enum": [
+            "core",
+            "exec",
+            "brain",
+            "kernel",
+            "engine",
+            "root"
+          ]
         },
         "detail": {
           "oneOf": [
-            { "type": "string", "maxLength": 512 },
-            { "type": "object", "additionalProperties": true }
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
           ]
         },
         "evidence": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "evidence_index_path": { "type": "string", "maxLength": 512 },
-            "decision_record_path": { "type": "string", "maxLength": 512 }
+            "evidence_index_path": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "decision_record_path": {
+              "type": "string",
+              "maxLength": 512
+            }
           }
         }
       }

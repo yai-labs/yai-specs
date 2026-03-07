@@ -1,55 +1,37 @@
-# Binding — Kernel ↔ Law (Normative)
+# Binding — Sovereign Core (Historical Alias: Kernel)
 
-This binding defines the normative mapping between YAI Law constraints and the kernel runtime model.
-Kernel behavior MUST conform to these mappings.
+This binding maps sovereign runtime behavior to foundational law.
+The primary semantic target is `core`; `kernel` is a retained historical alias.
 
 ## Canonical sources
+
 Law:
-- `foundation/axioms/*`
-- `foundation/invariants/*`
+- `foundation/axioms/A-002-authority.md`
+- `foundation/axioms/A-003-state.md`
+- `foundation/invariants/I-001-traceability.md`
+- `foundation/invariants/I-003-governance.md`
+- `foundation/invariants/I-006-external-effect-boundary.md`
+- `foundation/invariants/I-007-compliance-context-required.md`
 - `foundation/boundaries/L0-vault.md`
 - `foundation/boundaries/L1-kernel.md`
 
-Formal:
+Control contracts:
+- `contracts/control/schema/control_plane.v1.json`
+- `contracts/control/schema/control_call.v1.json`
+- `contracts/control/schema/exec_reply.v1.json`
+
+Formal continuity:
 - `formal/tla/YAI_KERNEL.tla`
 - `formal/configs/YAI_KERNEL.quick.cfg`
 
-ABI registries:
-- `registry/primitives.v1.json`
-- `registry/artifacts.v1.json`
+## Binding obligations
 
-## Variable binding map (conceptual)
-This section describes expected correspondences. Runtime symbols may evolve; the mapping MUST be kept aligned.
+- Sovereign authority is a `core` concern.
+- External effects are admitted only through explicit governance guards.
+- Compliance context is mandatory for effectful transitions.
+- Traceability must remain joinable across control, protocol, and evidence artifacts.
 
-- Traceability (I-001): kernel MUST preserve a trace identifier and/or logical clock sufficient to join decisions/effects to a run timeline.
-- Authority (A-002, I-003): kernel MUST gate effectful transitions on explicit authority state (no implicit escalation).
-- External effect boundary (I-006): kernel MUST participate in non-bypassable gating for external effects (classification + enforcement path).
-- Compliance context (I-007): external effects MUST require compliance context validity.
+## Compatibility note
 
-## Transition binding (high-level)
-Kernel state-machine transitions MUST remain consistent with formal model transitions (TLA module), especially for:
-- suspension/resumption boundaries
-- invalidation / reconfiguration gates
-- error and reset handling
-
-## Guard / enforcement binding
-The following guards MUST remain aligned:
-- Authority required
-- External effect guard
-- Compliance context validity guard
-- Determinism constraints within declared scope
-
-## Required artifact roles (v1)
-Kernel-level evidence MUST allow offline verification of:
-- `decision_record`
-- `bundle_manifest`
-- `evidence_index`
-- `verification_report`
-
-## Change control
-Any change to kernel state machine, guards, or vault layout MUST update:
-- `formal/tla/YAI_KERNEL.tla`
-- this binding document
-- the relevant runtime implementation
-
-Silent drift is non-compliant by definition.
+Artifact name `YAI_KERNEL.*` remains for continuity only.
+It does not reintroduce kernel-centric ontology.

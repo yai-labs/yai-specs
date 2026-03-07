@@ -2,6 +2,8 @@
 /**
  * @file transport.h
  * @brief RPC envelope and transport framing constants.
+ *
+ * Protocol-layer transport contract shared by core/exec/brain runtime planes.
  */
 #ifndef YAI_PROTOCOL_TRANSPORT_H
 #define YAI_PROTOCOL_TRANSPORT_H

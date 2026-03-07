@@ -4,7 +4,9 @@
   "title": "YAI Exec Reply v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["type"],
+  "required": [
+    "type"
+  ],
   "oneOf": [
     {
       "required": [
@@ -35,11 +37,20 @@
     },
     "outcome": {
       "type": "string",
-      "enum": ["ok", "warn", "deny", "fail"]
+      "enum": [
+        "ok",
+        "warn",
+        "deny",
+        "fail"
+      ]
     },
     "status": {
       "type": "string",
-      "enum": ["ok", "error", "nyi"]
+      "enum": [
+        "ok",
+        "error",
+        "nyi"
+      ]
     },
     "code": {
       "type": "string",
@@ -93,7 +104,14 @@
     },
     "target_plane": {
       "type": "string",
-      "enum": ["root", "kernel", "engine"]
+      "enum": [
+        "core",
+        "exec",
+        "brain",
+        "root",
+        "kernel",
+        "engine"
+      ]
     },
     "trace_id": {
       "type": "string",
@@ -153,7 +171,14 @@
         },
         "target_plane": {
           "type": "string",
-          "enum": ["root", "kernel", "engine"]
+          "enum": [
+            "core",
+            "exec",
+            "brain",
+            "root",
+            "kernel",
+            "engine"
+          ]
         },
         "command_id": {
           "type": "string",

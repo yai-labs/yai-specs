@@ -1,15 +1,13 @@
-# Protocol Runtime
+# Protocol Runtime Surface
 
-## Purpose
+`contracts/protocol/runtime/` contains runtime-scoped protocol helper contracts.
 
-Contains runtime-scoped protocol headers shared by components that implement binary RPC transport behavior.
+## Canonical artifact
 
-## Normative artifacts
+- `include/rpc_runtime.h`
 
-- `rpc_runtime.h`
+## Interpretation
 
-## References
-
-- `../README.md`
-- `../../REGISTRY.md`
-- `../../VERSIONING.md`
+This header is a shared protocol-runtime helper surface.
+It is not tied to legacy package identities.
+It supports envelope validation/response preparation for runtime modules in `core`, `exec`, and `brain`.

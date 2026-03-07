@@ -1,5 +1,4 @@
-# Spec Map Pointer
+# SPEC_MAP Pointer
 
-This repository is canonical.
-See `SPEC_MAP.md` for the authoritative index.
-For documentation-only navigation, start from `docs/README.md`.
+Use `SPEC_MAP.md` as the canonical navigation map for normative surfaces.
+Use `docs/README.md` for informative navigation only.

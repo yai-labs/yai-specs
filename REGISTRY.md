@@ -1,109 +1,43 @@
-# YAI Law Registry
+# REGISTRY
 
-This registry defines canonical locations of machine-readable law artifacts and rules for allocating/evolving identifiers across the YAI law surface.
+`REGISTRY.md` describes canonical machine-readable registries and their use.
 
-It is the reference index for canonical registries, schemas, headers, and published packs consumed by downstream implementations and validation tooling.
+## What registry is
 
-## Consumption context
+Registry is the normative substrate for stable identifiers and structured law surfaces.
+It is not a mirror of historical runtime packaging.
 
-Cross-repo authority/consumption chain:
-
-`yai-law` -> `yai-sdk` -> `yai-cli` -> `yai` -> `yai-ops`
-
-Any consumer-side interpretation that conflicts with this registry index is non-conforming.
-
-## 1) ID registry
-
-The authoritative protocol and surface ID registry lives in:
-
-- `contracts/protocol/include/yai_protocol_ids.h`
-
-Rules:
-
-- IDs are never reused.
-- Reserved ranges remain reserved until explicitly reclassified.
-- New IDs require corresponding contract changes and a `CHANGELOG.md` entry.
-- Any addition/removal/reclassification must be reviewed for compatibility impact.
-
-## 2) Canonical registries
-
-These files define machine-readable registries consumed by tooling and implementations:
+## Canonical registry artifacts
 
 - `registry/primitives.v1.json`
 - `registry/commands.v1.json`
+- `registry/commands.surface.v1.json`
+- `registry/commands.topics.v1.json`
 - `registry/artifacts.v1.json`
 
-Associated registry schemas:
-
+Schemas:
 - `registry/schema/primitives.v1.schema.json`
 - `registry/schema/commands.v1.schema.json`
 - `registry/schema/artifacts.v1.schema.json`
 
-## 3) Canonical transversal schemas
+## How to read registry
 
-These schemas define repository-wide artifact and policy payloads:
+- `primitives`: capability primitives and governance hooks
+- `commands`: canonical command IDs and metadata
+- `commands.surface`: exposure-oriented command view
+- `commands.topics`: entrypoint/topic/op index
+- `artifacts`: canonical artifact roles and schema links
 
-- `schema/bundle_manifest.v1.schema.json`
-- `schema/containment_metrics.v1.schema.json`
-- `schema/decision_record.v1.schema.json`
-- `schema/evidence_index.v1.schema.json`
-- `schema/policy.v1.schema.json`
-- `schema/verification_report.v1.schema.json`
-- `schema/compliance.context.v1.json`
-- `schema/retention.policy.v1.json`
+## Registry relation to other surfaces
 
-## 4) Canonical contract schemas
+- `contracts/` defines public contract surfaces.
+- `schema/` defines transversal payload schemas.
+- `formal/traceability.v1.json` links invariants to artifacts.
+- `foundation/` defines normative primacy.
 
-These schemas define public interface surfaces:
+Registry entries must be interpreted in current ontology (`core/exec/brain` + cross-cutting layers), even when compatibility aliases remain in metadata.
 
-- `contracts/control/schema/control_plane.v1.json`
-- `contracts/control/schema/control_call.v1.json`
-- `contracts/control/schema/exec_reply.v1.json`
-- `contracts/control/schema/authority.v1.json`
-- `contracts/control/schema/authority.json`
+## Compatibility rule
 
-`contracts/control/schema/exec_reply.v1.json` is the canonical execution reply contract for SDK↔runtime.
-`contracts/control/schema/authority.v1.json` is the canonical authority contract.
-- `contracts/providers/schema/providers.v1.json`
-- `contracts/vault/schema/vault_abi.json`
-- `runtime/engine/schema/engine_cortex.v1.json`
-- `runtime/mind/graph/schema/graph.v1.json`
-
-## 5) Canonical headers
-
-These headers define normative C-facing law surfaces:
-
-- `contracts/protocol/include/protocol.h`
-- `contracts/protocol/include/transport.h`
-- `contracts/protocol/include/yai_protocol_ids.h`
-- `contracts/protocol/include/errors.h`
-- `contracts/protocol/include/auth.h`
-- `contracts/protocol/include/roles.h`
-- `contracts/protocol/include/session.h`
-- `contracts/protocol/include/audit.h`
-- `contracts/protocol/runtime/include/rpc_runtime.h`
-- `contracts/vault/include/yai_vault_abi.h`
-
-## 6) Published normative packs
-
-These published overlays remain part of canonical law surface when referenced by compatibility and compliance workflows:
-
-- `packs/compliance/gdpr-eu/2026Q1/pack.meta.json`
-- `packs/compliance/gdpr-eu/2026Q1/retention.defaults.json`
-- `packs/compliance/gdpr-eu/2026Q1/taxonomy.data_classes.json`
-- `packs/compliance/gdpr-eu/2026Q1/taxonomy.legal_basis.json`
-- `packs/compliance/gdpr-eu/2026Q1/taxonomy.purposes.json`
-
-## 7) Conformance vectors
-
-Vectors are informative validation artifacts. They do not override normative contracts, but they should be updated whenever normative behavior changes in ways that affect validation expectations.
-
-- `vectors/transport_vectors.json`
-- `vectors/auth_vectors.json`
-- `vectors/audit_vectors.json`
-
-## Registry scale
-
-Current command registry target is **200 command_id per group** across 14 groups (2800 IDs total).
-This profile is a registry-scale stress/coverage surface, not a final product taxonomy.
-Expansion is generated via `tools/gen/commands_expand_v1.py` and validated via `make validate-law-registry`.
+Registry IDs are stability surfaces.
+Semantic realignment is preferred over unnecessary ID churn.

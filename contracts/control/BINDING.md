@@ -1,56 +1,29 @@
-# Binding — Control Plane (Normative)
+# Binding — Control Plane (Core Authority Surface)
 
-## 1) Scope
-Authority/control-plane semantics and compliance-context requirement for effectful transitions.
+## Scope
 
-## 2) Canonical sources
+Authority and control-plane semantics for the sovereign runtime plane (`core`).
+
+## Canonical sources
+
 Law:
 - `foundation/axioms/A-002-authority.md`
 - `foundation/invariants/I-003-governance.md`
 - `foundation/invariants/I-006-external-effect-boundary.md`
 - `foundation/invariants/I-007-compliance-context-required.md`
-- `foundation/extensions/compliance/C-001-compliance-context.md`
 
-Surfaces / schemas:
+Schemas:
 - `contracts/control/schema/control_plane.v1.json`
 - `contracts/control/schema/control_call.v1.json`
 - `contracts/control/schema/exec_reply.v1.json`
 - `contracts/control/schema/authority.v1.json`
-- `contracts/control/schema/authority.json`
-- `schema/compliance.context.v1.json`
-- `schema/retention.policy.v1.json`
 
-ABI registries:
-- `registry/primitives.v1.json`
-- `registry/artifacts.v1.json`
-- `registry/commands.v1.json`
+## Obligations
 
-## 3) Invariants covered
-- `I-003-governance`
-- `I-006-external-effect-boundary`
-- `I-007-compliance-context-required`
+- Authority decisions are `core` decisions.
+- Effectful operations require explicit governance and compliance context.
+- Replies must be deterministic for same input and declared context.
 
-## 4) Required artifact roles (v1)
-- `decision_record` (authority evaluation, effect classification, reason codes)
-- `policy` (policy hash/material when applicable)
-- `evidence_index`
-- `bundle_manifest`
-- `verification_report`
+## Compatibility
 
-## 5) Formal model linkage
-- Module: `formal/tla/YAI_KERNEL.tla`
-- Config: `formal/configs/YAI_KERNEL.quick.cfg`
-- Properties:
-  - `ExternalEffectGuard`
-  - `[](external_effect => compliance_context_valid)`
-  - `AuthorityRequired` (where modeled)
-
-## 6) Command surfaces (examples)
-Command IDs involved (non-exhaustive; see `commands.v1.json`):
-- `yai.control.kernel`
-- `yai.control.root`
-- `yai.control.shell` (high-risk surface; MUST NOT bypass boundary rules)
-- `yai.control.call` (generic deterministic routing surface)
-
-## 7) Known gaps
-- Dedicated control-plane TLA module (optional) for command taxonomy semantics.
+Legacy plane aliases (`root`, `kernel`, `engine`) remain accepted where schema declares them, but are secondary to `core/exec/brain` ontology.

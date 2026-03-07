@@ -21,7 +21,7 @@
 #define YAI_PROTOCOL_VERSION 1u
 
 /* ============================================================
-   SESSION STATE MACHINE (L3 CONTRACT)
+   SESSION STATE MACHINE (PROTOCOL CONTRACT)
    ============================================================ */
 
 /** Protocol session state. */
@@ -48,14 +48,14 @@ typedef enum {
 
 #pragma pack(push, 1)
 
-/** Client → Kernel handshake request. */
+/** Client -> runtime protocol handshake request. */
 typedef struct yai_handshake_req {
     uint32_t client_version;
     uint32_t capabilities_requested;
     char     client_name[32];
 } yai_handshake_req_t;
 
-/** Kernel → Client handshake acknowledgement. */
+/** Runtime -> client protocol handshake acknowledgement. */
 typedef struct yai_handshake_ack {
     uint32_t server_version;
     uint32_t capabilities_granted;

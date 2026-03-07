@@ -1,43 +1,16 @@
 # schema/
 
-`schema/` contains the canonical transversal schemas of `yai-law`.
+`schema/` contains transversal canonical schemas.
 
-These schemas define repository-wide artifact and policy payloads that are not limited to a single registry file or a single contract surface.
+## Ontology posture
 
-## Scope
+These schemas are ontology-support artifacts.
+They must stay semantically compatible with `core/exec/brain` runtime law and must not encode legacy package topology as hidden primary model.
 
-Artifacts under `schema/` include canonical schemas for:
+## Stability posture
 
-- bundle manifests
-- decision records
-- evidence indexes
-- containment metrics
-- policy payloads
-- verification reports
-- compliance context payloads
-- retention policy payloads
-
-## Normative role
-
-Artifacts in `schema/` are normative.
-
-They define the canonical structure of machine-readable payloads produced, validated, exchanged, or retained across YAI qualification, evidence, governance, and compliance workflows.
-
-These schemas do not replace `registry/schema/`.
-
-- `registry/schema/` validates registry files
-- `schema/` validates transversal artifact and policy payloads
-
-## Relationship to other repository layers
-
-`schema/` is consumed alongside:
-
-- `registry/` for machine-readable canonical references
-- `contracts/` for public interface surfaces
-- `packs/` for published normative overlays
-- `formal/` for traceability and proof-support alignment
-
-If a payload is claimed to conform to YAI law, it must validate against the relevant canonical schema defined here or in `registry/schema/`, as applicable.
+Schema file names and compatibility lines are retained where valid.
+Semantic descriptions and usage guidance are updated when ontology shifts.
 
 ## Current canonical schemas
 

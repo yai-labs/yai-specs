@@ -35,5 +35,10 @@
     "max_target": 8,
     "step_up": 1,
     "step_down": 1
+  },
+  "ontology": {
+    "primary_plane": "exec",
+    "governed_by": "core",
+    "legacy_alias": "engine_cortex"
   }
 }

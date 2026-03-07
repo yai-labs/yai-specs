@@ -1,23 +1,15 @@
 # Providers Trust Law (v1)
 
-## Authority Boundary
-- Provider trust never changes L1 authority.
-- Provider trust state is control-plane metadata.
-- Kernel remains final authority for capability execution.
+## Normative positioning
 
-## Canonical Paths
-- Trust registry: `~/.yai/trust/providers.json`
-- Workspace attachment: `~/.yai/run/<ws>/providers.json`
+- Trust state is a governed cognitive-provider relation (`brain` scope).
+- Trust state is never sovereign authority (`core` scope).
+- External provider effects remain under governed execution boundaries (`exec` scope).
 
-## Lifecycle
-- discover: create/update provider entry with `discovered`
-- pair: explicit transition to `paired`
-- attach: explicit transition to `attached` for one workspace
-- detach: transition to `detached`
-- revoke: transition to `revoked` (attach denied)
+## Explicit boundary
 
-## Invariants
-- No implicit trust.
-- No attach without pair.
-- Every transition must emit an audit event.
-- Trust records must be tamper-evident via integrity hash/signature fields.
+Provider trust metadata must not be interpreted as permission to bypass core authority checks.
+
+## Compatibility note
+
+Historical references to `mind` remain alias-only.

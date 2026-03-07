@@ -1,95 +1,31 @@
-# A-002 — Authority and Inference / Control Separation
+---
+id: A-002
+title: Sovereign Authority
+type: Axiom
+status: Canonical
+version: 2.0.0
+---
 
-This document defines authority as a foundational axiom of YAI and formalizes the strict separation between inference and control.
+# A-002 — Sovereign Authority
 
-YAI rejects the assumption that authority can emerge implicitly from inference, optimization, intent, or confidence.
-Authority MUST be explicit, stateful, and checkable.
-Authority is conceptually prior to execution.
+Authority is sovereign in `core`.
+Authority is explicit, checkable, and non-inferential.
 
-Any system in which inference alone is sufficient to cause execution is not a valid instance of YAI by definition.
+Historical naming such as "kernel authority" is a migration alias only.
+Normative center of sovereignty is `core`.
 
-## Authority as a Lawal Concept
+## Normative statements
 
-In YAI, authority is the explicit constraint that determines which actions are permitted to be committed.
+- Authority MUST be evaluated in sovereign control surfaces of `core`.
+- `exec` MUST NOT self-authorize external effects.
+- `brain` MUST NOT self-authorize cognitive proposals into execution.
+- Policy, baseline, and decision records MUST bind authority claims.
+- Missing or unverifiable authority implies deny/error, not fallback allow.
 
-Authority is not emergent.
-It is not inferred.
-It is not optimized.
-It is not assumed.
+## Separation rule
 
-Authority exists as a first-class, system-level concept that constrains execution.
+Inference and authority are distinct functions:
+- inference may propose,
+- authority decides.
 
-No component may possess authority by virtue of inference, confidence, or intelligence alone.
-
-## Inference Versus Control
-
-YAI draws a strict conceptual boundary between inference and control.
-
-### Inference
-
-Inference:
-
-- interprets inputs
-- evaluates conditions
-- produces intent, recommendations, plans, or propositions
-
-Inference is descriptive.
-Inference may propose actions, but it cannot authorize them.
-
-### Control
-
-Control:
-
-- determines whether an action is permitted to be committed
-- applies constraints and policy
-- authorizes or rejects execution
-
-Control is normative and authoritative.
-Control MUST be deterministic and auditable at the point of decision.
-
-## Authority Boundaries
-
-Inference and control MUST not share the same authority boundary.
-
-The system MUST provide an explicit control boundary where authorization is decided and enforced.
-Any design where control is implemented as an inference step is invalid by definition.
-
-## Axiom Statement
-
-In YAI:
-
-- Inference and control are strictly separated.
-- Authority MUST be explicit and checkable.
-- If authority is not proven, execution is denied.
-- No inference process may directly authorize execution.
-
-Violating this separation invalidates the system conceptually.
-
-## Authority, Execution, and State
-
-Execution is always subject to authority.
-
-Committed state transitions may only occur as a result of authorized execution.
-
-This separation enforces:
-
-- traceability
-- responsibility
-- governance
-- prevention of unintended action
-
-## Canonical Status
-
-This document defines a canonical axiom of YAI.
-
-Any conceptual model that allows inference to substitute authority is incompatible with YAI.
-
-## Scope Notes
-
-This document does not define:
-
-- enforcement mechanisms
-- policy engines
-- governance processes
-- runtime implementations
-- tooling or configuration
+Any model that fuses these roles is non-conformant.

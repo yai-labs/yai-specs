@@ -1,12 +1,12 @@
-# YAI Specs API (Contracts)
+# YAI Law C Surface Mainpage
 
-These docs are generated from the normative headers in `contracts/protocol/` and `contracts/vault/`.
-They describe the public ABI and wire contracts that consumers must obey.
+Generated/API-oriented docs for C-facing law contracts.
 
-Quick links:
-- `contracts/protocol/`
-- `contracts/vault/`
-- `contracts/control/`
+Primary references:
+- `contracts/protocol/include/*`
+- `contracts/protocol/runtime/include/rpc_runtime.h`
+- `contracts/vault/include/yai_vault_abi.h`
+- `contracts/control/schema/*.json` (control-plane envelope semantics)
 
-Normative note:
-If runtime code disagrees with these specs, the code is wrong.
+Ontology note:
+C surfaces are shared across runtime planes (`core/exec/brain`) and must not be interpreted through legacy package identity.

@@ -11,4 +11,10 @@
 #define YAI_ROLE_OPERATOR  2
 #define YAI_ROLE_SYSTEM    3
 
+/*
+ * Roles are governance roles.
+ * They are orthogonal to runtime plane naming (core/exec/brain) and
+ * must not be interpreted as legacy package identities.
+ */
+
 #endif

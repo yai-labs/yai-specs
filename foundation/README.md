@@ -1,52 +1,48 @@
 # foundation/
 
-`foundation/` contains the foundational normative corpus of `yai-law`.
+`foundation/` is the normative core of `yai-law`.
 
-These documents define the core law that all other canonical surfaces in the repository derive from or must remain compatible with.
+It defines first-order meaning and non-negotiable constraints for the YAI runtime ontology.
+Primary ontology is:
+- `core` (sovereign authority plane)
+- `exec` (execution and external-effect plane)
+- `brain` (cognitive plane)
+- cross-cutting layers: `protocol`, `platform`, `support`
 
-## Scope
+Historical labels (`boot`, `root`, `kernel`, `engine`, `mind`) are not primary normative domains.
+They are migration aliases only.
 
-The foundational corpus is organized into five normative areas:
+## Normative sections
 
-* `axioms/` — irreducible principles that define the YAI law model
-* `invariants/` — properties that must remain true across conforming implementations
-* `boundaries/` — authority and responsibility limits across runtime layers
-* `terminology/` — canonical meaning of legal and technical terms
-* `extensions/` — scoped normative extensions subordinate to the foundational core
+- `axioms/`: first principles of execution, authority, state, adaptability
+- `invariants/`: mandatory system constraints that must hold continuously
+- `boundaries/`: separation surfaces between planes and layers
+- `terminology/`: controlled vocabulary and deprecation taxonomy
+- `extensions/`: scoped subordinate normative extensions
 
-## Normative role
+## Conformance direction
 
-Artifacts under `foundation/` are normative.
+All downstream normative surfaces must conform to this foundation:
+- `runtime/`
+- `contracts/`
+- `registry/`
+- `schema/`
+- `formal/`
+- `packs/`
 
-They are not implementation guides and they are not optional commentary.
-They define the legal and conceptual basis for the rest of the repository, including:
+If downstream artifacts conflict with `foundation/*`, foundation prevails unless an explicit compatibility/deprecation rule exists.
 
-* `runtime/`
-* `contracts/`
-* `registry/`
-* `schema/`
-* `formal/`
-* `packs/`
+## Rewrite discipline
 
-If a lower-level artifact conflicts with the foundational corpus, the foundational corpus prevails unless an explicit compatibility or deprecation rule states otherwise.
+Foundation documents must:
+- define semantics, not filesystem layout
+- use primary ontology terms (`core/exec/brain`) as canonical
+- tag historical terms as migration aliases when used
+- maintain stable IDs where possible (`A-*`, `I-*`, `L*`) while updating content
 
-## Registry discipline
+## Cross-file relationship
 
-Foundational documents MUST reference canonical machine-readable artifacts through the current canonical locations in:
-
-* `registry/`
-* `registry/schema/`
-* `schema/`
-* `packs/`
-
-Legacy paths and deprecated authority locations must not be introduced in foundational documents.
-
-## Navigation
-
-* `axioms/`
-* `invariants/`
-* `boundaries/`
-* `terminology/`
-* `extensions/`
-
-For the root-level statement of the foundational model, see `FOUNDATION.md`.
+- Axioms define what the system is.
+- Invariants define what must always remain true.
+- Boundaries define where authority, execution, cognition, and shared layers are separated.
+- Terminology prevents semantic drift across the repository.

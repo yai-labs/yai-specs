@@ -36,7 +36,12 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core",
+        "exec",
+        "brain"
+      ]
     },
     {
       "id": "I-002-determinism",
@@ -72,7 +77,12 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core",
+        "exec",
+        "brain"
+      ]
     },
     {
       "id": "I-003-governance",
@@ -106,7 +116,10 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core"
+      ]
     },
     {
       "id": "I-004-cognitive-reconfiguration",
@@ -137,7 +150,11 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core",
+        "brain"
+      ]
     },
     {
       "id": "I-005-abstract-cost-accountability",
@@ -170,7 +187,11 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "exec",
+        "brain"
+      ]
     },
     {
       "id": "I-006-external-effect-boundary",
@@ -204,7 +225,11 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core",
+        "exec"
+      ]
     },
     {
       "id": "I-007-compliance-context-required",
@@ -237,7 +262,32 @@
         "docs": true,
         "tests": true,
         "formal": true
-      }
+      },
+      "ontology_scopes": [
+        "core",
+        "exec",
+        "brain"
+      ]
     }
-  ]
+  ],
+  "runtime_ontology": {
+    "primary": [
+      "core",
+      "exec",
+      "brain"
+    ],
+    "cross_cutting": [
+      "protocol",
+      "platform",
+      "support"
+    ],
+    "historical_aliases": {
+      "kernel": "core(alias)",
+      "engine": "exec(alias)",
+      "mind": "brain(alias)",
+      "root": "core.dispatch(alias)",
+      "boot": "core.lifecycle(alias)"
+    },
+    "artifact_naming_policy": "staged-transition"
+  }
 }

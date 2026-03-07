@@ -33,14 +33,38 @@
     "revoked"
   ],
   "transitions": [
-    ["discovered", "paired"],
-    ["paired", "attached"],
-    ["attached", "detached"],
-    ["detached", "attached"],
-    ["discovered", "revoked"],
-    ["paired", "revoked"],
-    ["attached", "revoked"],
-    ["detached", "revoked"]
+    [
+      "discovered",
+      "paired"
+    ],
+    [
+      "paired",
+      "attached"
+    ],
+    [
+      "attached",
+      "detached"
+    ],
+    [
+      "detached",
+      "attached"
+    ],
+    [
+      "discovered",
+      "revoked"
+    ],
+    [
+      "paired",
+      "revoked"
+    ],
+    [
+      "attached",
+      "revoked"
+    ],
+    [
+      "detached",
+      "revoked"
+    ]
   ],
   "events": [
     "provider_discovered",
@@ -48,5 +72,10 @@
     "provider_attached",
     "provider_detached",
     "provider_revoked"
-  ]
+  ],
+  "ontology": {
+    "primary_plane": "brain",
+    "governed_by": "core",
+    "legacy_alias": "mind"
+  }
 }

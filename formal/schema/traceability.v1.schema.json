@@ -3,7 +3,12 @@
   "$id": "formal/schema/traceability.v1.schema.json",
   "title": "YAI Formal Traceability Matrix v1",
   "type": "object",
-  "required": ["v", "generated_at", "repo_version", "invariants"],
+  "required": [
+    "v",
+    "generated_at",
+    "repo_version",
+    "invariants"
+  ],
   "properties": {
     "v": {
       "type": "integer",
@@ -66,7 +71,11 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["module", "config", "properties"],
+              "required": [
+                "module",
+                "config",
+                "properties"
+              ],
               "properties": {
                 "module": {
                   "type": "string",
@@ -96,17 +105,66 @@
           },
           "coverage": {
             "type": "object",
-            "required": ["docs", "tests", "formal"],
+            "required": [
+              "docs",
+              "tests",
+              "formal"
+            ],
             "properties": {
-              "docs": { "type": "boolean" },
-              "tests": { "type": "boolean" },
-              "formal": { "type": "boolean" }
+              "docs": {
+                "type": "boolean"
+              },
+              "tests": {
+                "type": "boolean"
+              },
+              "formal": {
+                "type": "boolean"
+              }
             },
             "additionalProperties": false
+          },
+          "ontology_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "additionalProperties": false
       }
+    },
+    "runtime_ontology": {
+      "type": "object",
+      "required": [
+        "primary",
+        "cross_cutting",
+        "historical_aliases",
+        "artifact_naming_policy"
+      ],
+      "properties": {
+        "primary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cross_cutting": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "historical_aliases": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "artifact_naming_policy": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

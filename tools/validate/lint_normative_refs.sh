@@ -3,29 +3,35 @@ set -euo pipefail
 
 fail() { echo "[lint-normative] FAIL: $*" >&2; exit 1; }
 
-# Hard forbidden legacy roots
-FORBIDDEN_REGEX='(^|[^a-zA-Z0-9_])(contracts/|specs/|compliance/packs/|compliance/schema/|formal/bindings/)([^a-zA-Z0-9_]|$)'
+# Truly deprecated roots from old yai-law layout
+FORBIDDEN_REGEX='(^|[^a-zA-Z0-9_])(specs/|compliance/packs/|compliance/schema/|formal/bindings/)([^a-zA-Z0-9_]|$)'
 
-# Only lint markdown + top-level docs
-FILES=$(git ls-files '*.md')
+FILES=$(git ls-files '*.md' | while read -r f; do [[ -f "$f" ]] && echo "$f"; done)
 
-# 1) No legacy paths
 if rg -n "$FORBIDDEN_REGEX" $FILES >/dev/null; then
-  echo "[lint-normative] Found forbidden legacy references:"
+  echo "[lint-normative] Found forbidden deprecated references:"
   rg -n "$FORBIDDEN_REGEX" $FILES || true
-  fail "legacy references present"
+  fail "deprecated references present"
 fi
 
-# 2) Canonical ABI references must appear in normative terminology + invariants (at least once)
-REQ_FILES=(
-  "foundation/terminology/glossary.md"
-)
+if rg -n 'runtime/(boot|root)/' $FILES -g '!docs/policy/*.md' >/dev/null; then
+  echo "[lint-normative] Found references to removed runtime legacy roots:"
+  rg -n 'runtime/(boot|root)/' $FILES -g '!docs/policy/*.md' || true
+  fail "references to removed runtime legacy roots present"
+fi
 
-for f in "${REQ_FILES[@]}"; do
+for f in README.md FOUNDATION.md SPEC_MAP.md REGISTRY.md; do
   test -f "$f" || fail "missing required file: $f"
-  rg -n "registry/primitives\.v1\.json" "$f" >/dev/null || fail "$f missing primitives registry reference"
-  rg -n "registry/commands\.v1\.json" "$f" >/dev/null || fail "$f missing commands registry reference"
-  rg -n "registry/artifacts\.v1\.json" "$f" >/dev/null || fail "$f missing artifacts registry reference"
+  rg -n '\bcore\b' "$f" >/dev/null || fail "$f missing 'core'"
+  rg -n '\bexec\b' "$f" >/dev/null || fail "$f missing 'exec'"
+  rg -n '\bbrain\b' "$f" >/dev/null || fail "$f missing 'brain'"
+done
+
+for f in foundation/terminology/glossary.md; do
+  test -f "$f" || fail "missing required file: $f"
+  rg -n 'registry/primitives\.v1\.json' "$f" >/dev/null || fail "$f missing primitives registry reference"
+  rg -n 'registry/commands\.v1\.json' "$f" >/dev/null || fail "$f missing commands registry reference"
+  rg -n 'registry/artifacts\.v1\.json' "$f" >/dev/null || fail "$f missing artifacts registry reference"
 done
 
 echo "[lint-normative] OK"
